@@ -1,0 +1,311 @@
+/**
+ * Dark Mode Fixes & Enhancements
+ * Comprehensive dark mode styling fixes for components using hardcoded colors
+ */
+
+@layer components {
+  /* Document Management Dark Mode Fixes */
+  .document-card {
+    @apply bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700;
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+  
+  .document-card:hover {
+    @apply bg-neutral-50 dark:bg-neutral-700/50;
+  }
+  
+  .document-grid {
+    @apply bg-neutral-50 dark:bg-neutral-900;
+  }
+  
+  .document-upload-area {
+    @apply bg-white dark:bg-neutral-800 border-2 border-dashed border-neutral-300 dark:border-neutral-600;
+    @apply text-neutral-600 dark:text-neutral-300;
+  }
+  
+  .document-upload-area:hover {
+    @apply border-primary-400 dark:border-primary-500 bg-primary-50 dark:bg-primary-900/20;
+  }
+  
+  /* Mobile Interface Dark Mode Fixes */
+  .mobile-suggestion-item {
+    @apply hover:bg-neutral-100 dark:hover:bg-neutral-800 active:bg-neutral-200 dark:active:bg-neutral-700;
+    @apply border-b border-neutral-100 dark:border-neutral-700;
+  }
+  
+  .mobile-suggestion-text {
+    @apply text-neutral-700 dark:text-neutral-300;
+  }
+  
+  .mobile-search-icon {
+    @apply text-neutral-400 dark:text-neutral-500;
+  }
+  
+  .mobile-loading-skeleton {
+    @apply bg-neutral-200 dark:bg-neutral-700;
+  }
+  
+  .mobile-empty-state {
+    @apply text-neutral-500 dark:text-neutral-400;
+  }
+  
+  .mobile-empty-icon {
+    @apply text-neutral-300 dark:text-neutral-600;
+  }
+  
+  .mobile-document-item {
+    @apply active:bg-neutral-50 dark:active:bg-neutral-800;
+  }
+  
+  /* Analytics Dashboard Dark Mode Fixes */
+  .analytics-container {
+    @apply bg-neutral-50 dark:bg-neutral-900;
+  }
+  
+  .analytics-card {
+    @apply bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700;
+  }
+  
+  .analytics-header {
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+  
+  .analytics-subtext {
+    @apply text-neutral-600 dark:text-neutral-400;
+  }
+  
+  .analytics-filter-button {
+    @apply border-neutral-300 dark:border-neutral-600 hover:bg-neutral-50 dark:hover:bg-neutral-700;
+  }
+  
+  .analytics-tab {
+    @apply text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300;
+    @apply hover:border-neutral-300 dark:hover:border-neutral-600;
+  }
+  
+  .analytics-tab.active {
+    @apply border-primary-500 text-primary-600 dark:text-primary-400;
+  }
+  
+  /* Financial Modeling Components Dark Mode */
+  .financial-card {
+    @apply bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700;
+    @apply shadow-sm dark:shadow-neutral-900/20;
+  }
+  
+  .financial-header {
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+  
+  .financial-subheader {
+    @apply text-neutral-600 dark:text-neutral-400;
+  }
+  
+  .financial-input {
+    @apply bg-white dark:bg-neutral-900 border-neutral-300 dark:border-neutral-600;
+    @apply text-neutral-900 dark:text-neutral-100;
+    @apply placeholder:text-neutral-500 dark:placeholder:text-neutral-400;
+    @apply focus:border-primary-500 focus:ring-primary-500;
+  }
+  
+  .financial-button-primary {
+    @apply bg-primary-600 hover:bg-primary-700 text-white;
+    @apply dark:bg-primary-500 dark:hover:bg-primary-600;
+  }
+  
+  .financial-button-secondary {
+    @apply bg-neutral-100 hover:bg-neutral-200 text-neutral-900;
+    @apply dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-neutral-100;
+  }
+  
+  .financial-metric-card {
+    @apply bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20;
+    @apply border border-primary-200 dark:border-primary-700;
+  }
+  
+  .financial-metric-value {
+    @apply text-primary-700 dark:text-primary-300;
+  }
+  
+  .financial-metric-label {
+    @apply text-primary-600 dark:text-primary-400;
+  }
+  
+  /* Chart Components Dark Mode */
+  .chart-container {
+    @apply bg-white dark:bg-neutral-800;
+  }
+  
+  .chart-title {
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+  
+  .chart-legend {
+    @apply text-neutral-600 dark:text-neutral-400;
+  }
+  
+  .chart-tooltip {
+    @apply bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700;
+    @apply shadow-lg dark:shadow-neutral-900/30;
+  }
+  
+  /* Status Badges Dark Mode */
+  .status-badge-success {
+    @apply bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300;
+    @apply border border-green-200 dark:border-green-700;
+  }
+  
+  .status-badge-warning {
+    @apply bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300;
+    @apply border border-yellow-200 dark:border-yellow-700;
+  }
+  
+  .status-badge-error {
+    @apply bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300;
+    @apply border border-red-200 dark:border-red-700;
+  }
+  
+  .status-badge-info {
+    @apply bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300;
+    @apply border border-blue-200 dark:border-blue-700;
+  }
+  
+  /* Menu & Navigation Dark Mode */
+  .nav-item {
+    @apply text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100;
+    @apply hover:bg-neutral-100 dark:hover:bg-neutral-800;
+  }
+  
+  .nav-item.active {
+    @apply bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300;
+  }
+  
+  .nav-submenu {
+    @apply border-l-2 border-neutral-200 dark:border-neutral-700;
+  }
+  
+  /* Form Elements Dark Mode */
+  .form-label {
+    @apply text-neutral-700 dark:text-neutral-300;
+  }
+  
+  .form-description {
+    @apply text-neutral-500 dark:text-neutral-400;
+  }
+  
+  .form-error {
+    @apply text-red-600 dark:text-red-400;
+  }
+  
+  .form-success {
+    @apply text-green-600 dark:text-green-400;
+  }
+  
+  /* Loading States Dark Mode */
+  .loading-spinner {
+    @apply text-primary-600 dark:text-primary-400;
+  }
+  
+  .loading-overlay {
+    @apply bg-white/80 dark:bg-neutral-900/80;
+  }
+  
+  /* Dropdown & Modal Dark Mode */
+  .dropdown-menu {
+    @apply bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700;
+    @apply shadow-lg dark:shadow-neutral-900/30;
+  }
+  
+  .dropdown-item {
+    @apply text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700;
+  }
+  
+  .modal-overlay {
+    @apply bg-black/50 dark:bg-black/70;
+  }
+  
+  .modal-content {
+    @apply bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700;
+  }
+  
+  /* Data Tables Dark Mode */
+  .table-header {
+    @apply bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100;
+    @apply border-b border-neutral-200 dark:border-neutral-700;
+  }
+  
+  .table-row {
+    @apply border-b border-neutral-100 dark:border-neutral-700;
+    @apply hover:bg-neutral-50 dark:hover:bg-neutral-800/50;
+  }
+  
+  .table-cell {
+    @apply text-neutral-900 dark:text-neutral-100;
+  }
+  
+  .table-cell-secondary {
+    @apply text-neutral-600 dark:text-neutral-400;
+  }
+  
+  /* Progress & Metrics Dark Mode */
+  .progress-bar {
+    @apply bg-neutral-200 dark:bg-neutral-700;
+  }
+  
+  .progress-fill {
+    @apply bg-primary-600 dark:bg-primary-500;
+  }
+  
+  .metric-container {
+    @apply bg-gradient-to-r from-neutral-50 to-neutral-100 dark:from-neutral-800 dark:to-neutral-700;
+  }
+  
+  /* Code & Syntax Highlighting Dark Mode */
+  .code-block {
+    @apply bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100;
+    @apply border border-neutral-200 dark:border-neutral-700;
+  }
+  
+  .inline-code {
+    @apply bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100;
+    @apply px-1 py-0.5 rounded;
+  }
+}
+
+/* Scrollbar Dark Mode Enhancements */
+@layer utilities {
+  .scrollbar-thin-dark {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.neutral.600') transparent;
+  }
+  
+  .dark .scrollbar-thin-dark {
+    scrollbar-color: theme('colors.neutral.400') transparent;
+  }
+  
+  .scrollbar-thin-dark::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .scrollbar-thin-dark::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .scrollbar-thin-dark::-webkit-scrollbar-thumb {
+    background: theme('colors.neutral.400');
+    border-radius: 3px;
+  }
+  
+  .dark .scrollbar-thin-dark::-webkit-scrollbar-thumb {
+    background: theme('colors.neutral.600');
+  }
+  
+  .scrollbar-thin-dark::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.neutral.500');
+  }
+  
+  .dark .scrollbar-thin-dark::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.neutral.500');
+  }
+}

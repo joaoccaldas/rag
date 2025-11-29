@@ -1,0 +1,275 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Design System Colors - Light Mode */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --primary: 216 87% 59%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 216 87% 59%;
+    
+    /* Success, Warning, Error, Info */
+    --success: 142 76% 36%;
+    --success-foreground: 355.7 100% 97.3%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 48 96% 89%;
+    --error: 0 84% 60%;
+    --error-foreground: 0 0% 98%;
+    --info: 217 91% 60%;
+    --info-foreground: 0 0% 98%;
+    
+    /* Typography */
+    --font-inter: 'Inter', system-ui, sans-serif;
+    --font-roboto-mono: 'Roboto Mono', Consolas, monospace;
+    
+    /* Spacing Scale */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    --spacing-3xl: 4rem;
+    --spacing-4xl: 5rem;
+    
+    /* Border Radius */
+    --radius-xs: 0.125rem;
+    --radius-sm: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
+    --radius-2xl: 1rem;
+  }
+
+  .dark {
+    /* Design System Colors - Dark Mode */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --primary: 216 87% 67%;
+    --primary-foreground: 240 10% 3.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 216 87% 67%;
+    
+    /* Success, Warning, Error, Info - Dark Mode */
+    --success: 142 76% 46%;
+    --success-foreground: 355.7 100% 97.3%;
+    --warning: 38 92% 60%;
+    --warning-foreground: 48 96% 89%;
+    --error: 0 84% 70%;
+    --error-foreground: 0 0% 98%;
+    --info: 217 91% 70%;
+    --info-foreground: 0 0% 98%;
+  }
+  
+  .miele {
+    /* Miele Theme Colors */
+    --background: 45 45% 95%;
+    --foreground: 218 15% 25%;
+    --primary: 350 80% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 8% 78%;
+    --secondary-foreground: 218 15% 25%;
+    --muted: 30 25% 88%;
+    --muted-foreground: 218 15% 45%;
+    --accent: 30 25% 88%;
+    --accent-foreground: 218 15% 25%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 8% 78%;
+    --input: 210 8% 85%;
+    --ring: 350 80% 50%;
+    --card: 0 0% 100%;
+    --card-foreground: 218 15% 25%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 218 15% 25%;
+    
+    /* Miele specific colors */
+    --miele-red: 350 80% 50%;
+    --miele-silver: 210 8% 78%;
+    --miele-charcoal: 218 15% 25%;
+    --miele-cream: 45 45% 95%;
+    --miele-warm: 30 25% 88%;
+    
+    /* Success, Warning, Error, Info - Miele Mode */
+    --success: 142 76% 36%;
+    --success-foreground: 355.7 100% 97.3%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 48 96% 89%;
+    --error: 0 84% 60%;
+    --error-foreground: 0 0% 98%;
+    --info: 217 91% 60%;
+    --info-foreground: 0 0% 98%;
+  }
+  
+  /* Global Styles */
+  * {
+    border-color: hsl(var(--border));
+  }
+  
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-inter);
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  /* Consistent Scrollbar Styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 3px;
+    transition: background 0.2s ease;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+  
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+  
+  /* Firefox scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+  }
+}
+
+@layer components {
+  /* Typography System */
+  .text-display-large {
+    @apply text-5xl font-bold leading-tight tracking-tight;
+  }
+  
+  .text-display-medium {
+    @apply text-4xl font-bold leading-tight tracking-tight;
+  }
+  
+  .text-headline-large {
+    @apply text-3xl font-bold leading-tight;
+  }
+  
+  .text-headline-medium {
+    @apply text-2xl font-semibold leading-tight;
+  }
+  
+  .text-headline-small {
+    @apply text-xl font-semibold leading-snug;
+  }
+  
+  .text-body-large {
+    @apply text-lg leading-relaxed;
+  }
+  
+  .text-body-medium {
+    @apply text-base leading-relaxed;
+  }
+  
+  .text-body-small {
+    @apply text-sm leading-relaxed;
+  }
+  
+  .text-label-large {
+    @apply text-sm font-medium leading-none;
+  }
+  
+  .text-label-medium {
+    @apply text-xs font-medium leading-none;
+  }
+  
+  .text-caption {
+    @apply text-xs leading-tight text-muted-foreground;
+  }
+
+  /* Enhanced Focus Styles */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  }
+  
+  /* Animation Utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+  
+  .animate-slide-down {
+    animation: slideDown 0.3s ease-out;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+
+  /* Scrollbar Utilities */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.5);
+    border-radius: 4px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(107, 114, 128, 0.7);
+  }
+  
+  .dark .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(75, 85, 99, 0.5);
+  }
+  
+  .dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(55, 65, 81, 0.7);
+  }
+
+  .scrollbar-thumb-gray-300::-webkit-scrollbar-thumb {
+    background: rgb(209, 213, 219);
+  }
+
+  .dark .scrollbar-thumb-gray-600::-webkit-scrollbar-thumb {
+    background: rgb(75, 85, 99);
+  }
+}

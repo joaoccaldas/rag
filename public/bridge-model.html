@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revenue Bridge Model 2025→2026 | Miele Finance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#64748b',
+                        accent: '#f59e0b',
+                        destructive: '#ef4444',
+                        muted: '#f1f5f9',
+                        'muted-foreground': '#64748b',
+                        background: '#ffffff',
+                        foreground: '#0f172a',
+                        card: '#ffffff',
+                        'card-foreground': '#0f172a',
+                        border: '#e2e8f0',
+                        input: '#e2e8f0',
+                        ring: '#3b82f6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles for better visual hierarchy */
+        .waterfall-step {
+            transition: all 0.3s ease;
+        }
+        .waterfall-step:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div class="container mx-auto p-6 space-y-6">
+        <!-- Header -->
+        <div class="text-center space-y-2 mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 flex items-center justify-center gap-3">
+                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+                Revenue Bridge Model: 2025 → 2026
+            </h1>
+            <p class="text-lg text-gray-600">
+                Strategic Financial Planning & Waterfall Analysis Tool
+            </p>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg shadow-lg">
+                <div class="p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm opacity-90">2025 Baseline</p>
+                            <p class="text-2xl font-bold" id="baseline-value">$100,000,000</p>
+                        </div>
+                        <svg class="w-8 h-8 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg shadow-lg">
+                <div class="p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm opacity-90">2026 Target</p>
+                            <p class="text-2xl font-bold" id="target-value">$115,000,000</p>
+                        </div>
+                        <svg class="w-8 h-8 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg shadow-lg">
+                <div class="p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm opacity-90">Growth Impact</p>
+                            <p class="text-2xl font-bold" id="growth-value">$15,000,000</p>
+                        </div>
+                        <svg class="w-8 h-8 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg shadow-lg">
+                <div class="p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm opacity-90">Growth Rate</p>
+                            <p class="text-2xl font-bold" id="growth-rate">+15.0%</p>
+                        </div>
+                        <svg class="w-8 h-8 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Tabs -->
+        <div class="bg-white rounded-lg shadow-lg">
+            <!-- Tab Navigation -->
+            <div class="border-b border-gray-200">
+                <nav class="flex space-x-8 px-6" aria-label="Tabs">
+                    <button onclick="showTab('model')" class="tab-button py-4 px-1 border-b-2 font-medium text-sm active" data-tab="model">
+                        Bridge Model
+                    </button>
+                    <button onclick="showTab('inputs')" class="tab-button py-4 px-1 border-b-2 font-medium text-sm" data-tab="inputs">
+                        Input Parameters
+                    </button>
+                    <button onclick="showTab('analysis')" class="tab-button py-4 px-1 border-b-2 font-medium text-sm" data-tab="analysis">
+                        Analysis & Insights
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="p-6">
+                <!-- Model Tab -->
+                <div id="model-tab" class="tab-content">
+                    <!-- Scenario Selection -->
+                    <div class="mb-8 p-6 bg-gray-50 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                            Scenario Planning
+                        </h3>
+                        <p class="text-gray-600 mb-4">Load predefined scenarios or customize your own parameters</p>
+                        <div class="flex gap-4">
+                            <button onclick="loadScenario('conservative')" class="scenario-btn flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-200 bg-orange-100 text-orange-700 hover:bg-orange-200">
+                                Conservative Scenario
+                            </button>
+                            <button onclick="loadScenario('realistic')" class="scenario-btn flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-200 bg-blue-100 text-blue-700 hover:bg-blue-200 ring-2 ring-blue-500">
+                                Realistic Scenario
+                            </button>
+                            <button onclick="loadScenario('optimistic')" class="scenario-btn flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-200 bg-green-100 text-green-700 hover:bg-green-200">
+                                Optimistic Scenario
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Waterfall Chart -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-4">Revenue Bridge Waterfall Analysis</h3>
+                        <p class="text-gray-600 mb-6">Visual representation of revenue drivers from 2025 baseline to 2026 target</p>
+                        
+                        <!-- Chart Container -->
+                        <div class="chart-container mb-6">
+                            <canvas id="waterfallChart"></canvas>
+                        </div>
+
+                        <!-- Waterfall Steps Grid -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4" id="waterfall-steps">
+                            <!-- Steps will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inputs Tab -->
+                <div id="inputs-tab" class="tab-content hidden">
+                    <h3 class="text-xl font-semibold mb-6">Model Parameters</h3>
+                    <p class="text-gray-600 mb-6">Adjust the input parameters to model different scenarios</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-gray-700">2025 Baseline Revenue</label>
+                            <input type="number" id="baseline2025" value="100000000" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-right" onchange="updateModel()">
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-gray-700">Volume Growth (%)</label>
+                            <input type="number" id="growthVolume" value="5.2" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-right" onchange="updateModel()">
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-gray-700">Pricing Change (%)</label>
+                            <input type="number" id="pricingChange" value="2.1" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-right" onchange="updateModel()">
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-gray-700">Discount Impact (%)</label>
+                            <input type="number" id="discountChange" value="-0.8" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-right" onchange="updateModel()">
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-gray-700">Customer Mix (%)</label>
+                            <input type="number" id="customerMixChange" value="1.5" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-right" onchange="updateModel()">
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-gray-700">Product Mix (%)</label>
+                            <input type="number" id="productMixChange" value="0.7" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-right" onchange="updateModel()">
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-gray-700">Bonus Impact (%)</label>
+                            <input type="number" id="bonusImpact" value="-2.1" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-right" onchange="updateModel()">
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-gray-700">Operational Efficiency (%)</label>
+                            <input type="number" id="operationalEfficiency" value="1.8" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-right" onchange="updateModel()">
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-gray-700">Market Expansion (%)</label>
+                            <input type="number" id="marketExpansion" value="3.2" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-right" onchange="updateModel()">
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-gray-700">New Products (%)</label>
+                            <input type="number" id="newProducts" value="2.5" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-right" onchange="updateModel()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Tab -->
+                <div id="analysis-tab" class="tab-content hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white border border-gray-200 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold mb-4">Growth Driver Analysis</h3>
+                            <div class="space-y-4" id="growth-drivers">
+                                <!-- Growth drivers will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-gray-200 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold mb-4">Key Insights</h3>
+                            <div class="space-y-4">
+                                <div class="p-4 bg-blue-50 rounded-lg">
+                                    <h4 class="font-semibold text-blue-800">Revenue Growth</h4>
+                                    <p class="text-sm text-blue-600" id="revenue-insight">
+                                        Total projected growth: +15.0% ($15,000,000)
+                                    </p>
+                                </div>
+                                
+                                <div class="p-4 bg-green-50 rounded-lg">
+                                    <h4 class="font-semibold text-green-800">Top Growth Driver</h4>
+                                    <p class="text-sm text-green-600" id="top-driver-insight">
+                                        Volume Growth contributing $5.2M
+                                    </p>
+                                </div>
+
+                                <div class="p-4 bg-orange-50 rounded-lg">
+                                    <h4 class="font-semibold text-orange-800">Risk Factors</h4>
+                                    <p class="text-sm text-orange-600">
+                                        Monitor discount levels and bonus costs for margin protection
+                                    </p>
+                                </div>
+
+                                <div class="p-4 bg-purple-50 rounded-lg">
+                                    <h4 class="font-semibold text-purple-800">Strategic Focus</h4>
+                                    <p class="text-sm text-purple-600">
+                                        Leverage market expansion and operational efficiency for sustainable growth
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export Actions -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="font-semibold">Export & Share</h3>
+                    <p class="text-sm text-gray-600">
+                        Download your bridge model analysis
+                    </p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Export PDF
+                    </button>
+                    <button class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Export Excel
+                    </button>
+                    <button class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                        </svg>
+                        Share Model
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Model state
+        let currentInputs = {
+            baseline2025: 100000000,
+            growthVolume: 5.2,
+            pricingChange: 2.1,
+            discountChange: -0.8,
+            customerMixChange: 1.5,
+            productMixChange: 0.7,
+            bonusImpact: -2.1,
+            operationalEfficiency: 1.8,
+            marketExpansion: 3.2,
+            newProducts: 2.5
+        };
+
+        let waterfallChart = null;
+
+        // Predefined scenarios
+        const scenarios = {
+            conservative: {
+                growthVolume: 2.8,
+                pricingChange: 1.2,
+                discountChange: -1.5,
+                customerMixChange: 0.8,
+                productMixChange: 0.3,
+                bonusImpact: -2.8,
+                operationalEfficiency: 1.2,
+                marketExpansion: 1.5,
+                newProducts: 1.2
+            },
+            realistic: {
+                growthVolume: 5.2,
+                pricingChange: 2.1,
+                discountChange: -0.8,
+                customerMixChange: 1.5,
+                productMixChange: 0.7,
+                bonusImpact: -2.1,
+                operationalEfficiency: 1.8,
+                marketExpansion: 3.2,
+                newProducts: 2.5
+            },
+            optimistic: {
+                growthVolume: 8.5,
+                pricingChange: 3.2,
+                discountChange: -0.2,
+                customerMixChange: 2.8,
+                productMixChange: 1.5,
+                bonusImpact: -1.5,
+                operationalEfficiency: 2.8,
+                marketExpansion: 5.5,
+                newProducts: 4.2
+            }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateModel();
+            initializeChart();
+        });
+
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active', 'border-blue-500', 'text-blue-600');
+                button.classList.add('border-transparent', 'text-gray-500');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            
+            // Add active class to selected tab button
+            const activeButton = document.querySelector(`[data-tab="${tabName}"]`);
+            activeButton.classList.add('active', 'border-blue-500', 'text-blue-600');
+            activeButton.classList.remove('border-transparent', 'text-gray-500');
+        }
+
+        // Load scenario
+        function loadScenario(scenarioName) {
+            const scenario = scenarios[scenarioName];
+            Object.assign(currentInputs, scenario);
+            
+            // Update input fields
+            Object.keys(scenario).forEach(key => {
+                const input = document.getElementById(key);
+                if (input) {
+                    input.value = scenario[key];
+                }
+            });
+            
+            // Update scenario button styles
+            document.querySelectorAll('.scenario-btn').forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-blue-500', 'ring-green-500', 'ring-orange-500');
+            });
+            
+            // Add ring to selected scenario
+            const colors = {
+                conservative: 'ring-orange-500',
+                realistic: 'ring-blue-500',
+                optimistic: 'ring-green-500'
+            };
+            
+            event.target.classList.add('ring-2', colors[scenarioName]);
+            
+            updateModel();
+        }
+
+        // Update model calculations
+        function updateModel() {
+            // Get current input values
+            const inputs = {
+                baseline2025: parseFloat(document.getElementById('baseline2025').value) || 100000000,
+                growthVolume: parseFloat(document.getElementById('growthVolume').value) || 0,
+                pricingChange: parseFloat(document.getElementById('pricingChange').value) || 0,
+                discountChange: parseFloat(document.getElementById('discountChange').value) || 0,
+                customerMixChange: parseFloat(document.getElementById('customerMixChange').value) || 0,
+                productMixChange: parseFloat(document.getElementById('productMixChange').value) || 0,
+                bonusImpact: parseFloat(document.getElementById('bonusImpact').value) || 0,
+                operationalEfficiency: parseFloat(document.getElementById('operationalEfficiency').value) || 0,
+                marketExpansion: parseFloat(document.getElementById('marketExpansion').value) || 0,
+                newProducts: parseFloat(document.getElementById('newProducts').value) || 0
+            };
+
+            currentInputs = inputs;
+
+            // Calculate waterfall steps
+            const baseline = inputs.baseline2025;
+            let cumulative = baseline;
+
+            const steps = [
+                { label: '2025 Baseline', value: baseline, cumulative: baseline, category: 'baseline', isPositive: true }
+            ];
+
+            // Calculate each step
+            const stepCalculations = [
+                { key: 'growthVolume', label: 'Volume Growth', icon: '📈' },
+                { key: 'pricingChange', label: 'Pricing', icon: '💰' },
+                { key: 'discountChange', label: 'Discounts', icon: '🏷️' },
+                { key: 'customerMixChange', label: 'Customer Mix', icon: '👥' },
+                { key: 'productMixChange', label: 'Product Mix', icon: '📦' },
+                { key: 'marketExpansion', label: 'Market Expansion', icon: '🌍' },
+                { key: 'newProducts', label: 'New Products', icon: '🚀' },
+                { key: 'operationalEfficiency', label: 'Operational Efficiency', icon: '⚙️' },
+                { key: 'bonusImpact', label: 'Bonus Impact', icon: '💎' }
+            ];
+
+            stepCalculations.forEach(calc => {
+                const impact = baseline * (inputs[calc.key] / 100);
+                cumulative += impact;
+                steps.push({
+                    label: calc.label,
+                    value: impact,
+                    cumulative: cumulative,
+                    category: 'factor',
+                    isPositive: impact > 0,
+                    icon: calc.icon
+                });
+            });
+
+            // Add final result
+            steps.push({
+                label: '2026 Target',
+                value: cumulative,
+                cumulative: cumulative,
+                category: 'result',
+                isPositive: cumulative > baseline
+            });
+
+            // Update summary cards
+            const totalGrowth = cumulative - baseline;
+            const growthPercentage = (totalGrowth / baseline) * 100;
+
+            document.getElementById('baseline-value').textContent = formatCurrency(baseline);
+            document.getElementById('target-value').textContent = formatCurrency(cumulative);
+            document.getElementById('growth-value').textContent = formatCurrency(totalGrowth);
+            document.getElementById('growth-rate').textContent = formatPercentage(growthPercentage);
+
+            // Update waterfall steps display
+            updateWaterfallSteps(steps);
+            
+            // Update chart
+            updateChart(steps);
+            
+            // Update growth drivers analysis
+            updateGrowthDrivers(steps);
+            
+            // Update insights
+            updateInsights(totalGrowth, growthPercentage, steps);
+        }
+
+        // Update waterfall steps display
+        function updateWaterfallSteps(steps) {
+            const container = document.getElementById('waterfall-steps');
+            container.innerHTML = '';
+
+            steps.forEach((step, index) => {
+                if (step.category === 'baseline' || step.category === 'result') return;
+
+                const stepDiv = document.createElement('div');
+                stepDiv.className = `waterfall-step border-l-4 ${
+                    step.isPositive ? 'border-l-green-500' : 'border-l-red-500'
+                } bg-white rounded-lg shadow p-4`;
+
+                stepDiv.innerHTML = `
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="text-lg">${step.icon}</span>
+                            <div>
+                                <p class="font-semibold text-sm">${step.label}</p>
+                                <p class="text-xs text-gray-600">${formatPercentage(Math.abs(currentInputs[getInputKey(step.label)] || 0))} impact</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-semibold ${step.isPositive ? 'text-green-600' : 'text-red-600'}">
+                                ${step.isPositive ? '+' : ''}${formatCurrency(step.value)}
+                            </p>
+                            <p class="text-xs text-gray-500">
+                                Total: ${formatCurrency(step.cumulative)}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="h-2 rounded-full ${step.isPositive ? 'bg-green-500' : 'bg-red-500'}" 
+                                 style="width: ${Math.min(100, Math.abs(step.value / currentInputs.baseline2025) * 1000)}%"></div>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(stepDiv);
+            });
+        }
+
+        // Update growth drivers analysis
+        function updateGrowthDrivers(steps) {
+            const container = document.getElementById('growth-drivers');
+            container.innerHTML = '';
+
+            const factorSteps = steps.filter(s => s.category === 'factor').sort((a, b) => Math.abs(b.value) - Math.abs(a.value));
+
+            factorSteps.forEach(step => {
+                const driverDiv = document.createElement('div');
+                driverDiv.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-lg';
+                
+                driverDiv.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span>${step.icon}</span>
+                        <span class="font-medium">${step.label}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-1 rounded text-sm font-medium ${
+                            step.isPositive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                        }">
+                            ${formatCurrency(step.value)}
+                        </span>
+                        <span class="text-sm text-gray-500">
+                            ${((step.value / currentInputs.baseline2025) * 100).toFixed(1)}%
+                        </span>
+                    </div>
+                `;
+                
+                container.appendChild(driverDiv);
+            });
+        }
+
+        // Update insights
+        function updateInsights(totalGrowth, growthPercentage, steps) {
+            document.getElementById('revenue-insight').textContent = 
+                `Total projected growth: ${formatPercentage(growthPercentage)} (${formatCurrency(totalGrowth)})`;
+
+            const topDriver = steps.filter(s => s.category === 'factor' && s.value > 0)
+                .sort((a, b) => b.value - a.value)[0];
+            
+            if (topDriver) {
+                document.getElementById('top-driver-insight').textContent = 
+                    `${topDriver.label} contributing ${formatCurrency(topDriver.value)}`;
+            }
+        }
+
+        // Initialize Chart.js waterfall chart
+        function initializeChart() {
+            const ctx = document.getElementById('waterfallChart').getContext('2d');
+            waterfallChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Revenue Impact',
+                        data: [],
+                        backgroundColor: [],
+                        borderColor: [],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Revenue Bridge Waterfall Chart'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            ticks: {
+                                callback: function(value) {
+                                    return formatCurrency(value);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update chart with new data
+        function updateChart(steps) {
+            if (!waterfallChart) return;
+
+            const labels = steps.map(s => s.label);
+            const data = steps.map(s => s.cumulative);
+            const colors = steps.map(s => {
+                if (s.category === 'baseline') return '#3b82f6';
+                if (s.category === 'result') return '#8b5cf6';
+                return s.isPositive ? '#10b981' : '#ef4444';
+            });
+
+            waterfallChart.data.labels = labels;
+            waterfallChart.data.datasets[0].data = data;
+            waterfallChart.data.datasets[0].backgroundColor = colors;
+            waterfallChart.data.datasets[0].borderColor = colors;
+            
+            waterfallChart.update();
+        }
+
+        // Utility functions
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(value);
+        }
+
+        function formatPercentage(value) {
+            return `${value >= 0 ? '+' : ''}${value.toFixed(1)}%`;
+        }
+
+        function getInputKey(label) {
+            const mapping = {
+                'Volume Growth': 'growthVolume',
+                'Pricing': 'pricingChange',
+                'Discounts': 'discountChange',
+                'Customer Mix': 'customerMixChange',
+                'Product Mix': 'productMixChange',
+                'Market Expansion': 'marketExpansion',
+                'New Products': 'newProducts',
+                'Operational Efficiency': 'operationalEfficiency',
+                'Bonus Impact': 'bonusImpact'
+            };
+            return mapping[label] || '';
+        }
+
+        // Initialize tab styling
+        document.addEventListener('DOMContentLoaded', function() {
+            showTab('model');
+        });
+    </script>
+</body>
+</html>

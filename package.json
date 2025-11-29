@@ -28,7 +28,7 @@
     "next": "^15.1.0",
     "next-themes": "^0.4.6",
     "node-llama-cpp": "^3.11.0",
-    "ollama": "^0.5.16",
+    
         "groq-sdk": "^0.7.0",
     "pdfjs-dist": "^5.4.54",
     "pizzip": "^3.2.0",

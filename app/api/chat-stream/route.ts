@@ -123,154 +123,38 @@ export async function POST(request: NextRequest) {
         try {
           console.log('Final system message being sent to Ollama:', systemMessage)
           
-          // Make request to Ollama with streaming enabled
-          const ollamaResponse = await fetch('http://localhost:11434/api/chat', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              model: chatSettings.model,
-              messages: [
-                {
-                  role: 'system',
-                  content: systemMessage
-                },
-                {
-                  role: 'user',
-                  content: userMessage
-                }
-              ],
-              stream: true,
-              keep_alive: chatSettings.model.includes('gpt-oss') ? '15m' : '5m', // Keep large models loaded longer
-              options: {
-                temperature: chatSettings.temperature,
-                num_predict: chatSettings.maxTokens,
-                // Optimize for GPT-OSS performance
-                ...(chatSettings.model.includes('gpt-oss') && {
-                  num_ctx: 2048, // Reduce context window for faster responses
-                  num_batch: 256, // Smaller batch size for lower memory usage
-                  num_gpu: -1, // Use all available GPUs
-                  low_vram: true, // Enable low VRAM mode for performance
-                  f16_kv: true, // Use half-precision for key-value cache
-                  use_mlock: true, // Lock model in memory
-                  use_mmap: true, // Memory map model files
-                  num_thread: Math.max(1, Math.floor(cpus().length * 0.8)), // Use 80% of CPU cores
-                  repeat_penalty: 1.1, // Prevent repetition
-                  top_k: 40, // Limit token selection for faster processing
-                  top_p: 0.9, // Nuclear sampling for efficiency
-                  typical_p: 1.0,
-                  tfs_z: 1.0
-                })
-              }
-            })
-          })
+// Use Groq API for chat completion
+      const response = await chatCompletion({
+        messages: [
+          { role: 'system', content: systemMessage },
+          { role: 'user', content: message }
+        ],
+        model: chatSettings.model,
+        temperature: chatSettings.temperature,
+        maxTokens: chatSettings.maxTokens
+      })
 
-          if (!ollamaResponse.ok) {
-            const errorText = await ollamaResponse.text()
-            console.error('Ollama API error:', errorText)
-            
-            let errorMessage = "I'm currently having trouble connecting to the local AI service."
-            if (errorText.includes('not found')) {
-              errorMessage = `The model "${chatSettings.model}" was not found. Please check your settings and ensure the model is installed.`
-            }
-            
-            safeEnqueue(`data: ${JSON.stringify({ 
-              error: true, 
-              content: errorMessage 
-            })}\n\n`)
-            safeClose()
-            return
-          }
+      const aiResponse = response.choices[0]?.message?.content || 'No response generated'
 
-          // Handle the streaming response
-          const reader = ollamaResponse.body?.getReader()
-          if (!reader) {
-            safeEnqueue(`data: ${JSON.stringify({ 
-              error: true, 
-              content: 'Failed to read response stream' 
-            })}\n\n`)
-            safeClose()
-            return
-          }
-
-          try {
-            while (true && !isClosed) {
-              const { done, value } = await reader.read()
-              
-              if (done) {
-                // Send completion event
-                safeEnqueue(`data: ${JSON.stringify({ 
-                  done: true 
-                })}\n\n`)
-                break
-              }
-
-              // Parse the chunk
-              const chunk = new TextDecoder().decode(value)
-              const lines = chunk.split('\n').filter(line => line.trim())
-              
-              for (const line of lines) {
-                if (isClosed) break
-                
-                try {
-                  const data = JSON.parse(line)
-                  if (data.message?.content) {
-                    // Send the content chunk
-                    safeEnqueue(`data: ${JSON.stringify({ 
-                      content: data.message.content,
-                      done: false 
-                    })}\n\n`)
-                  }
-                  
-                  // Check if streaming is complete
-                  if (data.done) {
-                    safeEnqueue(`data: ${JSON.stringify({ 
-                      done: true 
-                    })}\n\n`)
-                    break
-                  }
-                } catch (parseError) {
-                  // Skip malformed JSON
-                  console.warn('Failed to parse streaming chunk:', parseError)
-                }
-              }
-            }
-          } finally {
-            reader.releaseLock()
-          }
-
-        } catch (error) {
-          console.error('Streaming error:', error)
-          safeEnqueue(`data: ${JSON.stringify({ 
-            error: true, 
-            content: 'An error occurred while generating the response' 
-          })}\n\n`)
+      // Return as plain text response
+      return new Response(aiResponse, {
+        headers: {
+          'Content-Type': 'text/plain; charset=utf-8',
+          'Cache-Control': 'no-cache',
+        },
+      })
+    } catch (error) {
+      console.error('API error:', error)
+      return new Response(
+        JSON.stringify({ 
+          error: 'Failed to process chat request',
+          content: "I'm experiencing technical difficulties. Please try again."
+        }),
+        { 
+          status: 500,
+          headers: { 'Content-Type': 'application/json' }
         }
-        
-        safeClose()
-      }
-    })
-
-    return new Response(stream, {
-      headers: {
-        'Content-Type': 'text/plain; charset=utf-8',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-      },
-    })
-
-  } catch (error) {
-    console.error('API error:', error)
-    return new Response(
-      JSON.stringify({ 
-        error: 'Failed to process chat request',
-        content: "I'm experiencing technical difficulties. Please check that Ollama is running locally and try again."
-      }),
-      { 
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      }
-    )
+      )
+    }
   }
 }

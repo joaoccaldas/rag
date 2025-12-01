@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { cpus } from 'os'
+import { groq, chatCompletion } from '@/lib/groq-client'
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
 
     // Default settings if not provided
     const chatSettings = {
-      model: settings?.model || 'llama3:latest',
+            model: settings?.model || 'llama-3.1-70b-versatile',
       systemPrompt: settings?.systemPrompt || 'You are a helpful AI assistant for Miele dashboard analysis.',
       temperature: settings?.temperature || 0.7,
       maxTokens: settings?.maxTokens || 1000,

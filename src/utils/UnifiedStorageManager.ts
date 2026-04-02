@@ -90,7 +90,6 @@ class PersistenceQueue {
 
   private async processEvent(event: StorageEvent): Promise<void> {
     // Event processing will be handled by UnifiedStorageManager
-    console.log('Processing storage event:', event.type, event.payload)
   }
 }
 
@@ -134,7 +133,6 @@ export class UnifiedStorageManager {
       await this.initIndexedDB()
       this.setupAutoCleanup()
       this.setupCrossTabSync()
-      console.log('✅ UnifiedStorageManager initialized successfully')
     } catch (error) {
       console.warn('⚠️ IndexedDB initialization failed, using localStorage only:', error)
     }
@@ -522,7 +520,6 @@ export class UnifiedStorageManager {
       // Clear memory cache
       this.memoryCache.clear()
       
-      console.log('✅ Emergency cleanup completed')
     } catch (error) {
       console.error('Emergency cleanup failed:', error)
     }
@@ -535,7 +532,6 @@ export class UnifiedStorageManager {
   }
 
   private async performMaintenance(): Promise<void> {
-    console.log('🔧 Performing storage maintenance...')
     
     try {
       // Enforce memory cache limits
@@ -544,7 +540,6 @@ export class UnifiedStorageManager {
       // Clean up old temporary data
       // TODO: Implement cleanup of old temporary files, logs, etc.
       
-      console.log('✅ Storage maintenance completed')
     } catch (error) {
       console.error('Storage maintenance failed:', error)
     }
@@ -556,7 +551,6 @@ export class UnifiedStorageManager {
     window.addEventListener('storage', (event) => {
       if (event.key === this.LOCALSTORAGE_KEY && event.newValue) {
         // Storage changed in another tab, update memory cache
-        console.log('🔄 Cross-tab sync: storage updated in another tab')
         // TODO: Implement proper sync logic
       }
     })
@@ -593,7 +587,6 @@ export class UnifiedStorageManager {
     // Clear localStorage
     localStorage.removeItem(this.LOCALSTORAGE_KEY)
     
-    console.log('🗑️ All storage data cleared')
   }
 }
 

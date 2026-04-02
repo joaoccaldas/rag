@@ -108,7 +108,6 @@ export class FileStorageManager {
    */
   private async emergencyCleanup(): Promise<void> {
     try {
-      console.log('🧹 Starting emergency localStorage cleanup...')
       
       // Get current stored files
       const storedFiles = this.getStoredFiles()
@@ -131,7 +130,6 @@ export class FileStorageManager {
       // Move largest files to IndexedDB
       for (const [fileId, fileData] of sortedEntries) {
         if ('base64Content' in fileData && fileData.base64Content) {
-          console.log(`🔄 Moving large file to IndexedDB: ${fileData.originalName}`)
           
           // Store content in IndexedDB
           await this.storeFileInDB(fileId, fileData.base64Content)
@@ -155,7 +153,6 @@ export class FileStorageManager {
         }
       }
       
-      console.log(`✅ Emergency cleanup completed: ${cleanedCount} files moved, ${(spaceSaved / 1024 / 1024).toFixed(2)}MB freed`)
       
     } catch (error) {
       console.error('Emergency cleanup failed:', error)
@@ -187,7 +184,6 @@ export class FileStorageManager {
             spaceSaved += contentSize
             migratedCount++
             
-            console.log(`🔄 Migrated ${fileData.originalName} to IndexedDB (${(contentSize / 1024).toFixed(1)}KB)`)
           } catch (dbError) {
             console.warn(`Failed to migrate file ${fileId}:`, dbError)
           }
@@ -197,7 +193,6 @@ export class FileStorageManager {
       if (migratedCount > 0) {
         // Save cleaned metadata back to localStorage
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(existingFiles))
-        console.log(`✅ Cleanup complete: ${migratedCount} files migrated, ${(spaceSaved / 1024 / 1024).toFixed(2)}MB freed`)
       }
     } catch (error) {
       console.error('localStorage cleanup failed:', error)
@@ -235,7 +230,6 @@ export class FileStorageManager {
 
       // ALWAYS store file content in IndexedDB (never in localStorage)
       await this.storeFileInDB(storedFile.id, base64Data)
-      console.log(`📁 File stored in IndexedDB: ${file.name} (${(base64Data.length / 1024 / 1024).toFixed(2)}MB)`)
       
       // Try to store lightweight metadata in localStorage
       const storedFiles = this.getStoredFiles()
@@ -243,7 +237,6 @@ export class FileStorageManager {
       
       try {
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(storedFiles))
-        console.log('✅ Metadata stored in localStorage')
       } catch (metadataError) {
         // localStorage full - cleanup and retry
         console.warn('⚠️ localStorage full, cleaning up...', metadataError instanceof Error ? metadataError.message : 'Unknown error')
@@ -256,7 +249,6 @@ export class FileStorageManager {
           const refreshedFiles = this.getStoredFiles()
           refreshedFiles[storedFile.id] = storedFile
           localStorage.setItem(this.STORAGE_KEY, JSON.stringify(refreshedFiles))
-          console.log('✅ Metadata stored after cleanup')
         } catch (cleanupError) {
           // If cleanup fails or localStorage still full, use IndexedDB for metadata too
           console.error('❌ Cannot store metadata in localStorage even after cleanup, using IndexedDB:', cleanupError)
@@ -264,7 +256,6 @@ export class FileStorageManager {
         }
       }
 
-      console.log(`📁 File stored successfully: ${file.name}`)
       return storedFile
 
     } catch (error) {
@@ -410,7 +401,6 @@ export class FileStorageManager {
         // Also try to delete from IndexedDB in case it was stored there
         await this.deleteFileFromDB(fileId)
         
-        console.log(`🗑️ File deleted: ${fileId}`)
         return true
       }
       return false
@@ -473,7 +463,6 @@ export class FileStorageManager {
    */
   async fixQuotaIssues(): Promise<{ success: boolean; message: string; details: { cleaned: number; sizeSaved: number } }> {
     try {
-      console.log('🔧 Starting quota fix...')
       
       const storedFiles = this.getStoredFiles()
       const fileEntries = Object.entries(storedFiles)
@@ -505,7 +494,6 @@ export class FileStorageManager {
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(storedFiles))
         
         const message = `✅ Fixed localStorage quota issues!\n🧹 Cleaned: ${cleaned} files\n💾 Saved: ${(sizeSaved / 1024 / 1024).toFixed(2)} MB`
-        console.log(message)
         
         return {
           success: true,
@@ -534,7 +522,6 @@ export class FileStorageManager {
    */
   clearAllFiles(): void {
     localStorage.removeItem(this.STORAGE_KEY)
-    console.log('🧹 All stored files cleared')
   }
 
   /**

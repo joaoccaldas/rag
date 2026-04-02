@@ -305,7 +305,6 @@ export function useUnifiedDocuments() {
       const currentHistory = state.search.searchHistory
       if (!currentHistory.includes(query)) {
         // Update search history in future implementation
-        console.log('Would add to search history:', query)
       }
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: 'Search failed' })

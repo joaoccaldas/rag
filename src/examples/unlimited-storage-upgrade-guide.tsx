@@ -30,7 +30,6 @@ export function UpgradedVisualContentLibrary() {
       setVisualContent(content)
       
       // Get storage usage info
-      console.log('Storage Info:', content[0]?.storageInfo)
       // Shows: { isUnlimited: true, usage: "156MB", capacity: "2GB+" }
       
     } catch (error) {
@@ -92,10 +91,6 @@ export async function migrateExistingData() {
     // This automatically moves your localStorage data to unlimited IndexedDB
     const migrationResult = await unlimitedRAGStorage.migrateFromLocalStorage()
     
-    console.log('Migration completed:')
-    console.log(`- Documents: ${migrationResult.documentsCount}`)
-    console.log(`- Visual items: ${migrationResult.visualCount}`) 
-    console.log(`- Chat messages: ${migrationResult.chatCount}`)
     
     // After migration, your app automatically uses unlimited storage!
     

@@ -146,7 +146,6 @@ class BatchProcessingService {
     // Notify callbacks
     this.notifyJobCallbacks(job)
     
-    console.log(`📁 Batch job ${jobId} queued with ${files.length} files`)
     return jobId
   }
 
@@ -179,7 +178,6 @@ class BatchProcessingService {
     await this.persistJob(job)
     this.notifyJobCallbacks(job)
     
-    console.log(`❌ Batch job ${jobId} cancelled`)
     return true
   }
 
@@ -194,7 +192,6 @@ class BatchProcessingService {
     await this.persistJob(job)
     this.notifyJobCallbacks(job)
     
-    console.log(`⏸️ Batch job ${jobId} paused`)
     return true
   }
 
@@ -211,7 +208,6 @@ class BatchProcessingService {
     await this.persistJob(job)
     this.notifyJobCallbacks(job)
     
-    console.log(`▶️ Batch job ${jobId} resumed`)
     return true
   }
 
@@ -281,7 +277,6 @@ class BatchProcessingService {
       this.jobCallbacks.delete(id)
     })
     
-    console.log(`🧹 Cleared ${completedJobIds.length} completed jobs`)
   }
 
   private validateFiles(files: File[]): void {
@@ -352,7 +347,6 @@ class BatchProcessingService {
     await this.persistJob(job)
     this.notifyJobCallbacks(job)
     
-    console.log(`🚀 Started processing batch job ${job.id} with ${job.files.length} files`)
     
     const startTime = Date.now()
     
@@ -381,7 +375,6 @@ class BatchProcessingService {
       const processingTime = Date.now() - startTime
       job.progress.processingSpeed = (job.files.length / processingTime) * 60000 // files per minute
       
-      console.log(`✅ Batch job ${job.id} completed in ${Math.round(processingTime / 1000)}s`)
       
     } catch (error) {
       job.status = BatchJobStatus.FAILED
@@ -447,7 +440,6 @@ class BatchProcessingService {
     
     while (retryCount <= maxRetries) {
       try {
-        console.log(`📄 Processing file: ${file.name} (attempt ${retryCount + 1})`)
         
         const result = await documentWorkerManager.processDocument(
           file,

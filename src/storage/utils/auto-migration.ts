@@ -25,7 +25,6 @@ export class StorageMigration {
 
     try {
       this.migrationInProgress = true
-      console.log('🔄 Starting automatic file storage migration...')
 
       // Run the migration
       await unifiedFileStorage.migrateOldToNew()
@@ -36,7 +35,6 @@ export class StorageMigration {
       // Mark migration as completed
       localStorage.setItem(this.MIGRATION_KEY, 'completed')
       
-      console.log('✅ File storage migration completed successfully')
     } catch (error) {
       console.error('❌ Migration failed:', error)
       // Don't mark as completed so it will retry next time

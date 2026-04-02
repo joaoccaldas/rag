@@ -90,7 +90,6 @@ export function enhanceDocumentsWithAI(documents: Document[]): Document[] {
   return documents.map(doc => {
     // Only add mock analysis if the document doesn't already have real AI analysis
     if (!doc.aiAnalysis) {
-      console.log(`📝 Adding mock AI analysis for document: ${doc.name}`)
       return {
         ...doc,
         aiAnalysis: generateMockAIAnalysis(doc)
@@ -98,7 +97,6 @@ export function enhanceDocumentsWithAI(documents: Document[]): Document[] {
     }
     
     // Document already has real AI analysis, keep it
-    console.log(`✅ Document already has AI analysis: ${doc.name}`)
     return doc
   })
 }

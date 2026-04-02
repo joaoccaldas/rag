@@ -389,7 +389,6 @@ class ErrorHandlingService {
     for (const action of autoActions) {
       try {
         await action.action()
-        console.log(`✅ Auto-recovery action "${action.label}" succeeded for error ${error.id}`)
       } catch (recoveryError) {
         console.error(`❌ Auto-recovery action "${action.label}" failed:`, recoveryError)
       }
@@ -414,7 +413,6 @@ class ErrorHandlingService {
     }
     
     // Send to analytics service (implementation would depend on service used)
-    console.log('📊 Error analytics:', analytics)
   }
 
   /**

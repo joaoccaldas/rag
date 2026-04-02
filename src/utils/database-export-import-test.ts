@@ -11,8 +11,6 @@ export class DatabaseExportImportTest {
   private testResults: any[] = []
 
   async runAllTests(): Promise<boolean> {
-    console.log('🧪 Starting Database Export/Import Tests')
-    console.log('='.repeat(50))
 
     try {
       await this.testExportStructure()
@@ -29,7 +27,6 @@ export class DatabaseExportImportTest {
   }
 
   private async testExportStructure() {
-    console.log('\n📦 Testing Export Structure...')
     
     try {
       // Create mock data
@@ -61,15 +58,12 @@ export class DatabaseExportImportTest {
         metadata: hasMetadata
       })
 
-      console.log('✅ Export structure test passed')
     } catch (error) {
       this.addTestResult('Export Structure', false, { error: error.message })
-      console.log('❌ Export structure test failed:', error)
     }
   }
 
   private async testImportValidation() {
-    console.log('\n🔍 Testing Import Validation...')
     
     try {
       // Create valid test data
@@ -103,15 +97,12 @@ export class DatabaseExportImportTest {
         hasRequiredFields: !!(parsed.version && parsed.timestamp && parsed.data)
       })
 
-      console.log('✅ Import validation test passed')
     } catch (error) {
       this.addTestResult('Import Validation', false, { error: error.message })
-      console.log('❌ Import validation test failed:', error)
     }
   }
 
   private async testStorageOperations() {
-    console.log('\n💾 Testing Storage Operations...')
     
     try {
       // Test localStorage operations
@@ -133,15 +124,12 @@ export class DatabaseExportImportTest {
         indexedDB: hasIndexedDB
       })
 
-      console.log('✅ Storage operations test passed')
     } catch (error) {
       this.addTestResult('Storage Operations', false, { error: error.message })
-      console.log('❌ Storage operations test failed:', error)
     }
   }
 
   private async testErrorHandling() {
-    console.log('\n🛡️ Testing Error Handling...')
     
     try {
       // Test invalid file handling
@@ -175,10 +163,8 @@ export class DatabaseExportImportTest {
         emptyDataHandling: emptyHandled
       })
 
-      console.log('✅ Error handling test passed')
     } catch (error) {
       this.addTestResult('Error Handling', false, { error: error.message })
-      console.log('❌ Error handling test failed:', error)
     }
   }
 
@@ -220,19 +206,13 @@ export class DatabaseExportImportTest {
   }
 
   private printResults() {
-    console.log('\n📊 Test Results Summary')
-    console.log('='.repeat(50))
     
     const passedTests = this.testResults.filter(r => r.passed).length
     const totalTests = this.testResults.length
     
-    console.log(`✅ Passed: ${passedTests}/${totalTests}`)
-    console.log(`${passedTests === totalTests ? '🎉' : '⚠️'} Success Rate: ${((passedTests / totalTests) * 100).toFixed(1)}%`)
     
-    console.log('\nDetailed Results:')
     this.testResults.forEach(result => {
       const icon = result.passed ? '✅' : '❌'
-      console.log(`${icon} ${result.testName}:`, result.details)
     })
 
     // Cleanup
@@ -249,6 +229,4 @@ if (typeof window !== 'undefined') {
     return databaseExportImportTest.runAllTests()
   }
   
-  console.log('🧪 Database Export/Import test utility loaded')
-  console.log('📝 Run tests with: testDatabaseExportImport()')
 }

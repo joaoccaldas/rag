@@ -76,7 +76,6 @@ export class DatabaseExportImport {
     compressionLevel: 'standard'
   }): Promise<Blob> {
     try {
-      console.log('🚀 Starting database export...')
       
       const exportData: DatabaseExportData = {
         version: this.EXPORT_VERSION,
@@ -116,7 +115,6 @@ export class DatabaseExportImport {
         finalData = await this.compressData(exportData, options.compressionLevel)
       }
 
-      console.log('✅ Database export completed:', {
         size: `${(finalData.size / 1024 / 1024).toFixed(2)}MB`,
         documents: exportData.metadata.documentCount,
         files: exportData.metadata.fileCount
@@ -139,7 +137,6 @@ export class DatabaseExportImport {
     validateData: true
   }): Promise<void> {
     try {
-      console.log('🚀 Starting database import...')
       
       // Read and parse import file
       const importData = await this.parseImportFile(file)
@@ -164,7 +161,6 @@ export class DatabaseExportImport {
           await this.importConfiguration(importData.data.configuration)
         }
 
-        console.log('✅ Database import completed successfully')
         
         // Clean up old backup after successful import
         setTimeout(() => this.cleanupBackup(backupData), 60000) // 1 minute delay
@@ -293,13 +289,11 @@ export class DatabaseExportImport {
         
         if (existingValue && !options.overwriteExisting) {
           if (options.skipDuplicates) {
-            console.log(`⏭️ Skipping existing localStorage key: ${key}`)
             continue
           }
         }
         
         localStorage.setItem(key, value)
-        console.log(`✅ Imported localStorage key: ${key}`)
       } catch (error) {
         console.warn(`Failed to import localStorage key "${key}":`, error)
       }
@@ -484,7 +478,6 @@ export class DatabaseExportImport {
 
   private async compressData(data: DatabaseExportData, level: 'standard' | 'maximum'): Promise<Blob> {
     // For now, return as JSON (compression can be implemented with pako or similar library)
-    console.log(`📦 Compression level: ${level} (implementation pending)`)
     return new Blob([JSON.stringify(data)], { type: 'application/json' })
   }
 
@@ -504,7 +497,6 @@ export class DatabaseExportImport {
   }
 
   private async restoreBackup(backup: any): Promise<void> {
-    console.log('🔄 Restoring backup from:', backup.timestamp)
     // Restore implementation
     for (const [key, value] of Object.entries(backup.localStorage)) {
       if (typeof value === 'string') {
@@ -514,12 +506,10 @@ export class DatabaseExportImport {
   }
 
   private async cleanupBackup(backup: any): Promise<void> {
-    console.log('🧹 Cleaning up backup from:', backup.timestamp)
     // Cleanup logic
   }
 
   private async importConfiguration(config: any): Promise<void> {
-    console.log('⚙️ Importing configuration:', config)
     // Configuration import logic
   }
 }

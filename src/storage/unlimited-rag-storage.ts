@@ -137,7 +137,6 @@ export class UnlimitedRAGStorage {
 
     try {
       await this.indexedDB.init()
-      console.log('✅ Unlimited RAG storage initialized')
       this.initialized = true
     } catch (error) {
       console.error('Failed to initialize unlimited storage:', error)
@@ -151,7 +150,6 @@ export class UnlimitedRAGStorage {
 
     try {
       await this.indexedDB.store('documents', document)
-      console.log(`✅ Document ${document.name} stored (unlimited)`)
       
       // Remove from localStorage to free space
       this.removeFromLocalStorage('rag_documents', document.id)
@@ -184,7 +182,6 @@ export class UnlimitedRAGStorage {
       for (const item of visualItems) {
         await this.indexedDB.store('visualContent', item)
       }
-      console.log(`✅ ${visualItems.length} visual items stored (unlimited)`)
       
       // Clear localStorage visual content
       localStorage.removeItem('rag_visual_content')
@@ -288,7 +285,6 @@ export class UnlimitedRAGStorage {
   // Migration utilities
   async migrateFromLocalStorage(): Promise<{ documentsCount: number; visualCount: number; chatCount: number }> {
     await this.init()
-    console.log('🔄 Starting migration from localStorage to unlimited storage...')
 
     let documentsCount = 0
     let visualCount = 0
@@ -304,7 +300,6 @@ export class UnlimitedRAGStorage {
           documentsCount++
         }
         localStorage.removeItem('rag_documents')
-        console.log(`✅ Migrated ${documentsCount} documents`)
       }
 
       // Migrate visual content
@@ -313,7 +308,6 @@ export class UnlimitedRAGStorage {
         const visualItems = JSON.parse(visualData) as VisualContent[]
         await this.storeVisualContent(visualItems)
         visualCount = visualItems.length
-        console.log(`✅ Migrated ${visualCount} visual items`)
       }
 
       // Migrate chat history
@@ -325,10 +319,8 @@ export class UnlimitedRAGStorage {
           chatCount++
         }
         localStorage.removeItem('chat_history')
-        console.log(`✅ Migrated ${chatCount} chat messages`)
       }
 
-      console.log('🎉 Migration completed successfully!')
       return { documentsCount, visualCount, chatCount }
     } catch (error) {
       console.error('Migration failed:', error)
@@ -354,12 +346,10 @@ export class UnlimitedRAGStorage {
   // Cleanup and optimization
   async optimizeStorage(): Promise<void> {
     await this.init()
-    console.log('🧹 Optimizing unlimited storage...')
 
     // Could implement compression, deduplication, etc.
     // For now, just log the optimization
     const stats = await this.getStorageStats()
-    console.log('Storage optimization completed. Current usage:', {
       indexedDBGB: Math.round(stats.indexedDB.usageGB * 100) / 100,
       localStorageKB: Math.round(stats.localStorage.usageKB)
     })

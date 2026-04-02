@@ -29,7 +29,6 @@ export function ProcessingStats() {
     const loadVisualStats = async () => {
       try {
         const visualContent = await getStoredVisualContent()
-        console.log('📊 Loading visual stats:', visualContent.length, 'items')
         
         const stats = {
           total: visualContent.length,
@@ -46,7 +45,6 @@ export function ProcessingStats() {
           stats.byDocument[docTitle] = (stats.byDocument[docTitle] || 0) + 1
         })
         
-        console.log('📈 Visual stats calculated:', stats)
         setVisualStats(stats)
       } catch (error) {
         console.error('Error loading visual stats:', error)

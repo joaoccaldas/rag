@@ -308,7 +308,6 @@ class MemoryCleanupManager {
     let totalFreed = 0
 
     try {
-      console.log('[MemoryCleanup] Starting memory cleanup...')
 
       for (const target of this.cleanupTargets) {
         if (targetBytes && totalFreed >= targetBytes) {
@@ -318,7 +317,6 @@ class MemoryCleanupManager {
         try {
           const freed = await target.cleanup()
           totalFreed += freed
-          console.log(`[MemoryCleanup] Freed ${freed} bytes from ${target.type}`)
         } catch (error) {
           console.warn(`[MemoryCleanup] Failed to cleanup ${target.type}:`, error)
         }
@@ -329,7 +327,6 @@ class MemoryCleanupManager {
         globalThis.gc()
       }
 
-      console.log(`[MemoryCleanup] Total freed: ${totalFreed} bytes`)
     } finally {
       this.isCleaningUp = false
     }

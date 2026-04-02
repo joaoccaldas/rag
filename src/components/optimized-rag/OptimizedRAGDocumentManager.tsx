@@ -121,7 +121,6 @@ export const OptimizedRAGDocumentManager = React.memo<OptimizedRAGDocumentManage
         }
         break
       default:
-        console.log(`Unknown action: ${action}`)
     }
   }, [filteredDocuments, baseSelection, onDocumentSelect, onDocumentAction])
 

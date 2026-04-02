@@ -83,7 +83,6 @@ const ModularRAGMenu: React.FC<ModularRAGMenuProps> = ({ onViewChange }) => {
       }
       setActiveAction(`${itemId}-${action.id}`)
       
-      console.log(`Menu action executed: ${itemId}-${action.id} -> ${viewCommand}`)
       
       // Store last action for persistence
       if (typeof window !== 'undefined') {
@@ -103,7 +102,6 @@ const ModularRAGMenu: React.FC<ModularRAGMenuProps> = ({ onViewChange }) => {
   }
   
   const toggleSubmenu = (menuId: string): void => {
-    console.log('Toggling submenu:', menuId, 'Current active:', activeSubmenu)
     setActiveSubmenu(activeSubmenu === menuId ? null : menuId)
   }
   

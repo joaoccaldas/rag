@@ -23,7 +23,6 @@ class RAGStorage {
     try {
       // Try to initialize IndexedDB
       await this.initIndexedDB()
-      console.log('RAG Storage: IndexedDB initialized successfully')
     } catch (error) {
       console.warn('RAG Storage: IndexedDB unavailable, using localStorage fallback', error)
     }

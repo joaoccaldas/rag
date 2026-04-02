@@ -40,7 +40,6 @@ export class SemanticCacheWrapper {
       ...config
     }
 
-    console.log('🚀 Semantic Cache Wrapper initialized:', {
       semanticEnabled: this.config.enableSemanticCache,
       legacyEnabled: this.config.useLegacyCache,
       preference: this.config.preferSemanticCache ? 'semantic' : 'legacy'
@@ -61,7 +60,6 @@ export class SemanticCacheWrapper {
       if (this.config.enableSemanticCache && this.config.preferSemanticCache) {
         const semanticResults = await semanticCache.get(query, queryEmbedding)
         if (semanticResults && semanticResults.length > 0) {
-          console.log(`✨ Semantic cache hit (${(performance.now() - startTime).toFixed(2)}ms)`)
           return semanticResults
         }
       }
@@ -73,7 +71,6 @@ export class SemanticCacheWrapper {
           queryEmbedding
         )
         if (legacyResults && legacyResults.length > 0) {
-          console.log(`🔄 Legacy cache hit (${(performance.now() - startTime).toFixed(2)}ms)`)
           
           // Convert legacy results to CacheResult format
           const converted = this.convertLegacyResults(legacyResults)
@@ -91,12 +88,10 @@ export class SemanticCacheWrapper {
       if (this.config.enableSemanticCache && !this.config.preferSemanticCache) {
         const semanticResults = await semanticCache.get(query, queryEmbedding)
         if (semanticResults && semanticResults.length > 0) {
-          console.log(`✨ Semantic cache hit (${(performance.now() - startTime).toFixed(2)}ms)`)
           return semanticResults
         }
       }
 
-      console.log(`❌ Cache miss (${(performance.now() - startTime).toFixed(2)}ms)`)
       return null
 
     } catch (error) {
@@ -137,7 +132,6 @@ export class SemanticCacheWrapper {
         await this.legacyCache.cacheResults(query, queryEmbedding, legacyFormat, 0)
       }
 
-      console.log(`💾 Cached: "${query.substring(0, 50)}..." (${results.length} results)`)
 
     } catch (error) {
       console.error('Cache set error:', error)
@@ -160,7 +154,6 @@ export class SemanticCacheWrapper {
         await this.legacyCache.clearCache()
       }
 
-      console.log('🧹 Invalidated cache for documents:', documentIds)
     } catch (error) {
       console.error('Cache invalidation error:', error)
     }
@@ -179,7 +172,6 @@ export class SemanticCacheWrapper {
         await this.legacyCache.clearCache()
       }
 
-      console.log('🧹 All caches cleared')
     } catch (error) {
       console.error('Cache clear error:', error)
     }
@@ -211,7 +203,6 @@ export class SemanticCacheWrapper {
    */
   updateConfig(config: Partial<SemanticCacheWrapperConfig>): void {
     this.config = { ...this.config, ...config }
-    console.log('⚙️ Cache wrapper config updated:', config)
   }
 
   // ============= Helper Methods =============
@@ -260,7 +251,6 @@ export async function createSemanticCacheWrapper(
     try {
       const { QueryCacheManager } = await import('./query-cache')
       legacyCache = new QueryCacheManager()
-      console.log('✅ Legacy cache imported successfully')
     } catch (error) {
       console.warn('⚠️ Could not import legacy cache:', error)
     }

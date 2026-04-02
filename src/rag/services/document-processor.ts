@@ -97,7 +97,6 @@ export async function processDocument(file: File, documentId: string): Promise<{
   
   const wordCount = content.split(/\s+/).filter(word => word.length > 0).length
 
-  console.log(`Enhanced chunking: ${chunks.length} chunks, avg ${Math.round(chunks.reduce((sum, c) => sum + estimateTokenCount(c.content), 0) / chunks.length)} tokens per chunk`)
 
   return {
     content,
@@ -450,7 +449,6 @@ export async function generateEmbedding(text: string): Promise<number[]> {
     if (response.ok) {
       const data = await response.json()
       if (data.embedding && Array.isArray(data.embedding)) {
-        console.log(`Generated real embedding for text of length ${text.length}`)
         return data.embedding
       }
     }

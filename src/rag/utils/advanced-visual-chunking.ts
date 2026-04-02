@@ -74,7 +74,6 @@ export class AdvancedDocumentChunker {
     visualContent?: VisualContent[]
   ): Promise<ChunkingResult> {
     const startTime = Date.now()
-    console.log(`🔧 Starting advanced chunking for ${document.name}`)
 
     try {
       // Parse document structure
@@ -98,7 +97,6 @@ export class AdvancedDocumentChunker {
       // Generate final metadata
       const metadata = this.generateChunkingMetadata(optimizedChunks, Date.now() - startTime)
       
-      console.log(`✅ Chunking complete: ${optimizedChunks.length} chunks created in ${Date.now() - startTime}ms`)
       
       return {
         chunks: optimizedChunks,

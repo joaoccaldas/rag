@@ -33,7 +33,6 @@ export function SearchInterface() {
       preferSemanticCache: true
     }).then(cache => {
       setSemanticCache(cache)
-      console.log('✅ Semantic cache initialized for search interface')
     }).catch(error => {
       console.error('Failed to initialize semantic cache:', error)
     })
@@ -53,7 +52,6 @@ export function SearchInterface() {
         const cachedResults = await semanticCache.get(queryToSearch, queryEmbedding)
         
         if (cachedResults && cachedResults.length > 0) {
-          console.log(`✨ Search Interface Cache HIT: Found ${cachedResults.length} cached results`)
           setCacheHit(true)
           
           // Convert cached results to SearchResult format
@@ -87,7 +85,6 @@ export function SearchInterface() {
           return
         }
         
-        console.log(`💨 Cache MISS: Performing full search`)
       }
       
       // Cache miss or no cache - perform full search
@@ -110,7 +107,6 @@ export function SearchInterface() {
         
         const documentIds = [...new Set(results.map(r => r.document?.id).filter(Boolean) as string[])]
         await semanticCache.set(queryToSearch, queryEmbedding, cacheResults, documentIds)
-        console.log('💾 Cached search results for future queries')
       }
       
       // Add to search history

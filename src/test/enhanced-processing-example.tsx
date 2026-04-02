@@ -9,7 +9,6 @@ import { ErrorDetails } from '../utils/error-handling'
 
 export function EnhancedProcessingExample() {
   const handleDocumentsProcessed = (documentIds: string[]) => {
-    console.log('✅ Documents processed successfully:', documentIds)
     // Here you would typically:
     // 1. Update your document store
     // 2. Refresh the UI
@@ -74,15 +73,11 @@ export async function programmaticBatchProcessingExample(files: File[]) {
       maxConcurrentJobs: 3
     })
     
-    console.log(`🚀 Batch job ${jobId} submitted`)
     
     // Track progress
     const unsubscribe = batchProcessor.onJobUpdate(jobId, (job) => {
-      console.log(`📊 Job ${job.id} progress: ${job.progress.overallProgress}%`)
       
       if (job.status === 'COMPLETED') {
-        console.log('✅ Batch processing complete!')
-        console.log(`📄 Processed ${job.results.filter(r => r.success).length} files successfully`)
         unsubscribe()
       }
     })

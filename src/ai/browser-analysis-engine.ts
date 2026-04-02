@@ -122,7 +122,6 @@ class BrowserAnalysisEngine {
 
       for (const model of modelsToTry) {
         try {
-          console.log(`🔍 Trying visual analysis with model: ${model}`)
           
           const response = await fetch('/api/ai-analysis', {
             method: 'POST',
@@ -182,7 +181,6 @@ class BrowserAnalysisEngine {
               throw new Error('Invalid analysis data structure')
             }
             
-            console.log(`✅ Successfully parsed analysis from ${model}`)
           } catch (parseError) {
             console.warn(`Failed to parse AI response as JSON from ${model}:`, parseError)
             console.warn('Raw response:', result.response?.substring(0, 200))

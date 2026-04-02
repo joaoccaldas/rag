@@ -44,14 +44,12 @@ export const StorageResetComponent: React.FC<StorageResetComponentProps> = ({
     setResetStats(null)
 
     try {
-      console.log('🧹 Starting full storage reset...')
       const stats = await storageResetManager.resetAllStorage()
       setResetStats(stats)
       
       // Trigger any parent callbacks
       onResetComplete?.()
       
-      console.log('✅ Full reset completed')
       
     } catch (error) {
       console.error('❌ Reset failed:', error)

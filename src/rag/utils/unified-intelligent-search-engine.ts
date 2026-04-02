@@ -93,28 +93,22 @@ export class UnifiedIntelligentSearchEngine {
     this.metrics.totalQueries++
 
     try {
-      console.log(`🔍 Unified Search: "${options.query}"`)
 
       // Step 1: Load documents
       const documents = await this.prepareDocuments(options.documents)
       if (documents.length === 0) {
-        console.log('❌ No documents available for search')
         return []
       }
 
-      console.log(`📚 Search will examine ${documents.length} documents:`)
       documents.forEach((doc, i) => {
-        console.log(`   ${i + 1}. "${doc.name}" (${doc.chunks?.length || 0} chunks)`)
       })
 
       // Step 2: Analyze query
       const analysis = this.analyzeQuery(options.query)
-      console.log(`🧠 Query Analysis:`, analysis)
 
       // Step 3: Execute multi-strategy search
       const results = await this.executeSearch(options.query, analysis, documents, options)
 
-      console.log(`🔍 Raw search results: ${results.length} matches found`)
       
       // Log which documents produced results
       const resultsByDoc = results.reduce((acc, result) => {
@@ -123,7 +117,6 @@ export class UnifiedIntelligentSearchEngine {
         return acc
       }, {} as Record<string, number>)
       
-      console.log('📊 Results by document:', resultsByDoc)
 
       // Step 4: Rank and enhance results
       const rankedResults = this.rankResults(results, analysis, options)
@@ -132,7 +125,6 @@ export class UnifiedIntelligentSearchEngine {
       // Step 5: Update metrics
       this.updateMetrics(startTime)
 
-      console.log(`✅ Search completed: ${enhancedResults.length} final results`)
       return enhancedResults.slice(0, options.limit || 10)
 
     } catch (error) {
@@ -145,7 +137,6 @@ export class UnifiedIntelligentSearchEngine {
 
   private async prepareDocuments(providedDocuments?: Document[]): Promise<Document[]> {
     if (providedDocuments) {
-      console.log(`📚 Unified Search: Received ${providedDocuments.length} documents to search`)
       
       // Log document status for debugging
       const documentStatus = providedDocuments.map(doc => ({
@@ -157,10 +148,8 @@ export class UnifiedIntelligentSearchEngine {
         id: doc.id
       }))
       
-      console.log('📋 Document status overview:', documentStatus)
       
       const readyDocs = providedDocuments.filter(doc => doc.status === 'ready' && doc.chunks)
-      console.log(`✅ ${readyDocs.length} documents are ready for search (have status='ready' and chunks)`)
       
       // Specifically log employee document status
       const employeeDoc = providedDocuments.find(doc => 
@@ -168,7 +157,6 @@ export class UnifiedIntelligentSearchEngine {
       )
       
       if (employeeDoc) {
-        console.log('🎯 Employee document found:', {
           name: employeeDoc.name,
           status: employeeDoc.status,
           hasChunks: !!employeeDoc.chunks,
@@ -184,9 +172,7 @@ export class UnifiedIntelligentSearchEngine {
 
     try {
       const stored = await ragStorage.loadDocuments()
-      console.log(`📚 Unified Search: Loaded ${stored.length} documents from storage`)
       const readyDocs = stored.filter(doc => doc.status === 'ready' && doc.chunks)
-      console.log(`✅ ${readyDocs.length} documents are ready for search from storage`)
       return readyDocs
     } catch (error) {
       console.warn('Failed to load documents:', error)
@@ -397,21 +383,17 @@ export class UnifiedIntelligentSearchEngine {
     let queryEmbedding: number[] = []
     try {
       queryEmbedding = await generateEmbedding(query)
-      console.log(`🧠 Generated query embedding: ${queryEmbedding.length} dimensions`)
     } catch (error) {
       console.warn('Failed to generate embedding, using lexical search only:', error)
     }
 
-    console.log(`🔍 Starting chunk-by-chunk search across ${documents.length} documents...`)
 
     // Search through all documents
     for (const document of documents) {
       if (!document.chunks) {
-        console.log(`⚠️ Document "${document.name}" has no chunks, skipping`)
         continue
       }
 
-      console.log(`📄 Searching document "${document.name}" with ${document.chunks.length} chunks`)
       
       let documentResults = 0
       for (const chunk of document.chunks) {
@@ -430,10 +412,8 @@ export class UnifiedIntelligentSearchEngine {
         }
       }
       
-      console.log(`   ✅ Found ${documentResults} matches in "${document.name}"`)
     }
 
-    console.log(`🎯 Total search results across all documents: ${results.length}`)
     return results
   }
 
@@ -1166,7 +1146,6 @@ export class UnifiedIntelligentSearchEngine {
 
   async recordFeedback(query: string, documentId: string, rating: number): Promise<void> {
     // Implementation for user feedback
-    console.log(`📝 Feedback recorded: ${rating} for query "${query}" on document ${documentId}`)
   }
 }
 

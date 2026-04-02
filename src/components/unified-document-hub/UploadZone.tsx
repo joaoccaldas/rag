@@ -68,7 +68,6 @@ export function UploadZone({
     const isExtensionAllowed = fileExtension && allowedTypes.includes(`.${fileExtension}`)
     
     if (!isMimeTypeAllowed && !isExtensionAllowed) {
-      console.log(`File validation failed for "${file.name}":`, {
         fileName: file.name,
         fileType: file.type,
         extension: fileExtension,

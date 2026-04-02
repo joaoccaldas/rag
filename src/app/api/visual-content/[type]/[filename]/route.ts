@@ -66,7 +66,6 @@ export async function GET(
         },
       })
     } catch (fileSystemError) {
-      console.log(`File not found in file system: ${filename}, trying localStorage fallback`)
       
       // Fallback: Try to reconstruct from localStorage
       // This is a server-side fallback that redirects to a client-side generated blob URL

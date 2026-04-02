@@ -47,7 +47,6 @@ export class ChromaVectorDatabase extends BaseVectorDatabase {
       // this.client = new ChromaClient({ path: this.config.connectionString })
       
       // For now, we'll simulate the initialization
-      console.log('🚀 Initializing Chroma Vector Database...')
       
       if (!this.config.collectionName) {
         throw new Error('Collection name is required for Chroma')
@@ -59,7 +58,6 @@ export class ChromaVectorDatabase extends BaseVectorDatabase {
       //   metadata: { description: 'Miele RAG vectors' }
       // })
       
-      console.log('✅ Chroma Vector Database initialized')
     } catch (error) {
       console.error('❌ Failed to initialize Chroma:', error)
       throw new Error(`Chroma initialization failed: ${error}`)
@@ -85,7 +83,6 @@ export class ChromaVectorDatabase extends BaseVectorDatabase {
       }))
       
       await this.collection.add(texts, embeddings, metadatas, ids)
-      console.log(`✅ Added ${documents.length} documents to Chroma`)
     } catch (error) {
       console.error('❌ Failed to add documents to Chroma:', error)
       throw error
@@ -148,7 +145,6 @@ export class ChromaVectorDatabase extends BaseVectorDatabase {
     
     try {
       await this.collection.delete([id])
-      console.log(`✅ Deleted document ${id} from Chroma`)
     } catch (error) {
       console.error('❌ Failed to delete document from Chroma:', error)
       throw error
@@ -176,7 +172,6 @@ export class ChromaVectorDatabase extends BaseVectorDatabase {
         [document.embedding],
         [metadata]
       )
-      console.log(`✅ Updated document ${document.id} in Chroma`)
     } catch (error) {
       console.error('❌ Failed to update document in Chroma:', error)
       throw error
@@ -202,7 +197,6 @@ export class ChromaVectorDatabase extends BaseVectorDatabase {
     // Chroma client doesn't require explicit closing in most cases
     this.client = null
     this.collection = null
-    console.log('✅ Chroma connection closed')
   }
 
   private extractRelevantText(content: string, maxLength: number): string {

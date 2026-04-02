@@ -103,7 +103,6 @@ export class AdvancedRAGEngine {
       const finalResults = await this.assessSourceReliability(rerankedResults)
 
       const endTime = Date.now()
-      console.log(`✅ Advanced RAG completed in ${endTime - startTime}ms with ${finalResults.length} results`)
 
       return finalResults
 

@@ -567,11 +567,9 @@ export const OptimizedSearchInterface = React.memo<OptimizedSearchInterfaceProps
   const [showFilters, setShowFilters] = useState(false)
 
   const handleSearch = useStableCallback((query: string) => {
-    console.log('Search performed:', query)
   })
 
   const handleSuggestionSelect = useStableCallback((suggestion: string) => {
-    console.log('Suggestion selected:', suggestion)
   })
 
   const handleResultClick = useStableCallback((result: SearchResult) => {

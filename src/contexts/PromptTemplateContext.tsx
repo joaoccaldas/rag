@@ -358,7 +358,6 @@ export function PromptTemplateProvider({ children }: PromptTemplateProviderProps
         }))
 
         setTemplates(prev => [...prev, ...importedTemplates])
-        console.log(`Imported ${importedTemplates.length} prompt templates`)
       } else {
         throw new Error('Invalid template format')
       }

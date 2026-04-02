@@ -111,7 +111,6 @@ export class EnhancedErrorBoundary extends Component<ErrorBoundaryProps, ErrorSt
       retryCount: this.state.retryCount
     }
 
-    console.log('📊 Error Report:', errorReport)
     
     // You could send to services like Sentry, LogRocket, etc.
     // window.errorTracker?.captureException(error, errorReport)
@@ -125,7 +124,6 @@ export class EnhancedErrorBoundary extends Component<ErrorBoundaryProps, ErrorSt
       return
     }
 
-    console.log(`🔄 Retrying ${this.props.feature} (attempt ${this.state.retryCount + 1}/${maxRetries})`)
     
     this.setState(prevState => ({
       hasError: false,

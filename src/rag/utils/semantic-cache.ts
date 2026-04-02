@@ -140,7 +140,6 @@ export class SemanticCacheManager {
       if (l1Result) {
         this.stats.l1Hits++
         this.updateStats(performance.now() - startTime)
-        console.log('⚡ L1 Cache HIT:', query.substring(0, 50))
         return l1Result
       }
 
@@ -151,14 +150,12 @@ export class SemanticCacheManager {
         // Promote to L1 for faster access next time
         await this.promoteToL1(query, queryEmbedding, l2Result)
         this.updateStats(performance.now() - startTime)
-        console.log('💾 L2 Cache HIT:', query.substring(0, 50))
         return l2Result
       }
 
       // Step 3: Cache miss
       this.stats.misses++
       this.updateStats(performance.now() - startTime)
-      console.log('❌ Cache MISS:', query.substring(0, 50))
       return null
 
     } catch (error) {
@@ -200,7 +197,6 @@ export class SemanticCacheManager {
     // Store in L2
     await this.addToL2(entry)
 
-    console.log('💾 Cached:', query.substring(0, 50), `(${results.length} results)`)
   }
 
   /**
@@ -225,7 +221,6 @@ export class SemanticCacheManager {
       if (similarity >= this.config.semanticThreshold) {
         entry.metadata.hits++
         entry.metadata.lastAccessed = Date.now()
-        console.log(`🎯 Semantic match: "${query}" ≈ "${entry.query}" (${(similarity * 100).toFixed(1)}%)`)
         return entry.results
       }
     }
@@ -259,7 +254,6 @@ export class SemanticCacheManager {
                 lastAccessed: Date.now()
               })
               
-              console.log(`🎯 L2 Semantic match: "${query}" ≈ "${entry.query}" (${(similarity * 100).toFixed(1)}%)`)
               resolve(entry.results)
               return
             }
@@ -350,7 +344,6 @@ export class SemanticCacheManager {
   async invalidateByDocuments(documentIds: string[]): Promise<void> {
     if (!this.config.invalidateOnUpdate) return
 
-    console.log(`🧹 Invalidating cache for documents:`, documentIds)
 
     // Invalidate L1
     for (const [key, entry] of this.l1Cache) {
@@ -407,7 +400,6 @@ export class SemanticCacheManager {
       cacheSize: { l1: 0, l2: 0 }
     }
 
-    console.log('🧹 Semantic cache cleared')
   }
 
   /**
@@ -422,7 +414,6 @@ export class SemanticCacheManager {
    */
   updateConfig(config: Partial<SemanticCacheConfig>): void {
     this.config = { ...this.config, ...config }
-    console.log('⚙️ Semantic cache config updated:', config)
   }
 
   // ============= Helper Methods =============
@@ -532,25 +523,27 @@ export class SemanticCacheManager {
   }
 
   private findOrCreateCluster(): string {
-    // Simple clustering: find closest existing cluster or create new one
-    let bestCluster: string | null = null
-    let bestSimilarity = 0
+    // Deterministic clustering: assign to the smallest existing cluster
+    // to maintain balanced distribution, or create a new one if all
+    // clusters exceed the target size.
+    const MAX_CLUSTER_SIZE = 50
+    let smallestCluster: string | null = null
+    let smallestSize = Infinity
 
-    for (const [clusterId] of this.queryClusters) {
-      // Get average embedding of cluster (simplified - placeholder for future enhancement)
-      const similarity = Math.random() * 0.3 + 0.7 // TODO: Implement proper semantic clustering
-      if (similarity > bestSimilarity && similarity > 0.9) {
-        bestSimilarity = similarity
-        bestCluster = clusterId
+    for (const [clusterId, entries] of this.queryClusters) {
+      if (entries.size < smallestSize) {
+        smallestSize = entries.size
+        smallestCluster = clusterId
       }
     }
 
-    if (bestCluster) {
-      return bestCluster
+    // Use existing cluster if it has room
+    if (smallestCluster && smallestSize < MAX_CLUSTER_SIZE) {
+      return smallestCluster
     }
 
-    // Create new cluster
-    const newClusterId = `cluster_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+    // Create new cluster with unique deterministic ID
+    const newClusterId = `cluster_${Date.now()}_${this.queryClusters.size}`
     this.queryClusters.set(newClusterId, new Set())
     return newClusterId
   }

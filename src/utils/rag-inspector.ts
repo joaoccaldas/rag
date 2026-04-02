@@ -150,25 +150,14 @@ export class RAGContentInspector {
 
   static logReport(report: RAGInspectionReport): void {
     console.group('🔍 RAG INSPECTION REPORT')
-    console.log('📊 Quality Score:', `${report.qualityScore.toFixed(1)}/100`)
     
     console.group('🎯 Query Analysis')
-    console.log('Query:', report.queryAnalysis.originalQuery)
-    console.log('Key Terms:', report.queryAnalysis.keyTerms)
-    console.log('Expected Entities:', report.queryAnalysis.expectedEntities)
     console.groupEnd()
     
     console.group('🔍 Search Results')
-    console.log('Total Found:', report.searchResults.totalFound)
-    console.log('Average Score:', report.searchResults.averageScore.toFixed(3))
-    console.log('Top Documents:', report.searchResults.topDocuments)
     console.groupEnd()
     
     console.group('📝 Content Analysis')
-    console.log('Total Words:', report.contentAnalysis.totalWords)
-    console.log('Contains Specific Info:', report.contentAnalysis.containsSpecificInfo)
-    console.log('Missing Key Terms:', report.contentAnalysis.missingKeyTerms)
-    console.log('Relevant Sentences:', report.contentAnalysis.relevantSentences)
     console.groupEnd()
     
     if (report.recommendations.length > 0) {

@@ -37,8 +37,6 @@ export class FeedbackEnhancedSearch {
     try {
       const sourceScores = this.getSourceRelevanceScores()
       
-      console.log('🔄 Applying feedback-based scoring to search results...')
-      console.log(`📊 Found ${Object.keys(sourceScores).length} sources with feedback scores`)
       
       const enhancedResults = searchResults.map(result => {
         const key = `${result.document.id}:${result.chunk.id}`
@@ -63,7 +61,6 @@ export class FeedbackEnhancedSearch {
           // Ensure realistic bounds - never exceed 0.95 or go below 0.05
           adjustedSimilarity = Math.max(0.05, Math.min(0.95, adjustedSimilarity))
           
-          console.log(`📈 Feedback adjustment for "${result.document.name}":`, {
             chunkPreview: result.chunk.content.substring(0, 50) + '...',
             originalScore: originalSimilarity.toFixed(3),
             boost: feedbackScore.relevanceBoost.toFixed(3),
@@ -89,7 +86,6 @@ export class FeedbackEnhancedSearch {
       // Re-sort by adjusted similarity scores
       const sortedResults = enhancedResults.sort((a, b) => b.similarity - a.similarity)
       
-      console.log('✅ Feedback scoring applied successfully')
       return sortedResults
       
     } catch (error) {
@@ -110,7 +106,6 @@ export class FeedbackEnhancedSearch {
     comment: string = ''
   ): Promise<void> {
     try {
-      console.log('💾 Storing feedback for query optimization...')
       
       // Create feedback entry
       const feedbackEntry: FeedbackAnalytics = {
@@ -142,7 +137,6 @@ export class FeedbackEnhancedSearch {
       // Update source relevance scores
       await this.updateSourceScores(sources, rating, score)
       
-      console.log('✅ Feedback stored successfully')
       
     } catch (error) {
       console.error('❌ Error storing feedback:', error)
@@ -281,7 +275,6 @@ export class FeedbackEnhancedSearch {
         current.relevanceBoost = Math.max(-0.2, Math.min(0.3, current.avgScore * 0.3))
         current.lastUpdated = new Date().toISOString()
         
-        console.log(`📊 Updated feedback scores for "${source.document.name}":`, {
           chunkPreview: source.chunk.content.substring(0, 50) + '...',
           avgScore: current.avgScore.toFixed(3),
           relevanceBoost: current.relevanceBoost.toFixed(3),
@@ -327,7 +320,6 @@ export class FeedbackEnhancedSearch {
     try {
       localStorage.removeItem(this.STORAGE_KEY_SCORES)
       localStorage.removeItem(this.STORAGE_KEY_ANALYTICS)
-      console.log('✅ All feedback data cleared')
     } catch (error) {
       console.error('❌ Error clearing feedback data:', error)
     }

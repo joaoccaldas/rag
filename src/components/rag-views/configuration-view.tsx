@@ -89,7 +89,6 @@ export const ConfigurationView: React.FC<ConfigurationViewProps> = ({ actionCont
     // Save settings to localStorage
     localStorage.setItem('rag-settings', JSON.stringify(settings))
     setHasChanges(false)
-    console.log('Settings saved:', settings)
   }
 
   const resetToDefaults = () => {

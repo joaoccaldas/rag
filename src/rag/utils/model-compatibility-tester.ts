@@ -34,7 +34,6 @@ export class ModelCompatibilityTester {
 
     try {
       // 1. Test model availability
-      console.log('🔍 Testing GPT-OSS model availability...')
       const availabilityTest = await this.testModelAvailability('gpt-oss:20b')
       result.available = availabilityTest.available
       
@@ -45,7 +44,6 @@ export class ModelCompatibilityTester {
       }
 
       // 2. Test basic chat functionality
-      console.log('💬 Testing chat functionality...')
       const chatTest = await this.testChatFunctionality('gpt-oss:20b')
       if (!chatTest.success) {
         result.issues.push(`Chat test failed: ${chatTest.error}`)
@@ -53,14 +51,12 @@ export class ModelCompatibilityTester {
       }
 
       // 3. Test AI analysis capability
-      console.log('🧠 Testing AI analysis capability...')
       const analysisTest = await this.testAIAnalysisCapability('gpt-oss:20b')
       if (!analysisTest.success) {
         result.issues.push(`Analysis test failed: ${analysisTest.error}`)
       }
 
       // 4. Test embedding compatibility
-      console.log('🔗 Testing embedding compatibility...')
       const embeddingTest = await this.testEmbeddingCompatibility()
       if (!embeddingTest.success) {
         result.issues.push(`Embedding compatibility issue: ${embeddingTest.error}`)
@@ -68,7 +64,6 @@ export class ModelCompatibilityTester {
       }
 
       // 5. Performance evaluation
-      console.log('⚡ Evaluating performance...')
       const performanceTest = await this.evaluatePerformance('gpt-oss:20b')
       result.performance = performanceTest
 
@@ -78,7 +73,6 @@ export class ModelCompatibilityTester {
       )
 
       if (result.compatible) {
-        console.log('✅ GPT-OSS model is fully compatible!')
         result.recommendations.push('GPT-OSS 20B is excellent for analysis and reasoning tasks')
         result.recommendations.push('Consider using GPU acceleration for better performance')
       }
@@ -339,23 +333,15 @@ Please respond in JSON format with fields: summary, keywords, sentiment.`
    * Run comprehensive compatibility test
    */
   async runFullCompatibilityTest(): Promise<ModelTestResult> {
-    console.log('🚀 Running comprehensive GPT-OSS compatibility test...')
     
     const result = await this.testGPTOSSCompatibility()
     
-    console.log('\n📊 Compatibility Test Results:')
-    console.log(`Model: ${result.model}`)
-    console.log(`Available: ${result.available ? '✅' : '❌'}`)
-    console.log(`Compatible: ${result.compatible ? '✅' : '❌'}`)
-    console.log(`Performance: ${result.performance.quality} (${result.performance.responseTime}ms avg)`)
     
     if (result.issues.length > 0) {
-      console.log('\n⚠️ Issues found:')
       result.issues.forEach(issue => console.log(`  - ${issue}`))
     }
     
     if (result.recommendations.length > 0) {
-      console.log('\n💡 Recommendations:')
       result.recommendations.forEach(rec => console.log(`  - ${rec}`))
     }
     

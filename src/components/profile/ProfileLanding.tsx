@@ -59,19 +59,14 @@ export default function ProfileLanding({ onProfileSelect, onCreateNew, onEditPro
   }
 
   const handleProfileSelect = (profile: ChatbotProfile) => {
-    console.log('🎯 ProfileLanding: handleProfileSelect called with:', profile.name)
-    console.log('🔧 ProfileLanding: Setting active profile...')
     profileManager.setActiveProfile(profile.id)
     profileManager.updateAnalytics(profile.id, {
       lastUsed: new Date().toISOString()
     })
-    console.log('📞 ProfileLanding: Calling onProfileSelect callback...')
     onProfileSelect(profile)
-    console.log('✅ ProfileLanding: handleProfileSelect completed')
   }
 
   const handleCreateFromTemplate = (template: ProfileTemplate) => {
-    console.log('🎨 ProfileLanding: Creating profile from template:', template.name)
     
     // Check if a profile with this template already exists
     const existingProfile = profiles.find(p => 
@@ -82,17 +77,13 @@ export default function ProfileLanding({ onProfileSelect, onCreateNew, onEditPro
     )
     
     if (existingProfile) {
-      console.log('🔄 ProfileLanding: Using existing profile instead of creating duplicate:', existingProfile.name)
       handleProfileSelect(existingProfile)
       return
     }
     
-    console.log('🔧 ProfileLanding: Calling profileManager.createFromTemplate...')
     const newProfile = profileManager.createFromTemplate(template.id)
     if (newProfile) {
-      console.log('✅ ProfileLanding: Profile created successfully:', newProfile.name)
       loadProfiles()
-      console.log('📞 ProfileLanding: Calling handleProfileSelect for new profile...')
       handleProfileSelect(newProfile)
     } else {
       console.error('❌ ProfileLanding: Failed to create profile from template')

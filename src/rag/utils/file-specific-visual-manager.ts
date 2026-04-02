@@ -108,7 +108,6 @@ export class FileSpecificVisualManager {
     // Persist changes
     this.persistData()
 
-    console.log(`📁 Added ${visualContent.length} visual items to file: ${document.name}`)
   }
 
   /**
@@ -244,7 +243,6 @@ export class FileSpecificVisualManager {
     this.visualGroups.delete(documentId)
     this.persistData()
 
-    console.log(`🗑️ Removed visual content for file: ${group.documentName}`)
     return true
   }
 

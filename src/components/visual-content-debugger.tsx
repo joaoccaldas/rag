@@ -97,7 +97,6 @@ const VisualContentDebugger: React.FC = () => {
     setDebugInfo(logs)
     
     // Log to console as well
-    console.log('🔍 Visual Content Debugger Initialized:')
     logs.forEach(log => console.log(log))
     
   }, [])

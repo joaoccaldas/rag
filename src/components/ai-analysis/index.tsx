@@ -6,7 +6,6 @@ import { AIAnalysisData } from '../../rag/types'
 // Type guard to detect unified prompt format
 function isUnifiedAIAnalysis(data: AIAnalysisData): boolean {
   // Debug logging
-  console.log('🔍 AI Analysis Data Check:', {
     hasMainMessages: !!data.mainMessages,
     hasMainNumbers: !!data.mainNumbers,
     hasMainAnalysis: !!data.mainAnalysis,
@@ -67,7 +66,6 @@ export const SmartAIAnalysisSection: React.FC<SmartAIAnalysisSectionProps> = ({
           analyzedAt: aiAnalysis.analyzedAt,
           model: parsed.model || aiAnalysis.model
         }
-        console.log('✅ Extracted unified data from summary field:', processedAnalysis)
       }
     } catch (error) {
       console.warn('⚠️ Failed to parse JSON from summary:', error)
@@ -76,7 +74,6 @@ export const SmartAIAnalysisSection: React.FC<SmartAIAnalysisSectionProps> = ({
 
   // Route to appropriate component based on data structure
   if (isUnifiedAIAnalysis(processedAnalysis)) {
-    console.log('🎨 Using UnifiedAIAnalysisSection')
     return (
       <UnifiedAIAnalysisSection
         aiAnalysis={processedAnalysis}
@@ -86,7 +83,6 @@ export const SmartAIAnalysisSection: React.FC<SmartAIAnalysisSectionProps> = ({
     )
   }
 
-  console.log('📄 Using legacy AIAnalysisSection')
   // Fallback to legacy component
   return (
     <AIAnalysisSection

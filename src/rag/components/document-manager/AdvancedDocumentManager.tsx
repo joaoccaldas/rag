@@ -127,23 +127,19 @@ export const AdvancedDocumentManager: React.FC = () => {
   // Drag and drop functionality with real upload processing
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     try {
-      console.log(`📁 Processing ${acceptedFiles.length} files for upload`)
       
       // Process each file through the proper upload pipeline
       for (let i = 0; i < acceptedFiles.length; i++) {
         const file = acceptedFiles[i]
         
-        console.log(`🔄 Processing file ${i + 1}/${acceptedFiles.length}: ${file.name}`)
         
         // Process document and add to state when ready
         await processDocument(file, (document) => {
-          console.log(`✅ Document processed and ready: ${document.name}`)
           addDocument(document)
         })
       }
       
       // Refresh document list to ensure UI is up to date
-      console.log('🔄 Refreshing document list after upload completion')
       await refreshDocuments()
       
     } catch (error) {

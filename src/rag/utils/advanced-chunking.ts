@@ -64,7 +64,6 @@ export class AdvancedChunker {
     documentId: string,
     metadata: { title?: string; type?: string } = {}
   ): Promise<SemanticChunk[]> {
-    console.log(`🔄 Starting advanced chunking for document ${documentId}`)
     
     switch (this.config.chunkingStrategy) {
       case 'semantic':
@@ -98,7 +97,6 @@ export class AdvancedChunker {
     // Apply overlap between chunks for better context
     const chunksWithOverlap = this.applyIntelligentOverlap(chunks)
     
-    console.log(`✅ Created ${chunksWithOverlap.length} semantic chunks with overlap`)
     return chunksWithOverlap
   }
 
@@ -240,7 +238,6 @@ export class AdvancedChunker {
   ): Promise<SemanticChunk[]> {
     // Use metadata for future enhancements like type-specific processing
     const documentType = metadata.type || 'unknown'
-    console.log(`Processing section for document type: ${documentType}`)
     
     const sectionTokens = this.estimateTokenCount(section)
     

@@ -302,7 +302,6 @@ class DocumentIndexer {
   private async updateSearchIndex(document: Document): Promise<void> {
     // Mock implementation - would update actual search index
     await new Promise(resolve => setTimeout(resolve, 100))
-    console.log(`[DocumentIndexer] Updated search index for document ${document.id}`)
   }
 }
 
@@ -629,7 +628,6 @@ export class BackgroundProcessor {
     setInterval(() => {
       const cleaned = this.cleanup()
       if (cleaned > 0) {
-        console.log(`[BackgroundProcessor] Cleaned up ${cleaned} completed tasks`)
       }
     }, 300000) // Every 5 minutes
   }

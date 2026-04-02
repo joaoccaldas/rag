@@ -36,7 +36,6 @@ Please provide a JSON response with the following structure:
 
 Focus on extracting actionable metadata. Be precise and specific.`
 
-      console.log('🔄 Testing AI analysis with prompt:', prompt.substring(0, 200) + '...')
 
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -54,14 +53,12 @@ Focus on extracting actionable metadata. Be precise and specific.`
         }),
       })
 
-      console.log('📡 API Response status:', response.status)
 
       if (!response.ok) {
         throw new Error(`AI analysis failed: ${response.statusText}`)
       }
 
       const result = await response.json()
-      console.log('📊 Raw API result:', result)
       
       // Try to parse JSON from the response
       try {

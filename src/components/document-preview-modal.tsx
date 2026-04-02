@@ -261,7 +261,6 @@ export default function DocumentPreviewModal({ documentId, isOpen, onClose }: Do
                         <button
                           onClick={() => {
                             // Could implement full visual content viewer here
-                            console.log('Open full visual content viewer')
                           }}
                           className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
                         >

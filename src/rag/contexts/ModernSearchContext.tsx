@@ -142,7 +142,6 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
     }))
 
     try {
-      console.log(`🔍 ModernSearchContext: Starting search for "${trimmedQuery}"`)
 
       // Execute intelligent search
       const searchResults = await intelligentSearch(trimmedQuery, {
@@ -190,14 +189,12 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
         error: null
       }))
 
-      console.log(`✅ Search completed: ${filteredResults.length} results in ${searchTime}ms`)
       return filteredResults
 
     } catch (error: unknown) {
       const searchTime = Date.now() - startTime
       
       if (error instanceof Error && error.name === 'AbortError') {
-        console.log('🚫 Search aborted')
         return []
       }
 
@@ -252,7 +249,6 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
       const result = searchState.results.find(r => r.id === resultId)
       if (result && result.document) {
         await recordSearchFeedback(searchState.query, result.document.id, rating)
-        console.log(`📝 Feedback recorded: ${rating} for result ${resultId}`)
       }
     } catch (error) {
       console.error('Failed to record feedback:', error)

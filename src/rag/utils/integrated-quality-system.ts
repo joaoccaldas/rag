@@ -30,7 +30,6 @@ export class IntegratedQualitySystem {
       this.config = { ...this.config, ...config }
     }
     
-    console.log('🚀 Integrated Quality System initialized with:', this.config)
   }
 
   /**
@@ -42,7 +41,6 @@ export class IntegratedQualitySystem {
     originalResults: SearchResult[],
     userId?: string
   ): Promise<SearchResult[]> {
-    console.log('🔍 Starting enhanced search with quality improvements...')
 
     // Record search interaction for analytics
     if (this.config.enableUsageAnalytics) {
@@ -63,7 +61,6 @@ export class IntegratedQualitySystem {
     if (this.config.enableQueryEnhancement) {
       try {
         enhancedResults = await enhancedSearch(query, documents, enhancedResults)
-        console.log(`✅ Query enhancement: ${originalResults.length} → ${enhancedResults.length} results`)
       } catch (error) {
         console.warn('⚠️ Query enhancement failed:', error)
       }
@@ -73,7 +70,6 @@ export class IntegratedQualitySystem {
     if (this.config.enableFeedbackLearning) {
       try {
         enhancedResults = feedbackLearner.applyLearningToResults(query, enhancedResults)
-        console.log('✅ Feedback learning applied to results')
       } catch (error) {
         console.warn('⚠️ Feedback learning failed:', error)
       }
@@ -107,7 +103,6 @@ export class IntegratedQualitySystem {
     llmSummary?: unknown
     error?: string
   }> {
-    console.log('📄 Processing document upload with quality improvements...')
 
     const startTime = Date.now()
     let result: {
@@ -141,7 +136,6 @@ export class IntegratedQualitySystem {
             document.visualContent
           )
           visualContent = document.visualContent
-          console.log(`✅ Visual content organized: ${document.visualContent.length} items`)
         } catch (error) {
           console.warn('⚠️ Visual content management failed:', error)
         }
@@ -156,7 +150,6 @@ export class IntegratedQualitySystem {
             contentType: 'document',
             existingKeywords: document.metadata?.tags
           })
-          console.log(`✅ LLM summary generated with ${llmSummary.confidence}% confidence`)
         } catch (error) {
           console.warn('⚠️ LLM summarization failed:', error)
         }
@@ -215,7 +208,6 @@ export class IntegratedQualitySystem {
     explanation?: string,
     userId?: string
   ): Promise<void> {
-    console.log('👍 Recording user feedback for quality improvement...')
 
     // 1. Record feedback for adaptive learning
     if (this.config.enableFeedbackLearning) {
@@ -234,7 +226,6 @@ export class IntegratedQualitySystem {
             totalResults: 1 // Would need to be passed from calling context
           }
         })
-        console.log('✅ Feedback recorded for adaptive learning')
       } catch (error) {
         console.warn('⚠️ Feedback recording failed:', error)
       }
@@ -332,7 +323,6 @@ export class IntegratedQualitySystem {
    * Get system quality report
    */
   async getQualityReport() {
-    console.log('📊 Generating system quality report...')
 
     const report = {
       timestamp: new Date(),
@@ -419,7 +409,6 @@ export class IntegratedQualitySystem {
       report.recommendations.push('System operational but has room for improvement')
     }
 
-    console.log(`✅ Quality report generated - Overall score: ${(overallQuality * 100).toFixed(1)}%`)
 
     return report
   }
@@ -429,7 +418,6 @@ export class IntegratedQualitySystem {
    */
   updateConfig(newConfig: Partial<QualityImprovementConfig>): void {
     this.config = { ...this.config, ...newConfig }
-    console.log('⚙️ Quality system configuration updated:', this.config)
   }
 
   /**

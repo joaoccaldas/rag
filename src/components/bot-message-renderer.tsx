@@ -7,6 +7,7 @@ import UserFeedback from './user-feedback'
 import VisualContentRenderer from './enhanced-visual-content-renderer'
 import { getVisualContentByIds, extractVisualReferences } from '../rag/utils/visual-content-storage'
 import { VisualContent } from '../rag/types'
+import { sanitizeHTML } from '../utils/sanitize'
 
 interface BotMessageRendererProps {
   content: string
@@ -129,7 +130,7 @@ export function BotMessageRenderer({ content, messageId, source, searchUrl, ragS
               <ul key={index} className="list-disc list-inside ml-4 space-y-1">
                 <li className="text-gray-700 dark:text-gray-300 leading-relaxed">
                   <span dangerouslySetInnerHTML={{ 
-                    __html: formatInlineText(paragraph.replace(/^[-•]\s*/, '')) 
+                    __html: sanitizeHTML(formatInlineText(paragraph.replace(/^[-•]\s*/, ''))) 
                   }} />
                 </li>
               </ul>
@@ -142,7 +143,7 @@ export function BotMessageRenderer({ content, messageId, source, searchUrl, ragS
               <ol key={index} className="list-decimal list-inside ml-4 space-y-1">
                 <li className="text-gray-700 dark:text-gray-300 leading-relaxed">
                   <span dangerouslySetInnerHTML={{ 
-                    __html: formatInlineText(paragraph.replace(/^\d+\.\s+/, '')) 
+                    __html: sanitizeHTML(formatInlineText(paragraph.replace(/^\d+\.\s+/, ''))) 
                   }} />
                 </li>
               </ol>
@@ -154,7 +155,7 @@ export function BotMessageRenderer({ content, messageId, source, searchUrl, ragS
             return (
               <blockquote key={index} className="border-l-4 border-blue-500 bg-blue-50 dark:bg-blue-900/20 pl-4 py-2 my-3 italic">
                 <span className="text-gray-700 dark:text-gray-300" dangerouslySetInnerHTML={{ 
-                  __html: formatInlineText(paragraph.replace(/^>\s*/, '')) 
+                  __html: sanitizeHTML(formatInlineText(paragraph.replace(/^>\s*/, ''))) 
                 }} />
               </blockquote>
             )
@@ -163,7 +164,7 @@ export function BotMessageRenderer({ content, messageId, source, searchUrl, ragS
           // Regular paragraphs
           return (
             <p key={index} className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3 last:mb-0">
-              <span dangerouslySetInnerHTML={{ __html: formatInlineText(paragraph) }} />
+              <span dangerouslySetInnerHTML={{ __html: sanitizeHTML(formatInlineText(paragraph)) }} />
             </p>
           )
         })}
@@ -267,7 +268,6 @@ export function BotMessageRenderer({ content, messageId, source, searchUrl, ragS
             chunkId: source.chunkId || source.documentId // fallback to documentId if chunkId not available
           }))}
           onFeedback={(feedback) => {
-            console.log('Feedback received for message:', feedback)
             // Additional feedback handling can be added here
           }}
           className="border-t border-gray-100 dark:border-gray-700 pt-3 mt-3"

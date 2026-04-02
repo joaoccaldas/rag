@@ -47,7 +47,6 @@ export const WebWorkersDemo: React.FC = () => {
           chunkOverlap: 200
         },
         (progress, message, stage) => {
-          console.log(`Document Processing: ${stage} - ${progress}% - ${message}`)
         }
       )
       
@@ -94,7 +93,6 @@ export const WebWorkersDemo: React.FC = () => {
           batchSize: 2
         },
         (progress, message) => {
-          console.log(`Vector Processing: ${progress}% - ${message}`)
         }
       )
       

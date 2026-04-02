@@ -15,7 +15,6 @@ export function useActiveProfile() {
     const loadActiveProfile = () => {
       try {
         const profile = profileManager.getActiveProfile()
-        console.log('🔄 useActiveProfile: Loading profile:', profile?.name || 'None')
         setActiveProfile(profile)
       } catch (error) {
         console.error('Failed to load active profile:', error)

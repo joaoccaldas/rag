@@ -14,7 +14,6 @@ import { EnhancedDocumentProcessor } from '../rag/utils/enhanced-visual-integrat
  * document processing pipeline seamlessly.
  */
 export async function processDocumentWithEnhancedAnalysis(document: Document): Promise<Document> {
-  console.log(`🚀 Starting enhanced document processing for: ${document.name}`)
   
   try {
     // Initialize enhanced processor
@@ -26,8 +25,6 @@ export async function processDocumentWithEnhancedAnalysis(document: Document): P
     // Process with enhanced visual analysis
     const enhancedDocument = await processor.processDocument(document)
     
-    console.log(`✅ Enhanced processing complete for: ${document.name}`)
-    console.log(`📊 Analysis results:`, {
       totalElements: enhancedDocument.metadata?.enhancedVisualAnalysis?.totalElements || 0,
       primaryTypes: enhancedDocument.metadata?.enhancedVisualAnalysis?.primaryVisualTypes || [],
       density: enhancedDocument.metadata?.enhancedVisualAnalysis?.visualContentDensity || 'unknown',
@@ -46,7 +43,6 @@ export async function processDocumentWithEnhancedAnalysis(document: Document): P
  * Batch process multiple documents with enhanced analysis
  */
 export async function batchProcessDocumentsWithEnhancedAnalysis(documents: Document[]): Promise<Document[]> {
-  console.log(`🔄 Starting batch enhanced processing for ${documents.length} documents`)
   
   const processor = new EnhancedDocumentProcessor({
     aiModel: 'llama3:latest',
@@ -55,7 +51,6 @@ export async function batchProcessDocumentsWithEnhancedAnalysis(documents: Docum
   
   const results = await processor.batchProcessDocuments(documents)
   
-  console.log(`✅ Batch processing complete: ${results.length} documents processed`)
   return results
 }
 
@@ -63,7 +58,6 @@ export async function batchProcessDocumentsWithEnhancedAnalysis(documents: Docum
  * Test function to validate enhanced visual analysis
  */
 export async function testEnhancedVisualAnalysis() {
-  console.log('🧪 Testing Enhanced Visual Analysis System')
   
   // Create test document with visual content patterns
   const testDocument: Document = {
@@ -115,8 +109,6 @@ export async function testEnhancedVisualAnalysis() {
     // Process with enhanced analysis
     const enhancedDoc = await processDocumentWithEnhancedAnalysis(testDocument)
     
-    console.log('✅ Test completed successfully!')
-    console.log('📊 Test results:', {
       originalContent: testDocument.content.length,
       enhancedMetadata: enhancedDoc.metadata?.enhancedVisualAnalysis,
       visualContentCount: enhancedDoc.visualContent?.length || 0

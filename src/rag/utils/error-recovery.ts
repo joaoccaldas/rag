@@ -200,7 +200,6 @@ export class RAGErrorRecovery {
 
         // Calculate delay with exponential backoff and jitter
         const delay = this.calculateDelay(attempt, config)
-        console.log(`🔄 Retry attempt ${attempt}/${config.maxAttempts} after ${delay}ms for ${context.operation}`)
         
         await this.sleep(delay)
       }
@@ -323,7 +322,6 @@ export class RAGErrorRecovery {
   clearErrorHistory(): void {
     this.errorHistory.clear()
     this.circuitBreakers.clear()
-    console.log('🧹 Cleared error recovery history')
   }
 
   // Private methods

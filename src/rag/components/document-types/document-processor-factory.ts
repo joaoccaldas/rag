@@ -384,13 +384,11 @@ export abstract class BaseDocumentProcessor {
 export class PDFProcessor extends BaseDocumentProcessor {
   async extractText(file: File | Buffer): Promise<string> {
     // Implementation would use pdfjs-dist
-    console.log('Processing PDF file:', file instanceof File ? file.name : 'Buffer')
     throw new Error('PDF processing not yet implemented')
   }
 
   async extractVisualContent(file: File | Buffer): Promise<VisualContentItem[]> {
     // Implementation for PDF visual extraction
-    console.log('Extracting visual content from PDF:', file instanceof File ? file.name : 'Buffer')
     return []
   }
 }
@@ -398,12 +396,10 @@ export class PDFProcessor extends BaseDocumentProcessor {
 export class DOCXProcessor extends BaseDocumentProcessor {
   async extractText(file: File | Buffer): Promise<string> {
     // Implementation would use mammoth
-    console.log('Processing DOCX file:', file instanceof File ? file.name : 'Buffer')
     throw new Error('DOCX processing not yet implemented')
   }
 
   async extractVisualContent(file: File | Buffer): Promise<VisualContentItem[]> {
-    console.log('Extracting visual content from DOCX:', file instanceof File ? file.name : 'Buffer')
     return []
   }
 }
@@ -417,7 +413,6 @@ export class TextProcessor extends BaseDocumentProcessor {
   }
 
   async extractVisualContent(file: File | Buffer): Promise<VisualContentItem[]> {
-    console.log('Processing text file for visual content:', file instanceof File ? file.name : 'Buffer')
     return [] // Plain text has no visual content
   }
 }

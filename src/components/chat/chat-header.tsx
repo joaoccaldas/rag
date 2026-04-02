@@ -230,7 +230,6 @@ const ChatHeaderComponent = ({
             <SimpleModelSelector 
               selectedModel={settings.model}
               onModelSelect={(model) => {
-                console.log('🔧 Model selected in UI:', model)
                 updateSettings({ model })
                 // Sync model selection across contexts
                 try {
@@ -277,7 +276,6 @@ const ChatHeaderComponent = ({
         <SimpleModelSelector 
           selectedModel={settings.model}
           onModelSelect={(model) => {
-            console.log('🔧 Model selected in UI (compact):', model)
             updateSettings({ model })
             // Sync model selection across contexts
             try {

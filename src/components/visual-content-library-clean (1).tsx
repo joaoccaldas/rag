@@ -172,7 +172,6 @@ export function VisualContentLibrary({ isOpen, onClose, filterByDocument, filter
       const content = await getStoredVisualContent()
       
       if (!content || content.length === 0) {
-        console.log('No visual content found in storage')
         setVisualElements([])
         return
       }
@@ -287,7 +286,6 @@ export function VisualContentLibrary({ isOpen, onClose, filterByDocument, filter
         )
       )
 
-      console.log('Processed visual elements:', deduplicatedElements)
       setVisualElements(deduplicatedElements)
       
     } catch (error) {
@@ -315,7 +313,6 @@ export function VisualContentLibrary({ isOpen, onClose, filterByDocument, filter
       // Reload
       await loadVisualContent()
       
-      console.log('✅ Storage cleared and refreshed')
     } catch (error) {
       console.error('Failed to clear storage:', error)
     }
@@ -536,12 +533,10 @@ Format as JSON:
         const { UnlimitedRAGStorage } = await import('../storage/unlimited-rag-storage')
         const storage = new UnlimitedRAGStorage()
         await storage.storeVisualContent(analyzedElements)
-        console.log('✅ All visual content analyzed and stored in unlimited storage')
       } catch (storageError) {
         console.warn('Failed to store in unlimited storage, falling back to memory only:', storageError)
       }
       
-      console.log('✅ All visual content analyzed and stored in state')
     } catch (error) {
       console.error('Error analyzing visual content:', error)
     } finally {

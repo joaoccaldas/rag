@@ -1,4 +1,5 @@
 /**
+import { sanitizeHTML } from '../../../utils/sanitize'
  * Markdown formatting utilities for chat messages
  * Provides consistent markdown rendering across all chat components
  */
@@ -78,7 +79,7 @@ export function renderParagraph(paragraph: string, index: number, options: Markd
           <div 
             key={index} 
             className={`${sizes[level as keyof typeof sizes]} text-gray-900 dark:text-white mt-6 mb-3 first:mt-0`}
-            dangerouslySetInnerHTML={{ __html: formatInlineText(text, opts) }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHTML(formatInlineText(text, opts)) }}
           />
         )
       }
@@ -92,7 +93,7 @@ export function renderParagraph(paragraph: string, index: number, options: Markd
         <ul key={index} className="list-disc list-inside ml-4 space-y-1">
           <li className="text-gray-700 dark:text-gray-300 leading-relaxed">
             <span dangerouslySetInnerHTML={{ 
-              __html: formatInlineText(paragraph.replace(/^[-•]\s*/, ''), opts)
+              __html: sanitizeHTML(formatInlineText(paragraph.replace(/^[-•]\s*/, '')), opts)
             }} />
           </li>
         </ul>
@@ -105,7 +106,7 @@ export function renderParagraph(paragraph: string, index: number, options: Markd
         <ol key={index} className="list-decimal list-inside ml-4 space-y-1">
           <li className="text-gray-700 dark:text-gray-300 leading-relaxed">
             <span dangerouslySetInnerHTML={{ 
-              __html: formatInlineText(paragraph.replace(/^\d+\.\s+/, ''), opts)
+              __html: sanitizeHTML(formatInlineText(paragraph.replace(/^\d+\.\s+/, '')), opts)
             }} />
           </li>
         </ol>
@@ -120,7 +121,7 @@ export function renderParagraph(paragraph: string, index: number, options: Markd
         <span 
           className="text-gray-700 dark:text-gray-300" 
           dangerouslySetInnerHTML={{ 
-            __html: formatInlineText(paragraph.replace(/^>\s*/, ''), opts)
+            __html: sanitizeHTML(formatInlineText(paragraph.replace(/^>\s*/, '')), opts)
           }} 
         />
       </blockquote>
@@ -130,7 +131,7 @@ export function renderParagraph(paragraph: string, index: number, options: Markd
   // Regular paragraphs
   return (
     <p key={index} className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3 last:mb-0">
-      <span dangerouslySetInnerHTML={{ __html: formatInlineText(paragraph, opts) }} />
+      <span dangerouslySetInnerHTML={{ __html: sanitizeHTML(formatInlineText(paragraph, opts)) }} />
     </p>
   )
 }

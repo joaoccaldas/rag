@@ -266,7 +266,6 @@ export class EnhancedMediaPicker {
       })
 
       this.config.selectedFolder = directoryHandle
-      console.log('📁 Storage folder selected:', directoryHandle.name)
       
       return directoryHandle
     } catch (error) {
@@ -281,7 +280,6 @@ export class EnhancedMediaPicker {
    * Process uploaded file with real thumbnail generation
    */
   async processFile(file: File, documentId: string): Promise<VisualContent> {
-    console.log(`🎨 Processing file: ${file.name} (${file.type})`)
 
     // Generate real thumbnail based on file type
     let thumbnail: string
@@ -333,7 +331,6 @@ export class EnhancedMediaPicker {
       }
     }
 
-    console.log(`✅ File processed: ${file.name}, real thumbnail: ${isRealThumbnail}`)
     return visualContent
   }
 
@@ -364,7 +361,6 @@ export class EnhancedMediaPicker {
       await thumbnailWritable.write(blob)
       await thumbnailWritable.close()
 
-      console.log(`💾 Saved to folder: ${file.name} and ${thumbnailName}`)
     } catch (error) {
       console.warn('Failed to save to folder:', error)
     }
@@ -417,7 +413,6 @@ export async function processDocumentWithRealThumbnails(
   documentId: string
 ): Promise<VisualContent[]> {
   try {
-    console.log(`🚀 Starting enhanced processing for: ${file.name}`)
     
     const visualContent = await enhancedMediaPicker.processFile(file, documentId)
     
@@ -425,7 +420,6 @@ export async function processDocumentWithRealThumbnails(
     const { storeVisualContent } = await import('./visual-content-storage')
     await storeVisualContent([visualContent])
     
-    console.log(`🎯 Enhanced processing complete for: ${file.name}`)
     return [visualContent]
     
   } catch (error) {

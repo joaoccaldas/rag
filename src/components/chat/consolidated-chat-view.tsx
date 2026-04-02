@@ -81,7 +81,6 @@ const ConsolidatedChatViewComponent = ({
 
   const handleFileUpload = useCallback(() => {
     // File upload functionality would go here
-    console.log('File upload clicked')
   }, [])
 
   // Auto scroll to bottom
@@ -101,7 +100,6 @@ const ConsolidatedChatViewComponent = ({
       preferSemanticCache: true
     }).then(cache => {
       setSemanticCache(cache)
-      console.log('✅ Semantic cache initialized for chat')
     }).catch(error => {
       console.error('Failed to initialize semantic cache:', error)
     })
@@ -142,8 +140,6 @@ const ConsolidatedChatViewComponent = ({
 
       if (useRAG) {
         try {
-          console.log(`🔍 Starting RAG search for: "${content}"`)
-          console.log(`📚 Available documents: ${documents.length}`)
           
           // Check semantic cache first
           if (semanticCache) {
@@ -151,7 +147,6 @@ const ConsolidatedChatViewComponent = ({
             const cachedResults = await semanticCache.get(content, queryEmbedding)
             
             if (cachedResults && cachedResults.length > 0) {
-              console.log(`✨ Chat Semantic Cache HIT: Found ${cachedResults.length} cached RAG sources`)
               
               // Convert cached results to ragSources format
               ragSources = cachedResults.slice(0, 8).map((cached: CacheResult) => ({
@@ -163,11 +158,9 @@ const ConsolidatedChatViewComponent = ({
               }))
               
               const uniqueDocuments = [...new Set(ragSources.map(s => s.title))]
-              console.log(`🎯 Using ${ragSources.length} cached RAG sources from ${uniqueDocuments.length} documents`)
               
               // Skip the full search since we have cached results
             } else {
-              console.log(`💨 Cache MISS: Performing full RAG search`)
               await performFullRAGSearch()
             }
           } else {
@@ -179,11 +172,9 @@ const ConsolidatedChatViewComponent = ({
             const searchResults = await searchDocuments(content)
           
             if (searchResults && searchResults.length > 0) {
-            console.log(`✅ RAG search completed: ${searchResults.length} results found`)
             
             // Debug: Log the structure of first search result
             if (searchResults[0]) {
-              console.log('🔍 First search result structure:', {
                 hasDocument: !!searchResults[0].document,
                 hasChunk: !!searchResults[0].chunk,
                 documentName: searchResults[0].document?.name,
@@ -198,7 +189,6 @@ const ConsolidatedChatViewComponent = ({
               const hasContent = result.chunk && result.chunk.content
               
               if (!hasDocument || !hasContent) {
-                console.log('❌ Filtering out result due to missing properties:', {
                   hasDocument: !!hasDocument,
                   hasContent: !!hasContent,
                   documentName: result.document?.name,
@@ -227,7 +217,6 @@ const ConsolidatedChatViewComponent = ({
               const isRelevant = totalMatches > 0 || (result.similarity || 0) > 0.3
               
               if (!isRelevant) {
-                console.log('❌ Filtering out result due to low relevance:', {
                   documentName: result.document?.name || 'Unknown',
                   contentMatches,
                   nameMatches,
@@ -239,7 +228,6 @@ const ConsolidatedChatViewComponent = ({
               return isRelevant
             })
 
-            console.log(`📊 Filtered results: ${processedResults.length} out of ${searchResults.length} passed filtering`)
 
             ragSources = processedResults
               .slice(0, 8)
@@ -256,11 +244,9 @@ const ConsolidatedChatViewComponent = ({
             const uniqueDocuments = ragSources?.length > 0 
               ? [...new Set(ragSources.map(s => s.title))]
               : []
-            console.log(`🎯 Using ${ragSources.length} RAG sources from ${uniqueDocuments.length} documents`)
             
             // Debug: Log first source to verify content
             if (ragSources.length > 0 && ragSources[0]) {
-              console.log('📄 First RAG source sample:', {
                 title: ragSources[0].title,
                 contentLength: ragSources[0].content.length,
                 contentPreview: ragSources[0].content.substring(0, 100),
@@ -283,10 +269,8 @@ const ConsolidatedChatViewComponent = ({
               
               const documentIds = [...new Set(ragSources.map(s => s.documentId))]
               await semanticCache.set(content, queryEmbedding, cacheResults, documentIds)
-              console.log('💾 Cached RAG sources for future queries')
             }
           } else {
-            console.log('❌ No RAG results found for query:', content)
           }
           } // Close performFullRAGSearch function
           
@@ -398,7 +382,6 @@ const ConsolidatedChatViewComponent = ({
 
     } catch (error: unknown) {
       if (error instanceof Error && error.name === 'AbortError') {
-        console.log('Request aborted')
       } else {
         console.error('Chat error:', error)
         const errorMessage: Message = {

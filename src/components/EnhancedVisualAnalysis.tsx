@@ -67,7 +67,6 @@ export const EnhancedVisualAnalysis: React.FC<LLMAnalysisProps> = ({ className =
         setAvailableModels(models.length > 0 ? models : ['llama3.2:latest', 'llama3:latest'])
       }
     } catch {
-      console.log('Using default models - Ollama API not available')
     }
   }
 

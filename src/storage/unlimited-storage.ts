@@ -282,7 +282,6 @@ export class UnlimitedStorageManager {
 
     try {
       await this.indexedDB.init()
-      console.log('✅ IndexedDB initialized')
     } catch (error) {
       console.error('IndexedDB initialization failed:', error)
     }
@@ -291,7 +290,6 @@ export class UnlimitedStorageManager {
     try {
       const fsAvailable = await this.fileSystem.isAvailable()
       if (fsAvailable) {
-        console.log('📁 File System Access API available (requires user permission)')
       }
     } catch (error) {
       console.warn('File system not available:', error)
@@ -322,7 +320,6 @@ export class UnlimitedStorageManager {
         localStorage.setItem('rag_documents', JSON.stringify(filtered))
       }
 
-      console.log(`✅ Document ${document.id} stored in unlimited storage`)
     } catch (error) {
       console.error('Failed to store document:', error)
       throw error
@@ -386,7 +383,6 @@ export class UnlimitedStorageManager {
       // Clear from localStorage
       localStorage.removeItem('rag_visual_content')
       
-      console.log(`✅ ${visualContent.length} visual items stored in unlimited storage`)
     } catch (error) {
       console.error('Failed to store visual content:', error)
       throw error
@@ -422,7 +418,6 @@ export class UnlimitedStorageManager {
       for (const embedding of embeddings) {
         await this.indexedDB.store('embeddings', embedding)
       }
-      console.log(`✅ ${embeddings.length} embeddings stored`)
     } catch (error) {
       console.error('Failed to store embeddings:', error)
       throw error
@@ -475,7 +470,6 @@ export class UnlimitedStorageManager {
 
   // Migration from localStorage to unlimited storage
   async migrateFromLocalStorage(): Promise<void> {
-    console.log('🔄 Migrating data from localStorage to unlimited storage...')
 
     try {
       // Migrate documents
@@ -485,7 +479,6 @@ export class UnlimitedStorageManager {
         for (const doc of documents) {
           await this.storeDocument(doc)
         }
-        console.log(`✅ Migrated ${documents.length} documents`)
       }
 
       // Migrate visual content
@@ -493,7 +486,6 @@ export class UnlimitedStorageManager {
       if (visual) {
         const visualContent = JSON.parse(visual)
         await this.storeVisualContent(visualContent)
-        console.log(`✅ Migrated ${visualContent.length} visual items`)
       }
 
       // Migrate chat history
@@ -507,10 +499,8 @@ export class UnlimitedStorageManager {
             timestamp: new Date().toISOString()
           })
         }
-        console.log(`✅ Migrated ${chatHistory.length} chat messages`)
       }
 
-      console.log('🎉 Migration completed successfully!')
     } catch (error) {
       console.error('Migration failed:', error)
       throw error
@@ -522,7 +512,6 @@ export class UnlimitedStorageManager {
     try {
       const enabled = await this.fileSystem.init()
       if (enabled) {
-        console.log('✅ File System Access enabled - truly unlimited storage!')
         return true
       }
       return false

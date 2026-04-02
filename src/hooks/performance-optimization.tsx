@@ -420,7 +420,6 @@ export function usePerformanceMonitor(componentName: string) {
 
     if (renderCount.current % 10 === 0) {
       const avgRenderTime = renderTimes.current.reduce((a, b) => a + b, 0) / renderTimes.current.length
-      console.log(`📊 ${componentName} - Renders: ${renderCount.current}, Avg: ${avgRenderTime.toFixed(2)}ms`)
     }
   })
 

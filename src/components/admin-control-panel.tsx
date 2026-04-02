@@ -58,7 +58,6 @@ export const AdminControlPanel: React.FC<AdminControlPanelProps> = ({
   ]
 
   const handleMigrationComplete = () => {
-    console.log('✅ Prompt migration completed')
     setSystemStatus(prev => ({
       ...prev,
       promptSystemHealth: 'excellent'
@@ -66,7 +65,6 @@ export const AdminControlPanel: React.FC<AdminControlPanelProps> = ({
   }
 
   const handleStorageReset = () => {
-    console.log('✅ Storage reset completed')
     setSystemStatus(prev => ({
       ...prev,
       storageHealth: 'excellent'

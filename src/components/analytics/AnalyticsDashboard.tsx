@@ -20,7 +20,6 @@ export const AnalyticsDashboard: React.FC = () => {
   };
 
   const handleExport = () => {
-    console.log('Exporting analytics data...');
     // Implementation for data export
   };
 

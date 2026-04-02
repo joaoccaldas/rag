@@ -260,7 +260,6 @@ Provide technically accurate analysis based on the information presented.
     this.summaryHistory.set(summaryId, enhancedSummary)
     this.persistData()
 
-    console.log(`🧠 Generated ${detectedDomain} domain summary with ${enhancedSummary.confidence}% confidence`)
 
     return enhancedSummary
   }

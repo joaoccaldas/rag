@@ -72,7 +72,6 @@ export class AdaptiveFeedbackLearner {
     // Persist learning data
     this.persistLearningData()
     
-    console.log('📚 Feedback recorded and learning models updated:', {
       rating: feedback.rating,
       query: feedback.query,
       documentId: feedback.documentId

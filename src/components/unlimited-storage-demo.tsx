@@ -64,13 +64,10 @@ export function UnlimitedStorageDemo() {
 
     try {
       // Test 1: Migration
-      console.log('🔄 Testing migration capabilities...')
       const migrationResult = await unlimitedRAGStorage.migrateFromLocalStorage()
       results.migration = true
-      console.log(`✅ Migration test passed: ${migrationResult.documentsCount} docs, ${migrationResult.visualCount} visuals, ${migrationResult.chatCount} chats`)
 
       // Test 2: Storage
-      console.log('🔄 Testing unlimited storage...')
       const testDoc = {
         id: `test-${Date.now()}`,
         title: 'Unlimited Storage Test Document',
@@ -88,15 +85,12 @@ export function UnlimitedStorageDemo() {
       const retrieved = await unlimitedRAGStorage.getDocument(testDoc.id)
       if (retrieved && retrieved.content === testDoc.content) {
         results.storage = true
-        console.log('✅ Storage test passed')
       }
 
       // Test 3: Retrieval
-      console.log('🔄 Testing retrieval...')
       const allDocs = await unlimitedRAGStorage.getAllDocuments()
       if (allDocs.length > 0) {
         results.retrieval = true
-        console.log('✅ Retrieval test passed')
       }
 
       // Cleanup test document

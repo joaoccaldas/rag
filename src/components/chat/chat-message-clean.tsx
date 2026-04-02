@@ -7,6 +7,7 @@ import React, { useState } from 'react'
 import { User, Bot, Clock, Copy, Check, ThumbsUp, ThumbsDown, Database, FileText } from 'lucide-react'
 import { cn } from '@/utils/cn'
 import { Message, RAGSource } from './types'
+import { sanitizeHTML } from '../../utils/sanitize'
 
 interface ChatMessageProps {
   message: Message
@@ -110,7 +111,7 @@ export function ChatMessage({
               <div>{message.content}</div>
             ) : (
               <div 
-                dangerouslySetInnerHTML={{ __html: formatContent(message.content) }}
+                dangerouslySetInnerHTML={{ __html: sanitizeHTML(formatContent(message.content)) }}
               />
             )}
           </div>

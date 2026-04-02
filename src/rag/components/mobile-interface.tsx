@@ -104,7 +104,6 @@ export class MobileInterfaceManager {
     // Add mobile CSS classes
     document.documentElement.classList.add('mobile-optimized')
 
-    console.log('📱 Mobile interface optimizations initialized')
   }
 
   /**

@@ -73,19 +73,14 @@ export class SemanticChunkingService {
       preserveStructure = true
     } = options
 
-    console.log(`🧩 Starting semantic chunking for document ${documentId}`)
-    console.log(`📊 Target: ${targetTokens} tokens/chunk, max: ${maxTokens}, min: ${minTokens}`)
 
     // Step 1: Extract sentences with structure preservation
     const sentences = this.extractSentencesWithStructure(text, preserveStructure)
-    console.log(`✂️ Extracted ${sentences.length} sentences`)
 
     // Step 2: Generate embeddings for sentences if enabled
     let sentenceEmbeddings: number[][] = []
     if (useEmbeddings) {
-      console.log(`🔢 Generating embeddings for ${sentences.length} sentences...`)
       sentenceEmbeddings = await this.generateSentenceEmbeddings(sentences)
-      console.log(`✅ Embeddings generated`)
     }
 
     // Step 3: Create semantic chunks based on similarity and token count
@@ -103,7 +98,6 @@ export class SemanticChunkingService {
       }
     )
 
-    console.log(`✅ Created ${chunks.length} semantic chunks`)
 
     // Step 4: Enhance chunks with metadata
     const enhancedChunks = await this.enhanceChunksWithMetadata(chunks)
@@ -203,7 +197,6 @@ export class SemanticChunkingService {
       embeddings.push(...batchEmbeddings)
 
       if (i % 50 === 0) {
-        console.log(`  📊 Progress: ${i}/${sentences.length} sentences embedded`)
       }
     }
 
@@ -416,7 +409,6 @@ export class SemanticChunkingService {
    * Enhance chunks with rich metadata
    */
   private async enhanceChunksWithMetadata(chunks: SemanticChunk[]): Promise<SemanticChunk[]> {
-    console.log(`🎨 Enhancing ${chunks.length} chunks with metadata...`)
 
     return chunks.map((chunk, index) => {
       // Extract key phrases (simple frequency-based)

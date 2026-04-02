@@ -32,17 +32,14 @@ export async function diagnoseOCRSystem(): Promise<OCRDebugReport> {
 
   try {
     // Test 1: Check OCR service availability
-    console.log('🔍 Testing OCR service availability...')
     
     if (ocrExtractionService) {
       report.ocrServiceStatus = 'available'
-      console.log('✅ OCR service is available')
       
       // Test 2: Check Tesseract initialization
       try {
         await ocrExtractionService.initialize()
         report.tesseractStatus = 'initialized'
-        console.log('✅ Tesseract worker initialized')
       } catch (error) {
         report.tesseractStatus = 'error'
         report.lastError = `Tesseract init failed: ${error}`
@@ -58,7 +55,6 @@ export async function diagnoseOCRSystem(): Promise<OCRDebugReport> {
       const stored = await getStoredVisualContent()
       report.storedVisualCount = stored.length
       report.visualContentStorageStatus = 'working'
-      console.log(`✅ Visual content storage working: ${stored.length} items stored`)
     } catch (error) {
       report.lastError = `Storage error: ${error}`
       console.error('❌ Visual content storage failed:', error)
@@ -89,7 +85,6 @@ async function runOCRFunctionalTests() {
 
   try {
     // Test 1: Create a simple test image with text
-    console.log('🧪 Testing text extraction...')
     const testImage = await createTestImageWithText('Hello OCR Test')
     
     if (testImage) {
@@ -101,14 +96,11 @@ async function runOCRFunctionalTests() {
       
       if (ocrResult.text.includes('Hello') || ocrResult.text.includes('OCR') || ocrResult.text.includes('Test')) {
         results.simpleTextExtraction = true
-        console.log('✅ Text extraction working')
       } else {
-        console.log(`⚠️ Text extraction failed. Got: "${ocrResult.text}"`)
       }
       
       if (ocrResult.visualElements.length > 0) {
         results.imageProcessing = true
-        console.log('✅ Image processing working')
       }
       
       // Test storage
@@ -129,7 +121,6 @@ async function runOCRFunctionalTests() {
           }
         })))
         results.storageOperations = true
-        console.log('✅ Storage operations working')
       } catch (error) {
         console.error('❌ Storage test failed:', error)
       }
@@ -191,7 +182,6 @@ export async function testOCRWithFile(file: File): Promise<{
   error?: string
 }> {
   try {
-    console.log(`🧪 Testing OCR with file: ${file.name} (${file.type}, ${file.size} bytes)`)
     
     // Initialize OCR service
     await ocrExtractionService.initialize()
@@ -203,11 +193,6 @@ export async function testOCRWithFile(file: File): Promise<{
       confidenceThreshold: 0.3
     })
     
-    console.log(`📊 OCR Results:`)
-    console.log(`   Text: ${result.text.length} characters`)
-    console.log(`   Visual elements: ${result.visualElements.length}`)
-    console.log(`   Confidence: ${result.confidence}`)
-    console.log(`   Processing time: ${result.processingTime}ms`)
     
     return {
       success: true,
@@ -235,7 +220,6 @@ export async function clearVisualContentForTesting(): Promise<void> {
     localStorage.removeItem('rag_visual_content')
     localStorage.removeItem('rag_visual_index_document')
     localStorage.removeItem('rag_visual_index_type')
-    console.log('✅ Visual content storage cleared for testing')
   } catch (error) {
     console.error('❌ Failed to clear visual content storage:', error)
   }
@@ -245,29 +229,16 @@ export async function clearVisualContentForTesting(): Promise<void> {
  * Display comprehensive OCR system status
  */
 export async function logOCRSystemStatus(): Promise<void> {
-  console.log('🔍 =================================')
-  console.log('🔍 OCR SYSTEM STATUS REPORT')
-  console.log('🔍 =================================')
   
   const report = await diagnoseOCRSystem()
   
-  console.log(`OCR Service: ${report.ocrServiceStatus}`)
-  console.log(`Tesseract: ${report.tesseractStatus}`)
-  console.log(`Storage: ${report.visualContentStorageStatus}`)
-  console.log(`Stored Visual Content: ${report.storedVisualCount} items`)
   
   if (report.testResults) {
-    console.log('Functional Tests:')
-    console.log(`  Text Extraction: ${report.testResults.simpleTextExtraction ? '✅' : '❌'}`)
-    console.log(`  Image Processing: ${report.testResults.imageProcessing ? '✅' : '❌'}`)
-    console.log(`  Storage Operations: ${report.testResults.storageOperations ? '✅' : '❌'}`)
   }
   
   if (report.lastError) {
-    console.log(`Last Error: ${report.lastError}`)
   }
   
-  console.log('🔍 =================================')
 }
 
 // Make functions available globally for debugging
@@ -288,9 +259,4 @@ if (typeof window !== 'undefined') {
     logStatus: logOCRSystemStatus
   }
   
-  console.log('🔧 OCR Debug tools available at window.ocrDebug')
-  console.log('   - ocrDebug.diagnose() - Full system diagnosis')
-  console.log('   - ocrDebug.testFile(file) - Test with specific file')
-  console.log('   - ocrDebug.clearStorage() - Clear visual content storage')
-  console.log('   - ocrDebug.logStatus() - Display system status')
 }

@@ -88,7 +88,6 @@ export function CacheSettings() {
         defaultTTL: (ttl[0] ?? 30) * 60 * 1000 // Convert minutes to milliseconds
       })
       
-      console.log('✅ Cache configuration updated')
     } catch (error) {
       console.error('Failed to update cache config:', error)
     }
@@ -102,7 +101,6 @@ export function CacheSettings() {
       const cache = await createSemanticCacheWrapper()
       await cache.clear()
       await loadStats()
-      console.log('🧹 Cache cleared')
     } catch (error) {
       console.error('Failed to clear cache:', error)
     }

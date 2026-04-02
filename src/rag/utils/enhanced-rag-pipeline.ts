@@ -211,7 +211,6 @@ export class EnhancedRAGPipeline {
         })
       }
 
-      console.log('✅ Enhanced RAG Pipeline initialized successfully')
     } catch (error) {
       console.error('❌ Failed to initialize Enhanced RAG Pipeline:', error)
       throw error
@@ -253,7 +252,6 @@ export class EnhancedRAGPipeline {
     const startTime = Date.now()
     
     try {
-      console.log(`🔄 Processing document: ${metadata.title}`)
 
       // Step 1: Advanced Chunking
       const chunks = await this.chunker.chunkDocument(
@@ -265,7 +263,6 @@ export class EnhancedRAGPipeline {
       // Step 2: Generate embeddings for chunks (optimized batch processing)
       const vectorDocuments: VectorDocument[] = []
       
-      console.log(`🚀 Generating embeddings for ${chunks.length} chunks...`)
       
       // Process chunks in batches to reduce API calls
       const batchSize = 10
@@ -298,10 +295,8 @@ export class EnhancedRAGPipeline {
         
         // Log progress
         const processed = Math.min(i + batchSize, chunks.length)
-        console.log(`📊 Processed ${processed}/${chunks.length} chunks`)
       }
 
-      console.log(`✅ Generated ${vectorDocuments.length} embeddings successfully`)
         
       // Add to hybrid search index
       if (this.config.hybridSearch.enabled && this.hybridSearch) {
@@ -346,7 +341,6 @@ export class EnhancedRAGPipeline {
       this.updateDocumentMetrics(processedDoc)
 
       const processingTime = Date.now() - startTime
-      console.log(`✅ Document processed in ${processingTime}ms: ${chunks.length} chunks created`)
 
       return processedDoc
 
@@ -374,7 +368,6 @@ export class EnhancedRAGPipeline {
       const useHybrid = options.useHybridSearch ?? this.config.hybridSearch.enabled
       const useCache = options.enableCaching ?? this.config.caching.enabled
 
-      console.log(`🔍 Enhanced search: "${query}" (hybrid: ${useHybrid}, cache: ${useCache})`)
 
       // Step 1: Generate query embedding
       const queryEmbedding = await this.generateEmbedding(query)
@@ -421,7 +414,6 @@ export class EnhancedRAGPipeline {
       // Step 5: Update metrics and return
       this.updateSearchMetrics(Date.now() - startTime, false)
       
-      console.log(`✅ Found ${results.length} results in ${Date.now() - startTime}ms`)
       return results.slice(0, limit)
 
     } catch (error) {
@@ -601,7 +593,6 @@ export class EnhancedRAGPipeline {
         this.hybridSearch.removeDocument(documentId)
       }
       
-      console.log(`✅ Deleted document: ${documentId}`)
     } catch (error) {
       console.error('❌ Error deleting document:', error)
       throw error
@@ -624,7 +615,6 @@ export class EnhancedRAGPipeline {
   }
 
   async optimizeSystem(): Promise<void> {
-    console.log('🔧 Optimizing Enhanced RAG System...')
     
     try {
       // Optimize query cache
@@ -635,7 +625,6 @@ export class EnhancedRAGPipeline {
       // Clean up expired data
       // Additional optimization logic would go here
       
-      console.log('✅ System optimization completed')
     } catch (error) {
       console.error('❌ System optimization failed:', error)
     }
@@ -651,7 +640,6 @@ export class EnhancedRAGPipeline {
         await this.vectorDB.close()
       }
       
-      console.log('✅ Enhanced RAG Pipeline destroyed')
     } catch (error) {
       console.error('❌ Error destroying pipeline:', error)
     }

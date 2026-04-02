@@ -156,7 +156,6 @@ export function EnhancedDocumentProcessor({
       })
 
       setSelectedFiles([])
-      console.log(`✅ Submitted batch job ${jobId}`)
 
     } catch (error) {
       await errorHandler.handleError(error, {

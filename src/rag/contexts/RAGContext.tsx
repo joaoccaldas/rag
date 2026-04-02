@@ -77,8 +77,6 @@ function RAGProviderInner({ children }: { children: React.ReactNode }) {
   }, [uploadProcessing, documentManagement])
 
   const searchDocuments = useCallback(async (query: string) => {
-    console.log(`🔍 RAGContext: Starting search for "${query}"`)
-    console.log(`📚 Available documents for search: ${documentManagement.documents.length}`)
     
     // Debug document status
     const docStatus = documentManagement.documents.map(doc => ({
@@ -89,7 +87,6 @@ function RAGProviderInner({ children }: { children: React.ReactNode }) {
       isEmployeeDoc: doc.name.toLowerCase().includes('employee')
     }))
     
-    console.log('📋 Documents being passed to search:', docStatus)
     
     // Specifically check for employee document
     const employeeDoc = documentManagement.documents.find(doc => 
@@ -97,7 +94,6 @@ function RAGProviderInner({ children }: { children: React.ReactNode }) {
     )
     
     if (employeeDoc) {
-      console.log('🎯 Employee document found in RAGContext:', {
         name: employeeDoc.name,
         status: employeeDoc.status,
         hasChunks: !!employeeDoc.chunks,

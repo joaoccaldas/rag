@@ -116,7 +116,6 @@ export const BatchProcessingManager: React.FC<BatchProcessingProps> = ({
 
       setShowCreateJob(false)
       setSelectedFiles([])
-      console.log(`Created job: ${jobId}`)
     } catch (error) {
       console.error('Failed to create job:', error)
       alert('Failed to create batch job')

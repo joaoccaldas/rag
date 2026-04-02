@@ -96,7 +96,6 @@ export async function loadDocumentsBatch(options: LoadDocumentsOptions = {}): Pr
     const hasMore = offset + limit < total
     const nextOffset = hasMore ? offset + limit : total
     
-    console.log(`Loaded batch: ${paginatedDocuments.length} documents (${offset}-${nextOffset} of ${total})`)
     
     return {
       documents: paginatedDocuments,

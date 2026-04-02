@@ -286,7 +286,6 @@ class IntelligentCache<T> {
     try {
       // This would implement IndexedDB storage for persistence
       // For now, just log that we would persist
-      console.log(`[Cache] Would persist ${key} to disk`)
     } catch (error) {
       console.warn('[Cache] Failed to persist entry:', error)
     }
@@ -449,7 +448,6 @@ export class RAGCacheManager {
   async preloadFrequentData(): Promise<void> {
     try {
       // This would implement preloading logic based on usage patterns
-      console.log('[Cache] Preloading frequent data...')
       
       // Example: Load most accessed documents
       // const frequentDocs = await getFrequentlyAccessedDocuments()

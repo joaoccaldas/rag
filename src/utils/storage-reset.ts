@@ -28,7 +28,6 @@ export class StorageResetManager {
       errors: []
     }
 
-    console.log('🧹 Starting comprehensive storage reset...')
 
     try {
       // 1. Clear localStorage completely
@@ -46,12 +45,9 @@ export class StorageResetManager {
       // 5. Clear any cached data
       await this.clearCaches(stats)
       
-      console.log('✅ Storage reset completed successfully')
-      console.log('📊 Reset Statistics:', stats)
       
       // Force page reload to ensure clean state
       if (typeof window !== 'undefined') {
-        console.log('🔄 Reloading page to ensure clean state...')
         setTimeout(() => window.location.reload(), 1000)
       }
       
@@ -80,11 +76,9 @@ export class StorageResetManager {
       // Remove all identified keys
       keysToRemove.forEach(key => {
         localStorage.removeItem(key)
-        console.log(`🗑️ Removed localStorage key: ${key}`)
       })
       
       stats.localStorageKeysRemoved = keysToRemove.length
-      console.log(`✅ Cleared ${keysToRemove.length} localStorage keys`)
       
     } catch (error) {
       console.error('Failed to clear localStorage:', error)
@@ -96,7 +90,6 @@ export class StorageResetManager {
     try {
       await unifiedStorage.clearAll()
       stats.unifiedStorageCleared = true
-      console.log('✅ Cleared unified storage')
     } catch (error) {
       console.error('Failed to clear unified storage:', error)
       stats.errors.push(`Unified storage clear failed: ${error}`)
@@ -119,7 +112,6 @@ export class StorageResetManager {
       for (const dbName of dbNames) {
         try {
           await this.deleteIndexedDB(dbName)
-          console.log(`✅ Cleared IndexedDB: ${dbName}`)
         } catch (error) {
           console.warn(`Failed to clear IndexedDB ${dbName}:`, error)
         }
@@ -148,11 +140,9 @@ export class StorageResetManager {
       
       keysToRemove.forEach(key => {
         sessionStorage.removeItem(key)
-        console.log(`🗑️ Removed sessionStorage key: ${key}`)
       })
       
       stats.sessionStorageCleared = true
-      console.log(`✅ Cleared ${keysToRemove.length} sessionStorage keys`)
       
     } catch (error) {
       console.error('Failed to clear sessionStorage:', error)
@@ -169,7 +159,6 @@ export class StorageResetManager {
       for (const cacheName of cacheNames) {
         if (this.shouldClearCache(cacheName)) {
           await caches.delete(cacheName)
-          console.log(`✅ Cleared cache: ${cacheName}`)
         }
       }
       
@@ -228,7 +217,6 @@ export class StorageResetManager {
 
   // Specific method to clear only visual content storage
   async clearVisualContentStorage(): Promise<void> {
-    console.log('🎨 Clearing visual content storage specifically...')
     
     try {
       // Clear visual content from localStorage
@@ -242,19 +230,16 @@ export class StorageResetManager {
       
       visualKeys.forEach(key => {
         localStorage.removeItem(key)
-        console.log(`🗑️ Removed visual key: ${key}`)
       })
       
       // Clear from unified storage
       const allKeys = await unifiedStorage.getStorageStats()
-      console.log(`📊 Found ${allKeys.itemCount} items in unified storage`)
       
       // Force reload visual content components
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('visualContentCleared'))
       }
       
-      console.log('✅ Visual content storage cleared')
       
     } catch (error) {
       console.error('❌ Failed to clear visual content storage:', error)
@@ -294,7 +279,6 @@ export class StorageResetManager {
       
       const isClean = remainingItems.length === 0
       
-      console.log(isClean ? '✅ Storage is clean' : `⚠️ Found ${remainingItems.length} remaining items`)
       
       return { isClean, remainingItems }
       
@@ -318,7 +302,6 @@ export const autoCleanStorageOnReset = () => {
   if (typeof window !== 'undefined') {
     // Listen for database reset events
     window.addEventListener('databaseReset', () => {
-      console.log('🔄 Database reset detected, clearing storage...')
       resetAllStorage()
     })
     
@@ -326,7 +309,6 @@ export const autoCleanStorageOnReset = () => {
     setTimeout(async () => {
       const verification = await verifyStorageClean()
       if (!verification.isClean) {
-        console.log('⚠️ Storage not clean on page load, remaining items:', verification.remainingItems)
       }
     }, 1000)
   }

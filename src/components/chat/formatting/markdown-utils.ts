@@ -4,6 +4,7 @@
  */
 
 export interface MarkdownFormattingOptions {
+import { sanitizeHTML } from '../../../utils/sanitize'
   enableHeaders?: boolean
   enableLists?: boolean
   enableBlockquotes?: boolean

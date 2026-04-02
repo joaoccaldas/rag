@@ -145,7 +145,6 @@ export class AIAnalysisEngine {
   
   // Analyze visual content
   async analyzeVisualContent(visual: VisualContent, document?: Document): Promise<VisualAnalysis> {
-    console.log(`🔍 Analyzing visual content: ${visual.id}`)
     
     const prompt = this.buildVisualAnalysisPrompt(visual, document)
     
@@ -156,7 +155,6 @@ export class AIAnalysisEngine {
       // Store analysis
       await this.storeVisualAnalysis(analysis)
       
-      console.log(`✅ Visual analysis completed for: ${visual.id}`)
       return analysis
       
     } catch (error) {
@@ -167,7 +165,6 @@ export class AIAnalysisEngine {
   
   // Analyze document
   async analyzeDocument(document: Document): Promise<DocumentAnalysis> {
-    console.log(`📄 Analyzing document: ${document.name}`)
     
     const prompt = this.buildDocumentAnalysisPrompt(document)
     
@@ -178,7 +175,6 @@ export class AIAnalysisEngine {
       // Store analysis
       await this.storeDocumentAnalysis(analysis)
       
-      console.log(`✅ Document analysis completed for: ${document.name}`)
       return analysis
       
     } catch (error) {
@@ -192,7 +188,6 @@ export class AIAnalysisEngine {
     documentAnalysis: DocumentAnalysis, 
     visualAnalyses: VisualAnalysis[]
   ): Promise<CombinedAnalysis> {
-    console.log(`🔄 Creating combined analysis for document: ${documentAnalysis.documentId}`)
     
     const prompt = this.buildCombinedAnalysisPrompt(documentAnalysis, visualAnalyses)
     
@@ -203,7 +198,6 @@ export class AIAnalysisEngine {
       // Store combined analysis
       await this.storeCombinedAnalysis(combined)
       
-      console.log(`✅ Combined analysis completed for: ${documentAnalysis.documentId}`)
       return combined
       
     } catch (error) {

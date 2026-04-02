@@ -119,7 +119,6 @@ export class EnhancedVisualAnalyzer {
    */
   async analyzeDocument(document: Document): Promise<DocumentVisualAnalysisReport> {
     const startTime = Date.now()
-    console.log(`🔍 Starting enhanced visual analysis for: ${document.name}`)
     
     // Extract and classify visual elements
     const elements = await this.extractAndClassifyElements(document)
@@ -155,7 +154,6 @@ export class EnhancedVisualAnalyzer {
       }
     }
     
-    console.log(`✅ Enhanced visual analysis complete: ${analyzedElements.length} elements analyzed in ${processingDuration}ms`)
     return report
   }
   
@@ -361,7 +359,6 @@ export class EnhancedVisualAnalyzer {
     await new Promise(resolve => setTimeout(resolve, 500))
     
     // Use prompts to generate contextual responses (in real implementation)
-    console.log('AI Analysis prompts:', prompts.system.slice(0, 100), prompts.user.slice(0, 100))
     
     // Generate intelligent mock responses based on element type and content
     return {
@@ -699,7 +696,6 @@ export class VisualAnalysisStorage {
       existing[report.documentId] = report
       
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(existing))
-      console.log(`✅ Stored enhanced visual analysis for document: ${report.documentTitle}`)
     } catch (error) {
       console.error('Failed to store visual analysis:', error)
     }
@@ -775,7 +771,6 @@ export class VisualAnalysisStorage {
    */
   static clear(): void {
     localStorage.removeItem(this.STORAGE_KEY)
-    console.log('🧹 Cleared all stored visual analyses')
   }
 }
 
@@ -788,7 +783,6 @@ export class VisualAnalysisIntegration {
    * Integrate enhanced analysis with existing document processing
    */
   static async processDocumentWithEnhancedAnalysis(document: Document): Promise<Document> {
-    console.log(`🔬 Starting enhanced visual analysis integration for: ${document.name}`)
     
     try {
       // Initialize analyzer

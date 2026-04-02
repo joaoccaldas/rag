@@ -50,7 +50,6 @@ export class OCRExtractionService {
       const Tesseract = await import('tesseract.js')
       this.tesseractWorker = await Tesseract.createWorker(['eng'])
       this.isInitialized = true
-      console.log('✅ OCR Service initialized')
     } catch (error) {
       console.error('❌ Failed to initialize OCR service:', error)
       throw new Error('OCR service initialization failed')
@@ -77,7 +76,6 @@ export class OCRExtractionService {
       confidenceThreshold = 0.7
     } = options
 
-    console.log(`Processing with confidence threshold: ${confidenceThreshold}`)
 
     try {
       let visualElements: VisualContent[] = []
@@ -124,7 +122,6 @@ export class OCRExtractionService {
       } else if (file.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' || 
                  file.type === 'application/vnd.ms-powerpoint') {
         // PowerPoint processing - create visual placeholders for slides
-        console.log('🎯 Processing PowerPoint file for visual content...')
         const result = await this.processPowerPointFile(file, options)
         extractedText = result.text
         overallConfidence = result.confidence
@@ -399,7 +396,6 @@ export class OCRExtractionService {
    */
   private async processPowerPointFile(file: File, _options: OCRExtractionOptions): Promise<OCRResult> {
     try {
-      console.log('🎯 Processing PowerPoint file for text and visual content extraction...')
       
       const visualElements: VisualContent[] = []
       const thumbnails: string[] = []
@@ -418,7 +414,6 @@ export class OCRExtractionService {
           name.startsWith('ppt/slides/slide') && name.endsWith('.xml')
         )
         
-        console.log(`📄 Found ${slideFiles.length} slides in PowerPoint`)
         
         // Process each slide
         for (let i = 0; i < slideFiles.length; i++) {
@@ -479,7 +474,6 @@ export class OCRExtractionService {
           }
         }
         
-        console.log(`✅ Extracted text from ${visualElements.length} PowerPoint slides`)
         
       } catch (zipError) {
         console.warn('Failed to extract PowerPoint content:', zipError)

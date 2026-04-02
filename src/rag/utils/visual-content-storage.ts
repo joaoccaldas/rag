@@ -31,7 +31,6 @@ export async function storeVisualContent(visuals: VisualContent[]): Promise<void
       try {
         const { storeVisualContentToFiles } = await import('./file-system-visual-storage')
         await storeVisualContentToFiles(visuals)
-        console.log('✅ Visual content stored to file system')
         return
       } catch (fileError) {
         console.warn('File system storage failed, falling back to localStorage:', fileError)
@@ -83,10 +82,8 @@ export async function storeVisualContent(visuals: VisualContent[]): Promise<void
       
       localStorage.setItem(VISUAL_CONTENT_KEY, cleanedString);
       console.warn('⚠️ Stored visual content with reduced data due to quota limits')
-      console.log(`📊 Preserved ${cleanedData.filter(item => item.thumbnail).length} thumbnails out of ${cleanedData.length} items`)
     } else {
       localStorage.setItem(VISUAL_CONTENT_KEY, dataString);
-      console.log('✅ Visual content stored to localStorage')
     }
     
     // Also index by document and type for quick retrieval
@@ -111,7 +108,6 @@ export async function getStoredVisualContent(): Promise<VisualContent[]> {
           return fileSystemContent
         }
       } catch {
-        console.log('File system storage not available, using localStorage')
       }
     }
     
@@ -224,7 +220,6 @@ export async function extractVisualContent(file: File): Promise<VisualContent[]>
   const visuals: VisualContent[] = [];
   const documentId = `doc_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   
-  console.log(`Extracting visual content from: ${file.name}`);
   
   // Simulate visual content extraction based on file type
   if (file.type === 'application/pdf') {

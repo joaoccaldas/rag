@@ -198,11 +198,9 @@ export function usePerformanceMonitor(componentName: string) {
     
     // Log performance metrics in development
     if (process.env.NODE_ENV === 'development') {
-      console.log(`${componentName} render #${renderCountRef.current}: ${renderTime.toFixed(2)}ms`)
       
       if (renderCountRef.current % 10 === 0) {
         const averageTime = totalTimeRef.current / renderCountRef.current
-        console.log(`${componentName} average render time: ${averageTime.toFixed(2)}ms`)
       }
     }
   })

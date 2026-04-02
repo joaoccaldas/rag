@@ -398,7 +398,6 @@ export class SuggestionEngine {
   async recordSuggestionSelection(suggestion: Suggestion, originalQuery: string): Promise<void> {
     // Track which suggestions are most useful
     // This helps improve future suggestion ranking
-    console.log(`Suggestion selected: ${suggestion.text} for query: ${originalQuery}`)
   }
 
   // Utility methods

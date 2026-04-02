@@ -92,7 +92,6 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: 'ADD_TO_HISTORY', payload: query })
 
     try {
-      console.log(`🔍 UnifiedSearchContext: Starting intelligent search for "${query}"`)
       
       // Use the unified intelligent search engine
       const enhancedResults = await intelligentSearch(query, {
@@ -118,8 +117,6 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
           relevantText: result.explanation
         }))
 
-      console.log(`✅ UnifiedSearchContext: Found ${searchResults.length} intelligent results`)
-      console.log(`🎯 Search results preview:`, searchResults.slice(0, 3).map(r => ({
         documentName: r.document?.name,
         chunkId: r.chunk?.id,
         score: r.similarity,
@@ -151,7 +148,6 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
     try {
       // Use the intelligent search engine's feedback system
       await recordSearchFeedback(query, resultId, rating)
-      console.log(`📊 UnifiedSearchContext: Recorded feedback ${rating} for result ${resultId}`)
     } catch (error) {
       console.error('❌ Failed to record feedback:', error)
     }

@@ -226,7 +226,6 @@ export class HybridSearchEngine {
   }
 
   async search(query: string, queryEmbedding?: number[]): Promise<SearchResult[]> {
-    console.log(`🔍 Hybrid search for: "${query}"`)
 
     // Get BM25 results
     const bm25Results = this.bm25Index.search(query, this.config)
@@ -244,7 +243,6 @@ export class HybridSearchEngine {
       ? this.rerankResults(combinedResults, query)
       : combinedResults
 
-    console.log(`✅ Found ${finalResults.length} hybrid search results`)
     return finalResults.slice(0, this.config.maxResults)
   }
 

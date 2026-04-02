@@ -143,7 +143,6 @@ export class AdvancedMetadataFilter {
   setDocuments(documents: Document[]): void {
     this.documents = documents
     this.updateFacetCounts()
-    console.log(`🔍 Initialized advanced filtering for ${documents.length} documents`)
   }
 
   /**
@@ -223,7 +222,6 @@ export class AdvancedMetadataFilter {
     this.savedQueries.set(savedQuery.id, savedQuery)
     this.persistSavedQueries()
 
-    console.log(`💾 Saved search query: ${name}`)
     return savedQuery
   }
 

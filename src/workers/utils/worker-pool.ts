@@ -79,7 +79,6 @@ export class WorkerPool {
       this.stats.activeWorkers++
 
       if (this.config.enableLogging) {
-        console.log(`🚀 Created ${type} worker:`, workerId)
       }
 
       return workerId
@@ -97,7 +96,6 @@ export class WorkerPool {
     }
 
     if (this.config.enableLogging) {
-      console.log(`📨 Worker ${workerId} message:`, message.type)
     }
 
     switch (message.type) {
@@ -175,7 +173,6 @@ export class WorkerPool {
     this.processNextTask()
 
     if (this.config.enableLogging) {
-      console.log(`✅ Task ${task.id} completed in ${processingTime}ms`)
     }
   }
 
@@ -185,7 +182,6 @@ export class WorkerPool {
     if (task.retryCount < this.config.retryAttempts) {
       // Retry task
       if (this.config.enableLogging) {
-        console.log(`🔄 Retrying task ${task.id} (attempt ${task.retryCount + 1})`)
       }
       this.taskQueue.unshift(task) // Add to front of queue for immediate retry
       this.activeTasks.delete(task.id)
@@ -280,7 +276,6 @@ export class WorkerPool {
         }, this.config.workerTimeout)
 
         if (this.config.enableLogging) {
-          console.log(`📤 Sent task ${task.id} to worker ${availableWorker}`)
         }
       }
     } else {
@@ -384,7 +379,6 @@ export class WorkerPool {
     }
 
     if (this.config.enableLogging) {
-      console.log('🧹 Worker pool cleaned up')
     }
   }
 

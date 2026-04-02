@@ -333,7 +333,6 @@ export const EnhancedVisualContentRenderer: React.FC<VisualContentRendererProps>
                       // Try fallback sources first
                       const fallbackSrc = getImageFallbackSource(selectedContent, img.src)
                       if (fallbackSrc && fallbackSrc !== img.src) {
-                        console.log('🔄 Trying fallback source:', fallbackSrc)
                         img.src = fallbackSrc
                         return
                       }
@@ -343,7 +342,6 @@ export const EnhancedVisualContentRenderer: React.FC<VisualContentRendererProps>
                         const recoveredContent = await visualContentManager.ensureVisualContentAccess(selectedContent)
                         const recoveredSrc = getImageSource(recoveredContent)
                         if (recoveredSrc && recoveredSrc !== img.src) {
-                          console.log('🔄 Recovered from storage manager:', recoveredSrc)
                           img.src = recoveredSrc
                           return
                         }

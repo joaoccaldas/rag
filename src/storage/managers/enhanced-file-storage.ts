@@ -65,7 +65,6 @@ export class EnhancedFileStorageManager {
       // Save config
       await this.saveConfig()
       
-      console.log(`📁 Selected storage folder: ${directoryHandle.name}`)
       return true
       
     } catch (error) {
@@ -105,7 +104,6 @@ export class EnhancedFileStorageManager {
       // Update storage registry
       await this.updateStorageRegistry(storedFile)
       
-      console.log(`📁 Enhanced storage complete: ${file.name}`)
       return storedFile
       
     } catch (error) {
@@ -379,7 +377,6 @@ export class EnhancedFileStorageManager {
       storedFile.localPath = `${this.config.selectedFolder.name}/${safeFileName}`
       storedFile.folderHandle = this.config.selectedFolder
       
-      console.log(`💾 File stored locally: ${storedFile.localPath}`)
       
     } catch (error) {
       console.error('Local storage failed, falling back to browser:', error)
@@ -401,7 +398,6 @@ export class EnhancedFileStorageManager {
       delete storedFile.browserStorage // Don't duplicate
     }
     
-    console.log(`🌐 File stored in browser: ${file.name}`)
   }
 
   /**

@@ -198,7 +198,6 @@ export class VisualContentExtractor {
       
       visuals.push(visualContent)
       
-      console.log(`✅ Generated clean visual content for ${cleanTitle}:`, {
         id: visualContent.id,
         title: visualContent.title,
         type: visualContent.type,

@@ -105,7 +105,6 @@ export class QueryCacheManager {
       this.updateCacheAccess(exactMatch)
       this.analytics.cacheHits++
       this.updateAnalytics(query, Date.now() - startTime, true)
-      console.log(`🎯 Cache HIT (exact): ${query}`)
       return exactMatch.results
     }
 
@@ -115,13 +114,11 @@ export class QueryCacheManager {
       this.updateCacheAccess(semanticMatch)
       this.analytics.cacheHits++
       this.updateAnalytics(query, Date.now() - startTime, true)
-      console.log(`🎯 Cache HIT (semantic): ${query}`)
       return semanticMatch.results
     }
 
     this.analytics.cacheMisses++
     this.updateAnalytics(query, Date.now() - startTime, false)
-    console.log(`❌ Cache MISS: ${query}`)
     return null
   }
 
@@ -162,7 +159,6 @@ export class QueryCacheManager {
 
     this.cache.set(cacheId, entry)
     await this.saveCacheToStorage()
-    console.log(`💾 Cached query: ${query} (${results.length} results)`)
   }
 
   private normalizeQuery(query: string): string {
@@ -261,7 +257,6 @@ export class QueryCacheManager {
 
     if (leastUsed) {
       this.cache.delete(leastUsed.id)
-      console.log(`🗑️ Evicted cache entry: ${leastUsed.originalQuery}`)
     }
   }
 
@@ -323,7 +318,6 @@ export class QueryCacheManager {
     }
     const removed = before - this.cache.size
     if (removed > 0) {
-      console.log(`🧹 Cleaned up ${removed} expired cache entries`)
     }
   }
 
@@ -332,7 +326,6 @@ export class QueryCacheManager {
 
     try {
       // Implementation would depend on storage type
-      console.log('📥 Loading cache from storage...')
       // For now, just log - actual implementation would load from IndexedDB/localStorage
     } catch (error) {
       console.error('Failed to load cache from storage:', error)
@@ -354,7 +347,6 @@ export class QueryCacheManager {
   async clearCache(): Promise<void> {
     this.cache.clear()
     await this.saveCacheToStorage()
-    console.log('🧹 Cache cleared')
   }
 
   getAnalytics(): QueryAnalytics {
@@ -383,7 +375,6 @@ export class QueryCacheManager {
     }
     
     await this.saveCacheToStorage()
-    console.log('⚡ Cache optimized')
   }
 
   destroy(): void {

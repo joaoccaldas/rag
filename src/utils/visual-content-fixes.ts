@@ -204,7 +204,6 @@ export class VisualContentExtractor {
       
       visuals.push(visualContent)
       
-      console.log(`✅ Generated clean visual content for ${cleanTitle}:`, {
         id: visualContent.id,
         title: visualContent.title,
         type: visualContent.type,
@@ -252,7 +251,6 @@ export class FileAccessManager {
       // Store back to localStorage
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(updatedFiles))
       
-      console.log(`✅ Stored original file for document ${documentId}: ${file.name}`)
       
     } catch (error) {
       console.error('Error storing file:', error)
@@ -293,7 +291,6 @@ export class FileAccessManager {
       // Clean up the URL after a short delay
       setTimeout(() => URL.revokeObjectURL(url), 1000)
       
-      console.log(`✅ Opened original file: ${storedFile.fileName}`)
       
     } catch (error) {
       console.error('Error opening file:', error)
@@ -327,7 +324,6 @@ export class FileAccessManager {
       // Clean up the URL
       URL.revokeObjectURL(url)
       
-      console.log(`✅ Downloaded original file: ${storedFile.fileName}`)
       
     } catch (error) {
       console.error('Error downloading file:', error)
@@ -384,7 +380,6 @@ export class FileAccessManager {
   static clearAllFiles(): void {
     try {
       localStorage.removeItem(this.STORAGE_KEY)
-      console.log('✅ Cleared all stored files')
     } catch (error) {
       console.error('Error clearing stored files:', error)
     }
@@ -410,7 +405,6 @@ export class FileAccessManager {
  */
 export async function fixVisualContentProcessing(file: File, documentId: string): Promise<VisualContent[]> {
   try {
-    console.log(`🎨 Processing visual content for: ${file.name}`)
     
     // Store original file for access
     await FileAccessManager.storeFile(documentId, file)
@@ -418,8 +412,6 @@ export async function fixVisualContentProcessing(file: File, documentId: string)
     // Extract visual content (thumbnails, etc.)
     const visualContent = await VisualContentExtractor.extractVisualContent(file, documentId)
     
-    console.log(`✅ Enhanced visual processing complete for ${file.name}`)
-    console.log(`📊 Generated ${visualContent.length} visual elements`)
     
     return visualContent
     

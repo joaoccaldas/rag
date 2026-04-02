@@ -76,7 +76,6 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
                 const avatarDoc = await storage.getDocument(avatarId)
                 if (avatarDoc && avatarDoc.content) {
                   parsedSettings.avatarUrl = avatarDoc.content
-                  console.log('✅ Avatar loaded from unlimited storage')
                 }
               } catch (avatarError) {
                 console.warn('Could not load avatar:', avatarError)
@@ -84,7 +83,6 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
               }
             }
             
-            console.log('✅ Settings loaded from unlimited storage')
             setSettings({ ...defaultSettings, ...parsedSettings })
             return
           }
@@ -103,7 +101,6 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
             parsedSettings.model === 'llama3.2' ||
           parsedSettings.model === 'llama3:latest'
         )) {
-          console.log('Clearing invalid model settings:', parsedSettings.model)
           localStorage.removeItem('miele-chat-settings')
           setSettings(defaultSettings)
           return
@@ -148,7 +145,6 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
           }
           
           await storage.storeDocument(avatarDoc)
-          console.log('✅ Avatar stored separately in unlimited storage')
           
           // Store only the reference in settings
           settingsToStore = { ...settings, avatarUrl: `storage:${avatarId}` }
@@ -167,7 +163,6 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       }
       
       await storage.storeDocument(settingsDoc)
-      console.log('✅ Settings saved to unlimited storage')
       
       // Also save to localStorage as fallback for quick access (without large avatar)
       try {
@@ -215,7 +210,6 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       try {
         // Comprehensive localStorage cleanup function
         const performStorageCleanup = () => {
-          console.log('🧹 Performing localStorage cleanup due to quota issues...')
           
           // 1. Clean up visual content by removing large base64 data
           try {
@@ -230,7 +224,6 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
                   fullContent: undefined // Remove large full content
                 }))
                 localStorage.setItem(visualContentKey, JSON.stringify(cleaned))
-                console.log('✅ Cleaned visual content base64 data')
               }
             }
           } catch (visualError) {
@@ -246,7 +239,6 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
               if (Array.isArray(parsed) && parsed.length > 50) {
                 const recent = parsed.slice(-50) // Keep only last 50 messages
                 localStorage.setItem(chatHistoryKey, JSON.stringify(recent))
-                console.log('✅ Trimmed chat history to 50 recent messages')
               }
             }
           } catch (chatError) {
@@ -269,7 +261,6 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
                   }))
                 }))
                 localStorage.setItem(documentsKey, JSON.stringify(cleaned))
-                console.log('✅ Removed document embeddings to save space')
               }
             }
           } catch (docError) {

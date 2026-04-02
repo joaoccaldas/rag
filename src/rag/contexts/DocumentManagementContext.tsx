@@ -110,37 +110,25 @@ export function DocumentManagementProvider({ children }: { children: React.React
         await storageManager.initialize()
         
         // Clear old cached data to prevent count mismatch
-        console.log('🧹 Clearing any stale document cache...')
         
         // Load documents with integrity check and force refresh
         const documents = await storageManager.loadDocuments()
-        console.log(`📋 DocumentManagement: Loaded ${documents.length} documents from storage`)
         
         // Verify document count in real-time
         const actualCount = documents.filter(doc => doc.status === 'ready').length
-        console.log(`✅ Verified ${actualCount} ready documents (total: ${documents.length})`)
         
         // Debug: Log document details
         documents.forEach((doc, index) => {
-          console.log(`  ${index + 1}. "${doc.name}"`)
-          console.log(`     - Status: ${doc.status}`)
-          console.log(`     - Content length: ${doc.content?.length || 0}`)
-          console.log(`     - Chunks: ${doc.chunks?.length || 0}`)
-          console.log(`     - Has embeddings: ${doc.chunks?.some(c => c.embedding) ? 'Yes' : 'No'}`)
-          console.log(`     - Size: ${(doc.size / 1024).toFixed(1)} KB`)
         })
         
         if (documents.length > 0) {
           const enhancedDocuments = enhanceDocumentsWithAI(documents)
           dispatch({ type: 'SET_DOCUMENTS', payload: enhancedDocuments })
-          console.log(`✅ Loaded ${documents.length} documents with enhanced storage`)
           
           // Force UI refresh to update document count
           setTimeout(() => {
-            console.log(`🔄 Document count refreshed: ${enhancedDocuments.length}`)
           }, 100)
         } else {
-          console.log('⚠️ No documents found in storage')
           // Ensure empty state is set
           dispatch({ type: 'SET_DOCUMENTS', payload: [] })
         }

@@ -22,7 +22,6 @@ class EnhancedStorageManager {
    * Initialize storage manager and perform health check
    */
   async initialize(): Promise<void> {
-    console.log('🔧 Initializing Enhanced Storage Manager...')
     
     try {
       // Initialize all storage systems
@@ -35,7 +34,6 @@ class EnhancedStorageManager {
       // Perform health check
       await this.performHealthCheck()
       
-      console.log('✅ Storage Manager initialized successfully')
     } catch (error) {
       console.error('❌ Storage Manager initialization failed:', error)
       throw error
@@ -47,14 +45,12 @@ class EnhancedStorageManager {
    */
   async saveDocuments(documents: Document[]): Promise<void> {
     if (this.syncInProgress) {
-      console.log('⏳ Sync in progress, queuing save operation...')
       await this.waitForSync()
     }
 
     this.syncInProgress = true
     
     try {
-      console.log(`💾 Saving ${documents.length} documents with full sync...`)
       
       // 1. Save documents to main storage
       await ragStorage.saveDocuments(documents)
@@ -66,13 +62,11 @@ class EnhancedStorageManager {
       
       if (documentsWithEmbeddings.length > 0) {
         await vectorDB.storeVectors(documentsWithEmbeddings)
-        console.log(`📊 Stored vectors for ${documentsWithEmbeddings.length} documents`)
       }
       
       // 3. Update storage state
       await this.updateStorageState(documents.length)
       
-      console.log('✅ Documents saved with full synchronization')
       
     } catch (error) {
       console.error('❌ Failed to save documents:', error)
@@ -86,7 +80,6 @@ class EnhancedStorageManager {
    * Load documents with integrity check
    */
   async loadDocuments(): Promise<Document[]> {
-    console.log('📂 Loading documents with integrity check...')
     
     try {
       // Load documents from main storage
@@ -104,7 +97,6 @@ class EnhancedStorageManager {
         await this.repairVectorDatabase(documents)
       }
       
-      console.log(`✅ Loaded ${documents.length} documents successfully`)
       return documents
       
     } catch (error) {
@@ -117,7 +109,6 @@ class EnhancedStorageManager {
    * Delete document with cascade cleanup
    */
   async deleteDocument(documentId: string): Promise<void> {
-    console.log(`🗑️ Deleting document ${documentId} with cascade cleanup...`)
     
     try {
       // 1. Delete from main storage
@@ -133,7 +124,6 @@ class EnhancedStorageManager {
       const remainingDocs = await ragStorage.loadDocuments()
       await this.updateStorageState(remainingDocs.length)
       
-      console.log('✅ Document deleted with cascade cleanup')
       
     } catch (error) {
       console.error('❌ Failed to delete document:', error)
@@ -145,7 +135,6 @@ class EnhancedStorageManager {
    * Clear all storage systems
    */
   async clearAll(): Promise<void> {
-    console.log('🧹 Clearing all storage systems...')
     
     try {
       await Promise.all([
@@ -157,7 +146,6 @@ class EnhancedStorageManager {
       // Reset storage state
       await this.updateStorageState(0)
       
-      console.log('✅ All storage cleared')
       
     } catch (error) {
       console.error('❌ Failed to clear storage:', error)
@@ -204,7 +192,6 @@ class EnhancedStorageManager {
    * Repair vector database inconsistencies
    */
   private async repairVectorDatabase(documents: Document[]): Promise<void> {
-    console.log('🔧 Repairing vector database...')
     
     try {
       // Clear and rebuild vector database
@@ -218,7 +205,6 @@ class EnhancedStorageManager {
         await vectorDB.storeVectors(documentsWithEmbeddings)
       }
       
-      console.log('✅ Vector database repaired')
     } catch (error) {
       console.error('❌ Failed to repair vector database:', error)
     }
@@ -231,7 +217,6 @@ class EnhancedStorageManager {
     try {
       const stats = await this.getStorageStats()
       if (stats) {
-        console.log('📊 Storage Health Check:', {
           documents: stats.documents.count,
           vectors: stats.vectors.totalVectors,
           consistent: stats.health.consistent,
@@ -312,9 +297,7 @@ interface VisualContentStorageInterface {
 // Mock implementation if not available
 const visualContentStorage: VisualContentStorageInterface = {
   async deleteVisualContent(documentId: string): Promise<void> {
-    console.log(`Deleting visual content for ${documentId}`)
   },
   async clearAll(): Promise<void> {
-    console.log('Clearing all visual content')
   }
 }

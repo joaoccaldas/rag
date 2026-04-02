@@ -120,11 +120,9 @@ export function useOllamaConnection(config: Partial<OllamaConnectionConfig> = {}
     for (const protocol of fullConfig.protocols) {
       for (const host of fullConfig.hosts) {
         for (const port of fullConfig.ports) {
-          console.log(`🔄 Testing direct connection: ${protocol}://${host}:${port}`)
           
           const result = await testConnection(host, port, protocol, 'direct')
           if (result.success) {
-            console.log(`✅ Direct connection successful: ${protocol}://${host}:${port}`)
             updateState({
               isConnected: true,
               isConnecting: false,
@@ -141,10 +139,8 @@ export function useOllamaConnection(config: Partial<OllamaConnectionConfig> = {}
     }
     
     // Try proxy connection
-    console.log('🔄 Testing proxy connection...')
     const proxyResult = await testConnection('localhost', '3000', 'http', 'proxy')
     if (proxyResult.success) {
-      console.log('✅ Proxy connection successful')
       updateState({
         isConnected: true,
         isConnecting: false,
@@ -158,7 +154,6 @@ export function useOllamaConnection(config: Partial<OllamaConnectionConfig> = {}
     }
     
     // Fallback to mock mode for development
-    console.log('⚠️ All connections failed, using mock mode')
     setState(prev => ({
       ...prev,
       isConnected: true,
@@ -216,7 +211,6 @@ export function useOllamaConnection(config: Partial<OllamaConnectionConfig> = {}
       for (const protocol of protocols) {
         for (const host of hosts) {
           for (const port of ports) {
-            console.log(`🔄 Testing direct connection: ${protocol}://${host}:${port}`)
             
             try {
               const baseUrl = `${protocol}://${host}:${port}`
@@ -233,7 +227,6 @@ export function useOllamaConnection(config: Partial<OllamaConnectionConfig> = {}
               
               if (response.ok) {
                 const data = await response.json()
-                console.log(`✅ Direct connection successful: ${protocol}://${host}:${port}`)
                 setState(prev => ({
                   ...prev,
                   isConnected: true,
@@ -247,14 +240,12 @@ export function useOllamaConnection(config: Partial<OllamaConnectionConfig> = {}
                 return
               }
             } catch (error) {
-              console.log(`❌ Direct connection failed: ${protocol}://${host}:${port}`, error)
             }
           }
         }
       }
       
       // Try proxy connection
-      console.log('🔄 Testing proxy connection...')
       try {
         const proxyUrl = `http://${window.location.hostname}:${window.location.port || '3000'}`
         const controller = new AbortController()
@@ -270,7 +261,6 @@ export function useOllamaConnection(config: Partial<OllamaConnectionConfig> = {}
         
         if (response.ok) {
           const data = await response.json()
-          console.log('✅ Proxy connection successful')
           setState(prev => ({
             ...prev,
             isConnected: true,
@@ -284,11 +274,9 @@ export function useOllamaConnection(config: Partial<OllamaConnectionConfig> = {}
           return
         }
       } catch (error) {
-        console.log('❌ Proxy connection failed:', error)
       }
       
       // Fallback to mock mode for development
-      console.log('⚠️ All connections failed, using mock mode')
       setState(prev => ({
         ...prev,
         isConnected: true,

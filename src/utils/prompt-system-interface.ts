@@ -189,7 +189,6 @@ Respond in JSON format with: summary, keywords, insights, numbers, recommendatio
       }
 
       UnifiedPromptManager.saveCustomPrompt(unifiedTemplate)
-      console.log(`✅ Migrated legacy template: ${legacyTemplate.name}`)
       return true
     } catch (error) {
       console.error(`❌ Failed to migrate template ${legacyTemplate.name}:`, error)

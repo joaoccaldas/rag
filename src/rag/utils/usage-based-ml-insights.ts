@@ -113,14 +113,12 @@ export class UsageBasedMLInsights {
 
     this.persistData()
 
-    console.log(`📊 Recorded ${interaction.type} interaction for ML analysis`)
   }
 
   /**
    * Generate ML insights based on actual usage data
    */
   async generateInsights(): Promise<MLInsight[]> {
-    console.log('🧠 Generating ML insights from usage patterns...')
 
     // Clear old insights
     this.insights = []
@@ -147,7 +145,6 @@ export class UsageBasedMLInsights {
 
     this.persistData()
 
-    console.log(`✨ Generated ${this.insights.length} ML insights from actual usage data`)
     return this.insights
   }
 

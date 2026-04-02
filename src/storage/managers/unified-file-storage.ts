@@ -75,10 +75,8 @@ export class UnifiedFileStorageManager {
    * Migrate old system files to new system
    */
   async migrateOldToNew(): Promise<void> {
-    console.log('🔄 Starting file storage migration...')
     
     const oldFiles = this.getOldSystemFiles()
-    console.log(`📦 Found ${oldFiles.length} files in old storage system`)
     
     for (const oldFile of oldFiles) {
       try {
@@ -104,7 +102,6 @@ export class UnifiedFileStorageManager {
           if (oldContent) {
             // Store in new system
             await this.storeInNewSystem(newFile, oldContent)
-            console.log(`✅ Migrated: ${oldFile.originalName}`)
           }
         }
       } catch (error) {
@@ -112,7 +109,6 @@ export class UnifiedFileStorageManager {
       }
     }
     
-    console.log('✅ Migration complete')
   }
 
   /**
@@ -331,7 +327,6 @@ export class UnifiedFileStorageManager {
    * Clean up duplicate files and optimize storage
    */
   async cleanupDuplicates(): Promise<void> {
-    console.log('🧹 Cleaning up duplicate files...')
     
     const allFiles = this.getAllStoredFiles()
     const duplicates = new Map<string, UnifiedStoredFile[]>()
@@ -351,11 +346,9 @@ export class UnifiedFileStorageManager {
           new Date(b.uploadDate).getTime() - new Date(a.uploadDate).getTime()
         )[0]
         
-        console.log(`🔄 Document ${documentId}: keeping ${newest.originalName}, removing ${files.length - 1} duplicates`)
       }
     }
     
-    console.log('✅ Cleanup complete')
   }
 }
 

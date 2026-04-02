@@ -138,7 +138,6 @@ function hasFileSystemAccess(): boolean {
  * Create necessary storage directories
  */
 async function ensureStorageDirectories(): Promise<void> {
-  console.log('📁 Using browser-compatible storage - no directory creation needed')
   return
 }
 
@@ -171,7 +170,6 @@ async function saveImageToFile(
     }
     
     await fs.writeFile(filePath, buffer)
-    console.log(`💾 Saved ${isFullImage ? 'image' : 'thumbnail'}: ${fileName} (${buffer.length} bytes)`)
     
     return filePath
   } catch (error) {
@@ -261,14 +259,12 @@ export async function storeVisualContentToFiles(visuals: VisualContent[]): Promi
     const updatedMetadata = [...existingMetadata, ...newMetadata]
     localStorage.setItem(METADATA_KEY, JSON.stringify(updatedMetadata))
     
-    console.log(`✅ Stored ${newMetadata.length} visual items to file system`)
     
   } catch (error) {
     console.error('Error storing visual content to files:', error)
     
     // Fallback to original localStorage method for browser environments
     if (!hasFileSystemAccess()) {
-      console.log('Falling back to localStorage storage...')
       await fallbackToLocalStorage(visuals)
     } else {
       throw error
@@ -364,7 +360,6 @@ export async function deleteVisualContentFiles(contentIds: string[]): Promise<vo
           try {
             const fullPath = pathJoin(FULL_IMAGES_PATH, meta.fileName)
             await fs.unlink(fullPath)
-            console.log(`🗑️ Deleted image: ${meta.fileName}`)
           } catch (error) {
             console.warn(`Failed to delete image ${meta.fileName}:`, error)
           }
@@ -374,7 +369,6 @@ export async function deleteVisualContentFiles(contentIds: string[]): Promise<vo
           try {
             const thumbPath = pathJoin(THUMBNAILS_PATH, meta.thumbnailFileName)
             await fs.unlink(thumbPath)
-            console.log(`🗑️ Deleted thumbnail: ${meta.thumbnailFileName}`)
           } catch (error) {
             console.warn(`Failed to delete thumbnail ${meta.thumbnailFileName}:`, error)
           }
@@ -386,7 +380,6 @@ export async function deleteVisualContentFiles(contentIds: string[]): Promise<vo
     const remaining = metadata.filter(m => !contentIds.includes(m.id))
     localStorage.setItem(METADATA_KEY, JSON.stringify(remaining))
     
-    console.log(`✅ Deleted ${toDelete.length} visual content items`)
     
   } catch (error) {
     console.error('Error deleting visual content:', error)
@@ -451,7 +444,6 @@ export async function clearVisualContentFiles(): Promise<void> {
     // Clear metadata
     localStorage.removeItem(METADATA_KEY)
     
-    console.log('✅ Cleared all visual content storage')
     
   } catch (error) {
     console.error('Error clearing visual content:', error)

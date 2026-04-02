@@ -52,12 +52,10 @@ export function VisualContentLibrary({
       setLoading(true)
       try {
         const content = await getStoredVisualContent()
-        console.log('Visual content loaded:', content)
         
         // Log first item for debugging
         if (content.length > 0 && content[0]) {
           const firstItem = content[0]
-          console.log('First visual item structure:', {
             id: firstItem.id,
             type: firstItem.type,
             hasThumbnail: !!firstItem.thumbnail,
@@ -181,12 +179,7 @@ export function VisualContentLibrary({
           })
         }
         
-        console.log('Processed visual elements:', elements)
-        console.log(`📊 Visual elements summary: ${elements.length} total`)
         elements.forEach((el, i) => {
-          console.log(`  ${i + 1}. ${el.type} - ${el.description}`)
-          console.log(`     Has thumbnail: ${!!el.thumbnailUrl} (${el.thumbnailUrl?.length || 0} chars)`)
-          console.log(`     Thumbnail preview: ${el.thumbnailUrl?.substring(0, 50)}...`)
         })
         
         setVisualElements(elements)

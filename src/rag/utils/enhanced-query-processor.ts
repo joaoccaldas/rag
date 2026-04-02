@@ -299,10 +299,6 @@ export async function enhancedSearch(
     intent
   )
   
-  console.log('🔍 Enhanced Search Results:')
-  console.log(`Query Intent: ${intent.domain} domain, ${intent.searchScope} scope`)
-  console.log(`Expanded Query: ${expandedQuery}`)
-  console.log(`Original results: ${originalResults.length}, Filtered: ${rerankedResults.length}`)
   
   return rerankedResults
 }

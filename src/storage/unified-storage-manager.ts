@@ -421,7 +421,6 @@ export class UnifiedStorageManager {
       const preferred = this.adapters.get(this.config.preferredAdapter)
       if (preferred?.available) {
         this.activeAdapter = preferred
-        console.log(`✅ Using preferred storage adapter: ${preferred.name}`)
         return
       }
     }
@@ -431,7 +430,6 @@ export class UnifiedStorageManager {
       const adapter = this.adapters.get(adapterName)
       if (adapter?.available) {
         this.activeAdapter = adapter
-        console.log(`✅ Auto-selected storage adapter: ${adapter.name}`)
         return
       }
     }
@@ -445,7 +443,6 @@ export class UnifiedStorageManager {
     
     const key = `document_${document.id}`
     await this.activeAdapter.store(key, document)
-    console.log(`📄 Stored document: ${document.name}`)
   }
   
   async retrieveDocument(documentId: string): Promise<Document | null> {
@@ -464,7 +461,6 @@ export class UnifiedStorageManager {
       await this.activeAdapter.store(key, visual)
     }
     
-    console.log(`🎨 Stored ${visualContent.length} visual content items`)
   }
   
   async retrieveVisualContent(documentId?: string): Promise<VisualContent[]> {
@@ -489,7 +485,6 @@ export class UnifiedStorageManager {
     
     const key = `analysis_${documentId}`
     await this.activeAdapter.store(key, analysis)
-    console.log(`🧠 Stored AI analysis for: ${documentId}`)
   }
   
   async retrieveAIAnalysis(documentId: string): Promise<AIAnalysisData | null> {
@@ -516,7 +511,6 @@ export class UnifiedStorageManager {
     if (!this.activeAdapter) return
     
     await this.activeAdapter.clear()
-    console.log('🗑️ Cleared all storage')
   }
   
   async migrate(fromAdapter: string, toAdapter: string): Promise<void> {
@@ -527,7 +521,6 @@ export class UnifiedStorageManager {
       throw new Error('Migration adapters not available')
     }
     
-    console.log(`🔄 Migrating from ${fromAdapter} to ${toAdapter}...`)
     
     const keys = await from.list()
     let migrated = 0
@@ -544,7 +537,6 @@ export class UnifiedStorageManager {
       }
     }
     
-    console.log(`✅ Migrated ${migrated}/${keys.length} items`)
     
     // Switch to new adapter
     this.activeAdapter = to

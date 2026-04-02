@@ -22,16 +22,13 @@ export async function searchWithSemanticCache(query: string) {
   const embedding = await generateQueryEmbedding(query)
 
   // Step 2: Check cache BEFORE expensive search
-  console.log('🔍 Checking cache...')
   const cached = await cache.get(query, embedding)
   
   if (cached) {
-    console.log('✨ Cache hit! Returning cached results')
     return cached
   }
 
   // Step 3: Cache miss - perform actual search
-  console.log('❌ Cache miss - performing search')
   const results = await performExpensiveSearch(query)
 
   // Step 4: Store in cache for next time
@@ -48,7 +45,6 @@ export async function createSearchContext() {
   const cache = await createSemanticCacheWrapper()
 
   const searchDocuments = async (query: string) => {
-    console.log(`🔍 Searching for: "${query}"`)
     
     try {
       // Generate embedding
@@ -57,7 +53,6 @@ export async function createSearchContext() {
       // Check cache first
       const cached = await cache.get(query, embedding)
       if (cached) {
-        console.log('⚡ Lightning fast cache hit!')
         return cached
       }
       
@@ -85,7 +80,6 @@ export class SemanticRAGPipeline {
   private cache: Awaited<ReturnType<typeof createSemanticCacheWrapper>> | null = null
 
   async initialize() {
-    console.log('🚀 Initializing RAG pipeline with semantic cache...')
     
     // Initialize semantic cache
     this.cache = await createSemanticCacheWrapper({
@@ -94,7 +88,6 @@ export class SemanticRAGPipeline {
       preferSemanticCache: true
     })
 
-    console.log('✅ Semantic cache initialized')
   }
 
   async query(userQuery: string) {
@@ -102,35 +95,28 @@ export class SemanticRAGPipeline {
       throw new Error('Pipeline not initialized. Call initialize() first.')
     }
 
-    console.log(`\n📝 User query: "${userQuery}"`)
     const startTime = performance.now()
 
     try {
       // Step 1: Generate embedding
-      console.log('1️⃣ Generating embedding...')
       const embedding = await generateQueryEmbedding(userQuery)
 
       // Step 2: Check cache
-      console.log('2️⃣ Checking semantic cache...')
       const cached = await this.cache.get(userQuery, embedding)
       
       if (cached) {
         const duration = performance.now() - startTime
-        console.log(`✨ Cache HIT! Returned in ${duration.toFixed(0)}ms`)
         return this.formatResults(cached)
       }
 
       // Step 3: Execute full RAG pipeline
-      console.log('3️⃣ Cache miss - executing full pipeline...')
       const results = await this.executeFullPipeline(userQuery)
 
       // Step 4: Cache results
-      console.log('4️⃣ Caching results...')
       const documentIds = results.map(r => r.id)
       await this.cache.set(userQuery, embedding, results, documentIds)
 
       const duration = performance.now() - startTime
-      console.log(`✅ Pipeline complete in ${duration.toFixed(0)}ms`)
 
       return this.formatResults(results)
 
@@ -143,9 +129,7 @@ export class SemanticRAGPipeline {
   async invalidateDocuments(documentIds: string[]) {
     if (!this.cache) return
 
-    console.log('🧹 Invalidating cache for updated documents...')
     await this.cache.invalidateByDocuments(documentIds)
-    console.log('✅ Cache invalidated')
   }
 
   getStats() {
@@ -161,9 +145,6 @@ export class SemanticRAGPipeline {
     // - LLM generation
     // - etc.
     
-    console.log('  → Retrieving documents...')
-    console.log('  → Reranking results...')
-    console.log('  → Generating answer...')
     
     // Placeholder - replace with actual pipeline
     return await performExpensiveSearch(query)
@@ -182,7 +163,6 @@ export class SemanticRAGPipeline {
 // ============= Example 4: Document Update Handler =============
 
 export async function handleDocumentUpdate(documentIds: string[]) {
-  console.log('📄 Documents updated:', documentIds)
   
   // Get cache instance
   const cache = await createSemanticCacheWrapper()
@@ -190,7 +170,6 @@ export async function handleDocumentUpdate(documentIds: string[]) {
   // Invalidate affected cache entries
   await cache.invalidateByDocuments(documentIds)
   
-  console.log('✅ Cache invalidated for updated documents')
 }
 
 // ============= Example 5: Analytics Dashboard =============
@@ -221,14 +200,6 @@ export async function getCacheAnalytics() {
     }
   }
 
-  console.log('📊 Cache Analytics:')
-  console.log(`  Semantic L1 Hits: ${analytics.semantic.l1Hits}`)
-  console.log(`  Semantic L2 Hits: ${analytics.semantic.l2Hits}`)
-  console.log(`  Cache Misses: ${analytics.semantic.misses}`)
-  console.log(`  Combined Hit Rate: ${(analytics.combined.hitRate * 100).toFixed(1)}%`)
-  console.log(`  Avg Latency: ${analytics.semantic.avgLatency.toFixed(0)}ms`)
-  console.log(`  L1 Size: ${analytics.semantic.cacheSize.l1}`)
-  console.log(`  L2 Size: ${analytics.semantic.cacheSize.l2}`)
 
   return analytics
 }
@@ -243,7 +214,6 @@ export async function toggleSemanticCache(enabled: boolean) {
     useLegacyCache: !enabled  // Use legacy when semantic disabled
   })
 
-  console.log(`⚙️ Semantic cache ${enabled ? 'enabled' : 'disabled'}`)
 }
 
 // ============= Helper Functions =============
@@ -288,36 +258,24 @@ async function performExpensiveSearch(
 // ============= Example Usage =============
 
 export async function exampleUsage() {
-  console.log('=== Semantic Cache Example ===\n')
 
   // Example 1: Simple search with caching
-  console.log('Example 1: Basic search')
   const results1 = await searchWithSemanticCache('How do I reset my password?')
-  console.log(`Found ${results1.length} results\n`)
 
   // Example 2: Similar query should hit cache
-  console.log('Example 2: Similar query (should hit cache)')
   const results2 = await searchWithSemanticCache('password reset instructions')
-  console.log(`Found ${results2.length} results\n`)
 
   // Example 3: RAG Pipeline
-  console.log('Example 3: RAG Pipeline')
   const pipeline = new SemanticRAGPipeline()
   await pipeline.initialize()
   const answer = await pipeline.query('What is the refund policy?')
-  console.log(`Answer: ${JSON.stringify(answer, null, 2)}\n`)
 
   // Example 4: Analytics
-  console.log('Example 4: Cache Analytics')
   await getCacheAnalytics()
-  console.log()
 
   // Example 5: Document update
-  console.log('Example 5: Document Update')
   await handleDocumentUpdate(['doc-1', 'doc-2'])
-  console.log()
 
-  console.log('=== Examples Complete ===')
 }
 
 // Uncomment to run examples:

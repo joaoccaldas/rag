@@ -68,11 +68,9 @@ function RAGViewContent({ className = '', initialTab, onTabChange }: RAGViewProp
   useEffect(() => {
     const loadVisualContent = async () => {
       try {
-        console.log(`🎨 Loading visual content for ${documents.length} documents`)
         
         // Primary source: Load from storage
         const stored = await getStoredVisualContent()
-        console.log(`🎨 Found ${stored.length} visual items in storage`)
         
         // Convert stored visual content to renderer format with proper source handling
         const storedConverted = stored
@@ -158,7 +156,6 @@ function RAGViewContent({ className = '', initialTab, onTabChange }: RAGViewProp
         
         // Set the visual content (only real extracted data)
         setVisualContent(uniqueContent)
-        console.log(`Loaded ${uniqueContent.length} visual content items`)
         
       } catch (error) {
         console.error('Failed to load visual content:', error)
@@ -243,7 +240,6 @@ function RAGViewContent({ className = '', initialTab, onTabChange }: RAGViewProp
               <UnifiedDocumentHub 
                 initialViewMode="hybrid"
                 onDocumentSelect={(document) => {
-                  console.log('Document selected:', document.name)
                 }}
               />
             </div>

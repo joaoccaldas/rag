@@ -46,11 +46,9 @@ export class DocumentUploadService {
     const startTime = Date.now()
     
     try {
-      console.log(`📄 Processing document: ${file.name}`)
 
       // Extract OCR data
       const ocrResult = await ocrExtractionService.extractFromFile(file, options)
-      console.log(`✅ OCR completed in ${ocrResult.processingTime}ms`)
 
       // Create document object
       const document: Document = {
@@ -119,7 +117,6 @@ export class DocumentUploadService {
         try {
           // Store using the standardized visual content storage
           await storeVisualContent(visualElements)
-          console.log(`💾 Stored ${visualElements.length} visual elements`)
         } catch (error) {
           console.warn('Failed to store visual elements:', error)
         }
@@ -261,7 +258,6 @@ export class DocumentUploadService {
       const existingDocs = this.getStoredDocuments()
       const updatedDocs = [...existingDocs, document]
       localStorage.setItem('rag_documents', JSON.stringify(updatedDocs))
-      console.log(`💾 Document stored: ${document.id}`)
     } catch (error) {
       console.error('Failed to store document:', error)
     }
@@ -319,7 +315,6 @@ export class DocumentUploadService {
         console.warn(`Failed to delete visual content for document ${documentId}:`, error)
       }
 
-      console.log(`🗑️ Document deleted: ${documentId}`)
       return true
     } catch (error) {
       console.error('Failed to delete document:', error)

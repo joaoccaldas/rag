@@ -90,7 +90,6 @@ class UnlimitedVisualContentManager {
           })
         }
 
-        console.log(`Stored visual content in unlimited storage: ${file.name}`)
       } catch (error) {
         console.warn('Failed to store in unlimited storage, falling back to localStorage:', error)
       }
@@ -205,7 +204,6 @@ class UnlimitedVisualContentManager {
       // Delete document
       await unlimitedRAGStorage.deleteDocument(id)
       
-      console.log(`Deleted visual content from unlimited storage: ${id}`)
       return true
     } catch (error) {
       console.warn('Failed to delete visual content:', error)
@@ -304,7 +302,6 @@ class UnlimitedVisualContentManager {
           // Check if already exists in unlimited storage
           const existing = await unlimitedRAGStorage.getDocument(content.id)
           if (existing) {
-            console.log(`Visual content already exists in unlimited storage: ${content.id}`)
             continue
           }
 
@@ -343,7 +340,6 @@ class UnlimitedVisualContentManager {
           }
 
           migrated++
-          console.log(`Migrated visual content: ${content.filename}`)
         } catch (error) {
           const errorMsg = `Failed to migrate ${content.filename}: ${error}`
           errors.push(errorMsg)
@@ -364,7 +360,6 @@ class UnlimitedVisualContentManager {
   clearLocalStorageVisualContent(): void {
     try {
       localStorage.removeItem('rag_visual_content')
-      console.log('Cleared localStorage visual content')
     } catch {
       console.error('Failed to clear localStorage visual content')
     }

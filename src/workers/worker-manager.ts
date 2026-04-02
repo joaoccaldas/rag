@@ -253,7 +253,6 @@ export class DocumentWorkerManager {
     idleWorkers.forEach(worker => this.removeWorker(worker))
     
     if (idleWorkers.length > 0) {
-      console.log(`🧹 Cleaned up ${idleWorkers.length} idle workers`)
     }
   }
 

@@ -118,10 +118,8 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
         documentsToSearch = providedDocuments.filter(doc => doc.status === 'ready' && doc.chunks)
       }
       
-      console.log(`🔍 Enhanced RAG Search: Searching through ${documentsToSearch.length} ready documents for query: "${query}"`)
       
       if (documentsToSearch.length === 0) {
-        console.log('❌ No ready documents found for search')
         dispatch({ type: 'SET_SEARCH_RESULTS', payload: [] })
         return []
       }
@@ -133,7 +131,6 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
       const queryIntent = EnhancedQueryProcessor.analyzeQueryIntent(query)
       const expandedQuery = EnhancedQueryProcessor.expandQuery(query, queryIntent)
       
-      console.log(`🧠 Query analysis:`, { 
         originalQuery: query, 
         expandedQuery, 
         domain: queryIntent.domain,
@@ -158,7 +155,6 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
       // Check semantic cache first (matches similar queries, not just exact)
       const cachedResults = await semanticCache.get(query, queryEmbedding)
       if (cachedResults && cachedResults.length > 0) {
-        console.log(`✨ Semantic Cache HIT: Found ${cachedResults.length} cached results for query: "${query}"`)
         
         // Convert cached results to SearchResult format
         const searchResults: SearchResult[] = []
@@ -185,11 +181,9 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
         dispatch({ type: 'SET_SEARCH_RESULTS', payload: searchResults })
         dispatch({ type: 'ADD_TO_HISTORY', payload: query })
         
-        console.log(`🎯 Semantic cache-served results: ${searchResults.length} results`)
         return searchResults
       }
       
-      console.log(`💨 Cache MISS: Performing full semantic search for query: "${query}"`)
 
       // IMPROVEMENT 1: Persistent Vector Storage
       const { PersistentVectorStorage } = await import('../utils/persistent-vector-storage')
@@ -335,19 +329,15 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
         [...new Set(documentIds)] // Unique document IDs
       )
       
-      console.log(`💾 Cached ${cacheResults.length} results in semantic cache`)
       
-      console.log(`🎯 Enhanced search complete: ${searchResults.length} results after intent analysis + feedback learning`)
       
       // Store results and add to search history
       dispatch({ type: 'SET_SEARCH_RESULTS', payload: searchResults })
       dispatch({ type: 'ADD_TO_HISTORY', payload: query })
       
       // Log final results summary
-      console.log(`🏆 Final search results:`)
       searchResults.slice(0, 5).forEach((result: SearchResult, index: number) => {
         if (result.document && result.chunk && typeof result.similarity === 'number') {
-          console.log(`  ${index + 1}. "${result.document.name}" - Score: ${result.similarity.toFixed(3)} - Preview: "${result.chunk.content.substring(0, 100)}..."`)
         }
       })
       
@@ -372,7 +362,6 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
     comment?: string
   ) => {
     // Store feedback in both systems for comprehensive learning
-    console.log(`💾 Storing feedback: ${rating} (${score}) for query: "${queryText}"`)
     
     try {
       // Import feedback systems
@@ -407,7 +396,6 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
           })
         }
       }
-      console.log('✅ Feedback stored in both FeedbackEnhancedSearch and AdaptiveFeedbackLearner systems')
     } catch (error) {
       console.error('Failed to store feedback:', error)
     }

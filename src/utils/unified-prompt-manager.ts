@@ -196,7 +196,6 @@ Always respond with valid JSON only. Do not include any text outside the JSON st
       }
       
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(promptToSave))
-      console.log('✅ Custom prompt template saved')
     } catch (error) {
       console.error('Failed to save custom prompt template:', error)
       throw error
@@ -209,7 +208,6 @@ Always respond with valid JSON only. Do not include any text outside the JSON st
   static resetToDefault(): void {
     localStorage.removeItem(this.STORAGE_KEY)
     localStorage.removeItem(this.TEMPLATES_KEY)
-    console.log('✅ Prompt template reset to default and cache cleared')
   }
 
   /**
@@ -218,7 +216,6 @@ Always respond with valid JSON only. Do not include any text outside the JSON st
   static refreshTemplate(): void {
     // Clear cache and force reload
     localStorage.removeItem(this.STORAGE_KEY)
-    console.log('✅ Template cache cleared, will reload default')
   }
 
   /**
@@ -228,7 +225,6 @@ Always respond with valid JSON only. Do not include any text outside the JSON st
     const template = this.getCurrentPrompt()
     const validation = this.validateTemplate(template)
     
-    console.log('🔍 Current Template Debug:', {
       name: template.name,
       isValid: validation.isValid,
       errors: validation.errors,
@@ -364,7 +360,6 @@ Always respond with valid JSON only. Do not include any text outside the JSON st
       }
 
       this.saveCustomPrompt(template)
-      console.log('✅ Prompt template imported successfully')
     } catch (error) {
       console.error('Failed to import prompt template:', error)
       throw error

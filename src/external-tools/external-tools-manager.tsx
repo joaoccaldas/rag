@@ -43,14 +43,12 @@ export function ExternalToolsManager({
   }
 
   const handleWebSearchResults = (results: SearchResult[]) => {
-    console.log('🌐 Web search results received:', results.length)
     if (onSearchResults) {
       onSearchResults(results)
     }
   }
 
   const handleVoiceTranscript = (transcript: string) => {
-    console.log('🎤 Voice transcript:', transcript)
     if (onTranscript) {
       onTranscript(transcript)
     }

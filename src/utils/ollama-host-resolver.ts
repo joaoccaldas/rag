@@ -107,7 +107,6 @@ export class OllamaHostResolver {
     for (let i = 0; i < results.length; i++) {
       const config = this.hostConfigs[i]
       if (results[i]?.status === 'fulfilled' && config?.isReachable) {
-        console.log(`✅ Found working Ollama host: ${this.buildUrl(config)}`)
         return config
       }
     }
@@ -140,11 +139,9 @@ export class OllamaHostResolver {
       config.isReachable = response.ok
       config.lastChecked = Date.now()
 
-      console.log(`🔍 Host check: ${url} - ${response.ok ? 'OK' : 'Failed'}`)
     } catch (error) {
       config.isReachable = false
       config.lastChecked = Date.now()
-      console.log(`❌ Host unreachable: ${url} - ${error instanceof Error ? error.message : 'Unknown error'}`)
     }
   }
 

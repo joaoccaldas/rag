@@ -36,7 +36,6 @@ export class IndexedDBVectorDatabase extends BaseVectorDatabase {
       
       request.onsuccess = () => {
         this.db = request.result
-        console.log('✅ IndexedDB Vector Database initialized')
         resolve()
       }
       
@@ -90,7 +89,6 @@ export class IndexedDBVectorDatabase extends BaseVectorDatabase {
       metadataRequest.onerror = () => reject(metadataRequest.error)
     })
     
-    console.log(`✅ Added ${documents.length} documents to IndexedDB`)
   }
 
   async search(query: SearchQuery): Promise<SearchResult[]> {
@@ -147,7 +145,6 @@ export class IndexedDBVectorDatabase extends BaseVectorDatabase {
     return new Promise((resolve, reject) => {
       const request = store.delete(id)
       request.onsuccess = () => {
-        console.log(`✅ Deleted document ${id} from IndexedDB`)
         resolve()
       }
       request.onerror = () => reject(request.error)
@@ -163,7 +160,6 @@ export class IndexedDBVectorDatabase extends BaseVectorDatabase {
     return new Promise((resolve, reject) => {
       const request = store.put(document)
       request.onsuccess = () => {
-        console.log(`✅ Updated document ${document.id} in IndexedDB`)
         resolve()
       }
       request.onerror = () => reject(request.error)
@@ -192,7 +188,6 @@ export class IndexedDBVectorDatabase extends BaseVectorDatabase {
     if (this.db) {
       this.db.close()
       this.db = null
-      console.log('✅ IndexedDB connection closed')
     }
   }
 

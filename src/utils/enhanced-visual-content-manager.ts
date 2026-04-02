@@ -163,7 +163,6 @@ class EnhancedVisualContentManager implements VisualContentManager {
       
       const matching = allStored.find(stored => stored.id === content.id)
       if (matching) {
-        console.log('🔄 Recovered visual content from localStorage:', content.id)
         return matching
       }
     } catch (error) {

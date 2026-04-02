@@ -47,7 +47,6 @@ class StorageMigration {
   ]
 
   async migrateAllSystems(): Promise<MigrationStats> {
-    console.log('🔄 Starting comprehensive storage migration...')
     
     try {
       // Migrate from localStorage
@@ -59,7 +58,6 @@ class StorageMigration {
       // Clean up old storage keys
       await this.cleanupOldStorage()
       
-      console.log('✅ Migration completed successfully!')
       this.logMigrationStats()
       
     } catch (error) {
@@ -71,7 +69,6 @@ class StorageMigration {
   }
 
   private async migrateFromLocalStorage(): Promise<void> {
-    console.log('📦 Scanning localStorage for legacy data...')
     
     const allKeys: string[] = []
     for (let i = 0; i < localStorage.length; i++) {
@@ -90,7 +87,6 @@ class StorageMigration {
     // Only attempt filesystem migration in Node.js environments
     if (typeof window !== 'undefined') return
     
-    console.log('📁 Scanning filesystem for legacy data...')
     
     try {
       const fs = await import('fs/promises')
@@ -110,7 +106,6 @@ class StorageMigration {
           }
         } catch {
           // Directory doesn't exist, skip
-          console.log(`Directory ${storagePath} not found, skipping`)
         }
       }
     } catch (error) {
@@ -150,21 +145,18 @@ class StorageMigration {
         await unifiedStorage.storeDocument(doc)
         this.stats.documentsFound++
         this.stats.documentsMigrated++
-        console.log(`📄 Migrated document: ${doc.name}`)
         
       } else if (this.isVisualContent(actualData)) {
         const visual = actualData as VisualContent
         await unifiedStorage.storeVisualContent([visual])
         this.stats.visualContentFound++
         this.stats.visualContentMigrated++
-        console.log(`🎨 Migrated visual content: ${visual.id}`)
         
       } else if (this.isAIAnalysis(actualData)) {
         const analysis = actualData as AIAnalysisData & { documentId?: string }
         await unifiedStorage.storeAIAnalysis(analysis.documentId || 'unknown', analysis)
         this.stats.analysisFound++
         this.stats.analysisMigrated++
-        console.log(`🧠 Migrated AI analysis: ${analysis.documentId}`)
         
       } else if (Array.isArray(actualData)) {
         // Handle arrays (likely visual content arrays)
@@ -175,7 +167,6 @@ class StorageMigration {
             this.stats.visualContentMigrated++
           }
         }
-        console.log(`📦 Migrated array with ${actualData.length} items`)
       }    } catch (error) {
       console.warn(`Failed to migrate ${key}:`, error)
       this.stats.errors.push(`Failed to migrate ${key}: ${error}`)
@@ -215,7 +206,6 @@ class StorageMigration {
         this.stats.analysisMigrated++
       }
       
-      console.log(`📁 Migrated file: ${filePath}`)
       
     } catch (error) {
       console.warn(`Failed to migrate file ${filePath}:`, error)
@@ -251,7 +241,6 @@ class StorageMigration {
   }
 
   private async cleanupOldStorage(): Promise<void> {
-    console.log('🧹 Cleaning up old storage keys...')
     
     const keysToRemove: string[] = []
     
@@ -264,22 +253,13 @@ class StorageMigration {
     
     for (const key of keysToRemove) {
       localStorage.removeItem(key)
-      console.log(`🗑️ Removed legacy key: ${key}`)
     }
     
-    console.log(`✅ Cleaned up ${keysToRemove.length} legacy storage keys`)
   }
 
   private logMigrationStats(): void {
-    console.log('\n📊 MIGRATION STATISTICS:')
-    console.log(`📄 Documents: ${this.stats.documentsMigrated}/${this.stats.documentsFound}`)
-    console.log(`🎨 Visual Content: ${this.stats.visualContentMigrated}/${this.stats.visualContentFound}`)
-    console.log(`🧠 AI Analysis: ${this.stats.analysisMigrated}/${this.stats.analysisFound}`)
-    console.log(`📦 Total Size: ${this.formatBytes(this.stats.totalSize)}`)
-    console.log(`❌ Errors: ${this.stats.errors.length}`)
     
     if (this.stats.errors.length > 0) {
-      console.log('\n❌ MIGRATION ERRORS:')
       this.stats.errors.forEach(error => console.log(`  - ${error}`))
     }
   }
@@ -353,7 +333,6 @@ export async function autoMigrateIfNeeded(): Promise<boolean> {
     const totalItems = preview.documentsFound + preview.visualContentFound + preview.analysisFound
     
     if (totalItems > 0) {
-      console.log(`🔍 Found ${totalItems} items to migrate. Running auto-migration...`)
       await runStorageMigration()
       return true
     }

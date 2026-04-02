@@ -48,7 +48,6 @@ export class DocumentExportManager {
     options: ExportOptions
   ): Promise<ExportResult> {
     try {
-      console.log(`📤 Exporting ${documents.length} documents to ${options.format}`)
       
       const filename = options.filename || `documents-export-${new Date().toISOString().split('T')[0]}.${options.format}`
       
@@ -86,7 +85,6 @@ export class DocumentExportManager {
     options: ExportOptions
   ): Promise<ExportResult> {
     try {
-      console.log(`🔍 Exporting ${results.length} search results for query: "${query}"`)
       
       const filename = options.filename || `search-results-${this.sanitizeFilename(query)}-${Date.now()}.${options.format}`
       
@@ -142,7 +140,6 @@ export class DocumentExportManager {
     options: ExportOptions
   ): Promise<ExportResult> {
     try {
-      console.log('📊 Exporting analytics data')
       
       const filename = options.filename || `analytics-export-${new Date().toISOString().split('T')[0]}.${options.format}`
       

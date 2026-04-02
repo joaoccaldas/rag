@@ -148,7 +148,6 @@ export async function processDocument(file: File, documentId: string): Promise<{
     // Try worker processing first if enabled
     if (useWorkerProcessing && typeof Worker !== 'undefined') {
       try {
-        console.log(`🚀 Using worker processing for ${file.name}`)
         const workerResult = await documentWorkerManager.processDocument(file, documentId, {
           enableOCR: true,
           chunkSize: 512,
@@ -188,7 +187,6 @@ export async function processDocument(file: File, documentId: string): Promise<{
     }
     
     // Fallback to main thread processing
-    console.log(`🔄 Using main thread processing for ${file.name}`)
     const content = await extractTextContent(file)
     
     // Extract visual content from document using the enhanced pipeline
@@ -199,7 +197,6 @@ export async function processDocument(file: File, documentId: string): Promise<{
     let chunks: DocumentChunk[]
     
     if (useSemanticChunking) {
-      console.log('🧠 Using semantic chunking with embeddings...')
       try {
         // Use semantic chunking service
         const semanticChunks = await semanticChunkingService.generateSemanticChunks(
@@ -221,7 +218,6 @@ export async function processDocument(file: File, documentId: string): Promise<{
           semanticChunkingService.convertToDocumentChunk(chunk, documentId)
         )
         
-        console.log(`✅ Semantic chunking complete: ${chunks.length} chunks created`)
       } catch (error) {
         console.warn('⚠️ Semantic chunking failed, falling back to hybrid:', error)
         
@@ -248,7 +244,6 @@ export async function processDocument(file: File, documentId: string): Promise<{
         }))
       }
     } else {
-      console.log('🔧 Using hybrid token-aware chunking...')
       
       // Use enhanced token-aware chunking
       const tokenChunks = tokenAwareChunking(content, documentId, {
@@ -276,8 +271,6 @@ export async function processDocument(file: File, documentId: string): Promise<{
     
     const wordCount = content.split(/\s+/).filter(word => word.length > 0).length
 
-    console.log(`✅ Processing complete: ${chunks.length} chunks, avg ${Math.round(chunks.reduce((sum, c) => sum + estimateTokenCount(c.content), 0) / chunks.length)} tokens per chunk`)
-    console.log(`🎯 Visual content extraction: ${visualContent.length} elements found`)
 
     return {
       content,
@@ -312,7 +305,6 @@ export async function processDocuments(
   } = {}
 ): Promise<string> {
   try {
-    console.log(`📦 Starting batch processing for ${files.length} files`)
     
     const jobId = await batchProcessor.submitBatch(files, {
       enableOCR: options.enableOCR ?? true,
@@ -536,7 +528,6 @@ async function processCSV(file: File): Promise<string> {
  * Process PDF file using PDF.js (browser-compatible)
  */
 async function processPDF(file: File): Promise<string> {
-  console.log(`Processing PDF: ${file.name}, Size: ${file.size} bytes`)
   
   try {
     const pdfjsLib = await loadPdfjs()
@@ -546,20 +537,16 @@ async function processPDF(file: File): Promise<string> {
       return errorMsg
     }
 
-    console.log('PDF.js library loaded successfully')
     
     const arrayBuffer = await file.arrayBuffer()
-    console.log(`PDF ArrayBuffer created, size: ${arrayBuffer.byteLength} bytes`)
     
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise
-    console.log(`PDF loaded successfully, pages: ${pdf.numPages}`)
     
     let fullText = ''
     
     // Extract text from all pages
     for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
       try {
-        console.log(`Processing page ${pageNum}/${pdf.numPages}`)
         const page = await pdf.getPage(pageNum)
         const textContent = await page.getTextContent()
         
@@ -579,7 +566,6 @@ async function processPDF(file: File): Promise<string> {
           .replace(/\s+/g, ' ') // Clean up multiple spaces
           .trim()
         
-        console.log(`Page ${pageNum} extracted ${pageText.length} characters: "${pageText.substring(0, 100)}..."`)
         
         if (pageText.length > 0) {
           fullText += `\n--- Page ${pageNum} ---\n${pageText}\n`
@@ -590,11 +576,9 @@ async function processPDF(file: File): Promise<string> {
           try {
             const ocrText = await extractTextWithOCR(page)
             if (ocrText && ocrText.trim().length > 0) {
-              console.log(`OCR extracted ${ocrText.length} characters from page ${pageNum}`)
               fullText += `\n--- Page ${pageNum} (OCR) ---\n${ocrText}\n`
             }
           } catch (ocrError) {
-            console.log(`OCR failed for page ${pageNum}:`, ocrError)
           }
           fullText += `\n--- Page ${pageNum} ---\n[No extractable text found - page may contain images or scanned content]\n`
         }
@@ -605,7 +589,6 @@ async function processPDF(file: File): Promise<string> {
     }
     
     const result = fullText.trim() || `[PDF Content] ${file.name} - Could not extract text from PDF`
-    console.log(`PDF processing complete. Total text length: ${result.length} characters`)
     return result
   } catch (error) {
     const errorMsg = `[PDF Content] ${file.name} - Error processing PDF: ${error instanceof Error ? error.message : 'Unknown error'}`
@@ -638,11 +621,8 @@ async function processDOCX(file: File): Promise<string> {
  * Process HTML file with improved parsing and debugging
  */
 async function processHTML(file: File): Promise<string> {
-  console.log(`🌐 Processing HTML file: ${file.name} (${file.size} bytes)`)
   
   const text = await readTextFile(file)
-  console.log(`📄 Raw HTML length: ${text.length} characters`)
-  console.log(`📝 HTML preview: ${text.substring(0, 200)}...`)
   
   if (!text || text.trim().length === 0) {
     console.warn('⚠️ HTML file is empty')
@@ -718,8 +698,6 @@ async function processHTML(file: File): Promise<string> {
     .replace(/^\s+|\s+$/g, '') // Trim start and end
     .trim()
 
-  console.log(`✅ Processed HTML content length: ${content.length} characters`)
-  console.log(`📋 Content preview: ${content.substring(0, 300)}...`)
   
   if (!content || content.length === 0) {
     console.warn('⚠️ No content extracted from HTML after processing')
@@ -955,7 +933,6 @@ export async function generateEmbedding(text: string): Promise<number[]> {
       if (data.embedding && Array.isArray(data.embedding)) {
         // Reduced verbosity - only log every 10th embedding or for short texts
         if (text.length < 100 || Math.random() < 0.1) {
-          console.log(`Generated embedding for text of length ${text.length}`)
         }
         return data.embedding
       }
@@ -1118,7 +1095,6 @@ async function processPPTX(file: File): Promise<string> {
     
     if (!header.includes('PK')) {
       // Older PPT format - use basic extraction
-      console.log('Detected older PPT format, using basic extraction')
       return await processBasicPPT(file)
     }
     
@@ -1133,7 +1109,6 @@ async function processPPTX(file: File): Promise<string> {
       name.startsWith('ppt/slides/slide') && name.endsWith('.xml')
     ).sort() // Sort to maintain slide order
     
-    console.log(`Found ${slideFiles.length} slides in presentation`)
     
     for (const slideFile of slideFiles) {
       const slideNumber = slideFile.match(/slide(\d+)\.xml/)?.[1] || '?'
@@ -1360,7 +1335,6 @@ export async function extractVisualContent(
     
     try {
       await ocrExtractionService.initialize()
-      console.log('🤖 OCR service initialized for visual content extraction...')
       
       const ocrResult = await ocrExtractionService.extractFromFile(file, {
         enableThumbnails: true,
@@ -1368,7 +1342,6 @@ export async function extractVisualContent(
         confidenceThreshold: 0.5
       })
       
-      console.log(`🎯 OCR Results: ${ocrResult.visualElements.length} visual elements extracted`)
       
       // Return real OCR visual elements with proper documentId
       return ocrResult.visualElements.map(element => ({

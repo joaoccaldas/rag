@@ -61,15 +61,12 @@ export class EnhancedSearchService {
       metadataFilters
     } = options
 
-    console.log(`🔍 Enhanced search for: "${query}"`)
-    console.log(`📊 Settings: topK=${topK}, rerankTopN=${rerankTopN}, hybrid=${useHybridSearch}`)
 
     // Step 1: Query expansion
     const expandedQueries = useQueryExpansion 
       ? this.expandQuery(query)
       : [query]
 
-    console.log(`📝 Expanded queries:`, expandedQueries)
 
     // Step 2: Generate query embedding
     const queryEmbedding = await this.semanticChunker['generateEmbedding'](query)
@@ -88,7 +85,6 @@ export class EnhancedSearchService {
       }
     )
 
-    console.log(`✅ Initial retrieval: ${initialResults.length} results`)
 
     // Step 4: Rerank results
     const rerankedResults = await this.rerankResults(
@@ -101,7 +97,6 @@ export class EnhancedSearchService {
     // Step 5: Return top K results
     const finalResults = rerankedResults.slice(0, topK)
 
-    console.log(`🎯 Final results: ${finalResults.length} after reranking`)
 
     return finalResults
   }
@@ -229,7 +224,6 @@ export class EnhancedSearchService {
     results: RankedResult[],
     documents: Document[]
   ): Promise<RankedResult[]> {
-    console.log(`🔄 Reranking ${results.length} results...`)
 
     const rerankedResults = results.map(result => {
       // Recency score (newer documents scored higher)

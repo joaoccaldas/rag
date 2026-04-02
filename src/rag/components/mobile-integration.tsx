@@ -46,7 +46,6 @@ export const MobileRAGInterface: React.FC<MobileRAGInterfaceProps> = ({
 }) => {
   React.useEffect(() => {
     // Mobile optimizations are handled within individual components
-    console.log('📱 Mobile RAG interface initialized')
   }, [])
 
   return (

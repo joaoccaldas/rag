@@ -101,7 +101,6 @@ export class DocumentVirtualizationManager {
       })
     })
 
-    console.log(`📄 Initialized virtualization for ${documents.length} documents`)
   }
 
   /**
@@ -130,7 +129,6 @@ export class DocumentVirtualizationManager {
       return
     }
 
-    console.log(`📥 Loading document range: ${startIndex}-${endIndex}`)
     
     const loadPromises: Promise<void>[] = []
 
@@ -330,7 +328,6 @@ export class DocumentVirtualizationManager {
     this.previewCache.clear()
     this.thumbnailCache.clear()
     this.loadedRanges.clear()
-    console.log('🧹 Cleared document virtualization caches')
   }
 
   /**

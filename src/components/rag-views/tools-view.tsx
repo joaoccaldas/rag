@@ -264,7 +264,6 @@ export const ToolsView: React.FC<ToolsViewProps> = ({ actionContext }) => {
           // Simulate index rebuild
           for (let i = 0; i <= 100; i += 10) {
             await new Promise(resolve => setTimeout(resolve, 200))
-            console.log(`Rebuilding index: ${i}%`)
           }
           alert('Search index rebuilt successfully')
         }

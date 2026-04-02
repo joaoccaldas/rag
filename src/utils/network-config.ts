@@ -30,7 +30,6 @@ export function getNetworkConfig(): NetworkConfig {
   const ollamaPort = process.env['NEXT_PUBLIC_OLLAMA_PORT'] || '11434'
   const ollamaProtocol = process.env['NEXT_PUBLIC_OLLAMA_PROTOCOL'] || 'http'
 
-  console.log('🌐 Network Config Debug:', {
     ollamaHost,
     ollamaPort,
     ollamaProtocol,
@@ -61,8 +60,6 @@ export function getOllamaApiUrl(endpoint: string = ''): string {
   const fullUrl = `${baseUrl}${cleanEndpoint}`
   
   if (process.env['NEXT_PUBLIC_DEBUG_NETWORK'] === 'true') {
-    console.log('🌐 Network Config:', config)
-    console.log('🔗 Generated Ollama URL:', fullUrl)
   }
   
   return fullUrl
@@ -80,7 +77,6 @@ export function getOllamaProxyUrl(endpoint: string = '/api/tags'): string {
   const proxyUrl = `${baseUrl}/api/ollama-proxy?endpoint=${encodeURIComponent(cleanEndpoint)}`
   
   if (process.env['NEXT_PUBLIC_DEBUG_NETWORK'] === 'true') {
-    console.log('🔗 Generated Proxy URL:', proxyUrl)
   }
   
   return proxyUrl
@@ -113,11 +109,9 @@ export async function testOllamaConnection(): Promise<{
     result.directConnection = directResponse.ok
     
     if (process.env['NEXT_PUBLIC_DEBUG_NETWORK'] === 'true') {
-      console.log('✅ Direct connection test:', result.directConnection ? 'SUCCESS' : 'FAILED')
     }
   } catch (error) {
     if (process.env['NEXT_PUBLIC_DEBUG_NETWORK'] === 'true') {
-      console.log('❌ Direct connection error:', error)
     }
   }
 
@@ -130,11 +124,9 @@ export async function testOllamaConnection(): Promise<{
     result.proxyConnection = proxyResponse.ok
     
     if (process.env['NEXT_PUBLIC_DEBUG_NETWORK'] === 'true') {
-      console.log('✅ Proxy connection test:', result.proxyConnection ? 'SUCCESS' : 'FAILED')
     }
   } catch (error) {
     if (process.env['NEXT_PUBLIC_DEBUG_NETWORK'] === 'true') {
-      console.log('❌ Proxy connection error:', error)
     }
   }
 

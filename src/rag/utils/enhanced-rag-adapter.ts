@@ -70,7 +70,6 @@ export class EnhancedRAGAdapter implements RAGContextAdapter {
     if (!this.initialized) {
       await this.pipeline.initialize()
       this.initialized = true
-      console.log('✅ Enhanced RAG Adapter initialized')
     }
   }
 
@@ -210,7 +209,6 @@ export class EnhancedRAGAdapter implements RAGContextAdapter {
     if (this.initialized) {
       await this.pipeline.destroy()
       this.initialized = false
-      console.log('✅ Enhanced RAG Adapter destroyed')
     }
   }
 }

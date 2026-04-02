@@ -81,7 +81,6 @@ const MessageInputComponent = ({
     const file = e.target.files?.[0]
     if (file) {
       // Handle file upload logic here
-      console.log('File selected:', file.name)
       // You can implement file analysis here
     }
   }

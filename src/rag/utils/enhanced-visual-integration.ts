@@ -29,7 +29,6 @@ export class EnhancedDocumentProcessor {
    * Process document with enhanced visual analysis
    */
   async processDocument(document: Document): Promise<Document> {
-    console.log(`🔬 Processing document with enhanced visual analysis: ${document.name}`)
     
     try {
       // Step 1: Run enhanced visual analysis
@@ -56,7 +55,6 @@ export class EnhancedDocumentProcessor {
         }
       }
       
-      console.log(`✅ Enhanced visual analysis complete: ${analysisReport.totalElements} elements detected`)
       return updatedDocument
       
     } catch (error) {
@@ -70,7 +68,6 @@ export class EnhancedDocumentProcessor {
    * Batch process multiple documents
    */
   async batchProcessDocuments(documents: Document[]): Promise<Document[]> {
-    console.log(`🔄 Batch processing ${documents.length} documents with enhanced visual analysis`)
     
     const results = await Promise.allSettled(
       documents.map(doc => this.processDocument(doc))
@@ -85,7 +82,6 @@ export class EnhancedDocumentProcessor {
       }
     })
     
-    console.log(`✅ Batch processing complete: ${processedDocuments.length} documents processed`)
     return processedDocuments
   }
   
@@ -119,7 +115,6 @@ export class VisualContentEnhancementService {
       return document
     }
     
-    console.log(`🎨 Enhancing visual content for: ${document.name}`)
     
     try {
       const enhancedVisualContent = await Promise.all(

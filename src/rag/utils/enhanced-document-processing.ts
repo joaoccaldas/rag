@@ -132,20 +132,14 @@ export async function processDocumentWithAI(
     retryAttempts = savedAISettings.retryAttempts ?? 3
   } = options
 
-  console.log(`🔄 Starting enhanced processing for: ${file.name}`)
-  console.log(`📊 AI Settings: model=${aiModel}, temp=${temperature}, validation=${validationLevel}`)
-  console.log(`🎛️ Features: AI=${enableAISummarization}, Keywords=${enableKeywordExtraction}, Domain=${enableDomainDetection}`)
 
   try {
     // Step 1: Base document processing (content extraction, chunking, visual content)
-    console.log('📄 Extracting content and creating chunks...')
     const baseResult = await baseProcessDocument(file, documentId)
     
     const visualExtractionTime = Date.now() - startTime
-    console.log(`✅ Base processing complete (${visualExtractionTime}ms)`)
 
     // Step 1.5: Enhanced Visual Content Extraction with OCR
-    console.log('🖼️ Extracting visual content and performing OCR...')
     const visualContentStartTime = Date.now()
     let extractedVisualContent: VisualContent[] = []
     
@@ -155,7 +149,6 @@ export async function processDocumentWithAI(
       
       try {
         await ocrExtractionService.initialize()
-        console.log('🤖 OCR service initialized, performing OCR extraction...')
         
         const ocrResult = await ocrExtractionService.extractFromFile(file, {
           enableThumbnails: true,
@@ -163,16 +156,13 @@ export async function processDocumentWithAI(
           confidenceThreshold: 0.5
         })
         
-        console.log(`🎯 OCR Results: ${ocrResult.text.length} chars, ${ocrResult.visualElements.length} visuals, confidence: ${ocrResult.confidence}`)
         
         // Store OCR visual elements if any
         if (ocrResult.visualElements && ocrResult.visualElements.length > 0) {
           await storeVisualContent(ocrResult.visualElements)
           extractedVisualContent = ocrResult.visualElements
-          console.log(`✅ Visual content extracted and stored: ${ocrResult.visualElements.length} elements`)
           
           // Step 1.6: AI-Powered Visual Content Analysis
-          console.log('🎨 Analyzing visual elements with AI for semantic insights...')
           const visualAnalysisStartTime = Date.now()
           
           try {
@@ -205,11 +195,9 @@ export async function processDocumentWithAI(
             const visualAnalysesResults = await Promise.all(visualAnalysisPromises)
             const successfulAnalyses = visualAnalysesResults.filter(r => r.success && r.analysis)
             
-            console.log(`✅ Visual analysis complete: ${successfulAnalyses.length}/${ocrResult.visualElements.length} analyzed`)
             
             // Step 1.7: Embed Visual Insights into Document Content for RAG
             if (successfulAnalyses.length > 0) {
-              console.log('📝 Embedding visual insights into document content for RAG...')
               
               let visualInsightsContent = '\n\n--- VISUAL CONTENT INSIGHTS ---\n'
               
@@ -263,8 +251,6 @@ export async function processDocumentWithAI(
               baseResult.content += visualInsightsContent
               
               const visualAnalysisTime = Date.now() - visualAnalysisStartTime
-              console.log(`✅ Visual insights embedded into document (${visualAnalysisTime}ms)`)
-              console.log(`📊 Total visual insights: ${visualInsightsContent.length} characters added for RAG indexing`)
             }
             
           } catch (error) {
@@ -276,7 +262,6 @@ export async function processDocumentWithAI(
         // If OCR extracted text, append it to the document content
         if (ocrResult.text && ocrResult.text.trim().length > 0) {
           baseResult.content += `\n\n--- OCR Extracted Text ---\n${ocrResult.text}`
-          console.log(`✅ OCR text appended to document content: ${ocrResult.text.length} characters`)
         }
         
       } catch (ocrError) {
@@ -285,7 +270,6 @@ export async function processDocumentWithAI(
       }
       
       const visualStorageTime = Date.now() - visualContentStartTime
-      console.log(`✅ Visual content processing complete (${visualStorageTime}ms)`)
       
     } catch (error) {
       console.warn('⚠️ Visual content extraction failed:', error)
@@ -298,7 +282,6 @@ export async function processDocumentWithAI(
     
     if (enableAISummarization && baseResult.content.length > 100) {
       const aiStartTime = Date.now()
-      console.log('🤖 Generating AI summary...')
       
       try {
         aiSummary = await generateAISummary(baseResult.content, file.name, {
@@ -310,7 +293,6 @@ export async function processDocumentWithAI(
           retryAttempts
         })
         aiAnalysisTime = Date.now() - aiStartTime
-        console.log(`✅ AI summary generated (${aiAnalysisTime}ms)`)
       } catch (error) {
         console.warn('⚠️ AI summarization failed:', error)
         errors.push(`AI summarization failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
@@ -323,12 +305,10 @@ export async function processDocumentWithAI(
     
     if (enableKeywordExtraction && baseResult.content.length > 50) {
       const keywordStartTime = Date.now()
-      console.log('🔍 Extracting semantic keywords...')
       
       try {
         extractedKeywords = extractRAGKeywords(baseResult.content)
         keywordExtractionTime = Date.now() - keywordStartTime
-        console.log(`✅ Keywords extracted (${keywordExtractionTime}ms):`, {
           conceptual: extractedKeywords.conceptual.length,
           technical: extractedKeywords.technical.length,
           entities: extractedKeywords.entities.length,
@@ -348,12 +328,6 @@ export async function processDocumentWithAI(
       status = errors.length < 2 ? 'partial' : 'failed'
     }
 
-    console.log(`🎉 Enhanced processing complete for ${file.name}:`)
-    console.log(`   Duration: ${totalDuration}ms`)
-    console.log(`   Status: ${status}`)
-    console.log(`   AI Summary: ${aiSummary ? '✅' : '❌'}`)
-    console.log(`   Keywords: ${extractedKeywords ? '✅' : '❌'}`)
-    console.log(`   Visual Content: ${extractedVisualContent?.length || baseResult.visualContent?.length || 0} elements`)
 
     return {
       ...baseResult,
@@ -413,15 +387,12 @@ async function generateAISummary(
     retryAttempts = 3
   } = options
 
-  console.log(`🤖 Starting AI analysis for ${filename}`)
-  console.log(`📊 Settings: model=${model}, temp=${temperature}, tokens=${maxTokens}`)
 
   // Truncate content if too long, but keep important sections
   const processContent = intelligentContentTruncation(content, maxTokens)
   
   // Detect document domain for specialized prompting
   const domain = enableDomainDetection ? detectDocumentDomain(content, filename) : 'general'
-  console.log(`🔍 Detected domain: ${domain}`)
 
   // Use new unified prompt system interface
   const promptSystemManager = PromptSystemManager.getInstance()
@@ -444,7 +415,6 @@ async function generateAISummary(
     additionalVars
   )
 
-  console.log(`🎯 Using ${promptResult.source} prompt: ${promptResult.templateName}`)
   const prompt = promptResult.userPrompt
   const systemPrompt = promptResult.systemPrompt
 
@@ -453,7 +423,6 @@ async function generateAISummary(
   // Retry logic for reliability
   for (let attempt = 1; attempt <= retryAttempts; attempt++) {
     try {
-      console.log(`🔄 Analysis attempt ${attempt}/${retryAttempts}`)
       
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -485,8 +454,6 @@ async function generateAISummary(
       const aiMessage = result.response || result.message || result.content || ''
       const summaryData = parseAndValidateResponse(aiMessage, content, filename, validationLevel)
       
-      console.log(`✅ AI analysis successful on attempt ${attempt}`)
-      console.log(`📊 Generated summary (${summaryData.summary.length} chars, confidence: ${summaryData.confidence})`)
       
       return summaryData
 
@@ -497,7 +464,6 @@ async function generateAISummary(
       if (attempt < retryAttempts) {
         // Exponential backoff
         const delay = Math.min(1000 * Math.pow(2, attempt - 1), 10000)
-        console.log(`⏳ Retrying in ${delay}ms...`)
         await new Promise(resolve => setTimeout(resolve, delay))
       }
     }
@@ -633,7 +599,6 @@ function buildDomainPrompt(content: string, filename: string, domain: string): s
   const customTemplate = getActivePromptTemplate(domain)
   
   if (customTemplate) {
-    console.log(`🎯 Using custom prompt template: ${customTemplate.name} for domain: ${domain}`)
     
     // Replace variables in the custom template
     const variables = {
@@ -654,7 +619,6 @@ function buildDomainPrompt(content: string, filename: string, domain: string): s
   }
   
   // Fallback to built-in domain prompts
-  console.log(`📝 Using built-in prompt for domain: ${domain}`)
   
   const baseInstruction = `Analyze the following document and provide a structured analysis in JSON format:`
 
@@ -734,12 +698,10 @@ function getDomainSystemPrompt(domain: string): string {
   const customTemplate = getActivePromptTemplate(domain)
   
   if (customTemplate) {
-    console.log(`🤖 Using custom system prompt from template: ${customTemplate.name}`)
     return customTemplate.systemPrompt
   }
   
   // Fallback to built-in system prompts
-  console.log(`🤖 Using built-in system prompt for domain: ${domain}`)
   
   const prompts = {
     appliance: 'You are an expert in home appliances and Miele products. Analyze documents for technical specifications, user guidance, maintenance procedures, and product information. Always respond with valid JSON only.',
@@ -883,7 +845,6 @@ function extractInfoFromText(text: string, content: string, filename: string): S
  * Generate fallback summary when AI fails
  */
 function generateFallbackSummary(content: string, filename: string, error: Error | null): SummaryData {
-  console.log('🔧 Generating fallback summary using rule-based analysis')
   
   const wordCount = content.split(/\s+/).length
   const charCount = content.length
@@ -937,7 +898,6 @@ export async function batchProcessDocumentsWithAI(
   files: File[], 
   options: ProcessingOptions = {}
 ): Promise<EnhancedProcessingResult[]> {
-  console.log(`🔄 Starting batch processing for ${files.length} documents`)
   
   const results: EnhancedProcessingResult[] = []
   
@@ -945,7 +905,6 @@ export async function batchProcessDocumentsWithAI(
     const file = files[i]
     const documentId = `doc_${Date.now()}_${i}`
     
-    console.log(`📄 Processing ${i + 1}/${files.length}: ${file.name}`)
     
     try {
       const result = await processDocumentWithAI(file, documentId, options)
@@ -971,7 +930,6 @@ export async function batchProcessDocumentsWithAI(
     }
   }
   
-  console.log(`🎉 Batch processing complete: ${results.length} documents processed`)
   return results
 }
 

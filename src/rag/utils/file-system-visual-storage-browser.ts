@@ -46,7 +46,6 @@ export async function storeVisualContentToFiles(visuals: VisualContent[]): Promi
     const existingMetadata = getStoredVisualMetadata()
     const newMetadata: VisualContentMetadata[] = []
     
-    console.log(`💾 Storing ${visuals.length} visual items (browser mode)`)
     
     for (const visual of visuals) {
       const timestamp = Date.now()
@@ -80,7 +79,6 @@ export async function storeVisualContentToFiles(visuals: VisualContent[]): Promi
           metadata.fileSize = Math.round(visual.data.base64.length * 0.75)
         }
         
-        console.log(`💾 Stored visual data for ${visual.id}`)
       } catch (error) {
         console.warn(`Failed to store visual data for ${visual.id}:`, error)
       }
@@ -106,7 +104,6 @@ export async function storeVisualContentToFiles(visuals: VisualContent[]): Promi
     const updatedMetadata = [...existingMetadata, ...newMetadata]
     localStorage.setItem(METADATA_KEY, JSON.stringify(updatedMetadata))
     
-    console.log(`✅ Stored ${newMetadata.length} visual items`)
     
   } catch (error) {
     console.error('Error storing visual content:', error)
@@ -200,7 +197,6 @@ export async function deleteVisualContentFiles(contentIds: string[]): Promise<vo
     })
     
     localStorage.setItem(METADATA_KEY, JSON.stringify(updatedMetadata))
-    console.log(`🗑️ Deleted ${contentIds.length} visual content items`)
     
   } catch (error) {
     console.error('Error deleting visual content:', error)
@@ -248,7 +244,6 @@ export async function clearVisualContentFiles(): Promise<void> {
     // Clear metadata
     localStorage.removeItem(METADATA_KEY)
     
-    console.log('🧹 Cleared all visual content storage')
     
   } catch (error) {
     console.error('Error clearing visual content storage:', error)

@@ -96,7 +96,6 @@ export class EnhancedNotesStorage {
       // Create directory structure
       await this.createDirectoryStructure()
       
-      console.log(`📁 Selected notes storage folder: ${directoryHandle.name}`)
       return true
       
     } catch (error) {
@@ -123,7 +122,6 @@ export class EnhancedNotesStorage {
         await this.addToVersionHistory('note', 'update', notes)
       }
 
-      console.log(`💾 Saved ${notes.length} notes successfully`)
       
     } catch (error) {
       console.error('Failed to save notes:', error)
@@ -150,7 +148,6 @@ export class EnhancedNotesStorage {
         await this.addToVersionHistory('idea', 'update', ideas)
       }
 
-      console.log(`💡 Saved ${ideas.length} ideas successfully`)
       
     } catch (error) {
       console.error('Failed to save ideas:', error)
@@ -233,7 +230,6 @@ export class EnhancedNotesStorage {
         await writable.write(JSON.stringify(exportData, null, 2))
         await writable.close()
         
-        console.log('📦 Data exported to selected folder')
       } else {
         // Download as file
         const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' })
@@ -244,7 +240,6 @@ export class EnhancedNotesStorage {
         a.click()
         URL.revokeObjectURL(url)
         
-        console.log('📦 Data exported as download')
       }
       
     } catch (error) {
@@ -269,7 +264,6 @@ export class EnhancedNotesStorage {
         await this.saveIdeas(data.ideas)
       }
 
-      console.log('📥 Data imported successfully')
       return {
         success: true,
         notesCount: data.notes?.length || 0,
@@ -391,7 +385,6 @@ export class EnhancedNotesStorage {
       await this.config.selectedFolder.getDirectoryHandle('exports', { create: true })
       await this.config.selectedFolder.getDirectoryHandle('backups', { create: true })
       
-      console.log('📁 Created directory structure for notes storage')
     } catch (error) {
       console.warn('Could not create directory structure:', error)
     }
@@ -574,7 +567,6 @@ export class EnhancedNotesStorage {
           localStorage.setItem('notes-last-backup', new Date().toISOString())
         }
         
-        console.log('🔄 Auto backup completed')
       } catch (error) {
         console.warn('Auto backup failed:', error)
       }

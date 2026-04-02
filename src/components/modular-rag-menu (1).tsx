@@ -37,7 +37,6 @@ const ModularRAGMenu: React.FC<ModularRAGMenuProps> = ({ onViewChange }) => {
       }
       setActiveAction(`${itemId}-${action.id}`)
       
-      console.log(`Menu action executed: ${itemId}-${action.id} -> ${targetView}`)
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
       setLastError(errorMessage)
@@ -46,7 +45,6 @@ const ModularRAGMenu: React.FC<ModularRAGMenuProps> = ({ onViewChange }) => {
   }
   
   const toggleSubmenu = (menuId: string): void => {
-    console.log('Toggling submenu:', menuId, 'Current active:', activeSubmenu)
     setActiveSubmenu(activeSubmenu === menuId ? null : menuId)
   }
   

@@ -66,7 +66,6 @@ export class StorageManager {
       }))
       
       localStorage.setItem(key, JSON.stringify(cleaned))
-      console.log('✅ Cleaned visual content storage')
       return true
     } catch (error) {
       console.warn('Failed to clean visual content:', error)
@@ -90,7 +89,6 @@ export class StorageManager {
       
       const trimmed = parsed.slice(-maxMessages)
       localStorage.setItem(key, JSON.stringify(trimmed))
-      console.log(`✅ Trimmed chat history to ${maxMessages} messages`)
       return true
     } catch (error) {
       console.warn('Failed to trim chat history:', error)
@@ -120,7 +118,6 @@ export class StorageManager {
       }))
       
       localStorage.setItem(key, JSON.stringify(cleaned))
-      console.log('✅ Removed document embeddings')
       return true
     } catch (error) {
       console.warn('Failed to remove document embeddings:', error)
@@ -132,10 +129,8 @@ export class StorageManager {
    * Perform comprehensive storage cleanup
    */
   static performCleanup(): StorageStats {
-    console.log('🧹 Starting comprehensive storage cleanup...')
     
     const beforeStats = this.getStorageStats()
-    console.log('Storage before cleanup:', Math.round(beforeStats.totalSize / 1024), 'KB')
     
     // Clean in order of impact
     this.cleanVisualContent()
@@ -143,8 +138,6 @@ export class StorageManager {
     this.trimChatHistory(30) // More aggressive trimming during cleanup
     
     const afterStats = this.getStorageStats()
-    console.log('Storage after cleanup:', Math.round(afterStats.totalSize / 1024), 'KB')
-    console.log('Space freed:', Math.round((beforeStats.totalSize - afterStats.totalSize) / 1024), 'KB')
     
     return afterStats
   }
@@ -153,7 +146,6 @@ export class StorageManager {
    * Emergency storage clear - keeps only essential data
    */
   static emergencyClean(): void {
-    console.log('🚨 Performing emergency storage cleanup...')
     
     try {
       // Save essential settings first
@@ -181,7 +173,6 @@ export class StorageManager {
         localStorage.setItem('miele-chat-settings', JSON.stringify(essentialSettings))
       }
       
-      console.log('🚨 Emergency cleanup completed - localStorage cleared')
     } catch (error) {
       console.error('Emergency cleanup failed:', error)
     }
@@ -241,9 +232,7 @@ export class StorageManager {
       .sort(([,a], [,b]) => b - a)
       .slice(0, 5)
     
-    console.log('Largest localStorage items:')
     sortedItems.forEach(([key, size]) => {
-      console.log(`  ${key}: ${Math.round(size / 1024)}KB`)
     })
   }
 }

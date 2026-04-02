@@ -47,7 +47,6 @@ class UniversalStorage {
       // 4. SessionStorage backup
       sessionStorage.setItem(universalKey, serializedValue)
       
-      console.log(`Universal storage: Saved ${key} to multiple locations`)
     } catch (error) {
       console.error('Failed to save to universal storage:', error)
     }
@@ -204,11 +203,9 @@ class UniversalStorage {
   async syncAcrossPorts(): Promise<void> {
     const currentPort = window.location.port || '3000'
     
-    console.log(`Syncing data across ports, current: ${currentPort}`)
     
     // This would require a more sophisticated approach in a real application
     // For now, we rely on IndexedDB which is shared across ports on the same domain
-    console.log('Cross-port sync relies on IndexedDB shared storage')
   }
 }
 
@@ -277,7 +274,6 @@ export class RAGUniversalStorage {
           const parsed = JSON.parse(value)
           const newKey = key.replace('rag_', '').replace('_', '_')
           await this.storage.setItem(newKey, parsed)
-          console.log(`Migrated ${key} to universal storage`)
         } catch (error) {
           console.warn(`Failed to migrate ${key}:`, error)
         }

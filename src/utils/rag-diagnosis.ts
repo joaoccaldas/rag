@@ -7,15 +7,9 @@
 
 export async function diagnoseRAGSearch(query: string, searchResults: Record<string, unknown>[]) {
   console.group('🚨 RAG SEARCH DIAGNOSIS');
-  console.log('Query:', query);
-  console.log('Search Results Count:', searchResults.length);
   
   // Log all search results
   searchResults.forEach((result, i) => {
-    console.log(`\nResult ${i + 1}:`);
-    console.log('  Document:', result.document?.name);
-    console.log('  Score:', result.similarity || result.score);
-    console.log('  Content Preview:', result.chunk?.content?.substring(0, 150));
   });
   
   // Check if employee agreement is in the documents list
@@ -29,11 +23,6 @@ export async function diagnoseRAGSearch(query: string, searchResults: Record<str
     );
     
     if (employeeDoc) {
-      console.log('\n📄 EMPLOYEE DOC FOUND IN STORAGE:');
-      console.log('  Name:', employeeDoc.name);
-      console.log('  Status:', employeeDoc.status);
-      console.log('  Chunks:', employeeDoc.chunks?.length);
-      console.log('  Has Embeddings:', !!employeeDoc.chunks?.[0]?.embedding);
       
       // Test manual search on this document
       const queryLower = query.toLowerCase();
@@ -45,19 +34,15 @@ export async function diagnoseRAGSearch(query: string, searchResults: Record<str
                queryLower.split(' ').some(word => content.includes(word));
       }) || [];
       
-      console.log('  Manually found relevant chunks:', relevantChunks.length);
       relevantChunks.forEach((chunk, i) => {
-        console.log(`    Chunk ${i + 1}:`, chunk.content?.substring(0, 200));
       });
       
       // Check why it wasn't in search results
       const wasInResults = searchResults.some(r => 
         r.document?.name === employeeDoc.name
       );
-      console.log('  Was in search results:', wasInResults);
       
     } else {
-      console.log('❌ Employee agreement document not found in storage');
     }
     
   } catch (error) {
@@ -68,7 +53,6 @@ export async function diagnoseRAGSearch(query: string, searchResults: Record<str
 }
 
 export function forceEmployeeDocumentSearch(allDocuments: any[], query: string) {
-  console.log('🔍 FORCING EMPLOYEE DOCUMENT SEARCH');
   
   const employeeDoc = allDocuments.find(d => 
     d.name.toLowerCase().includes('employee') && 
@@ -76,15 +60,11 @@ export function forceEmployeeDocumentSearch(allDocuments: any[], query: string) 
   );
   
   if (!employeeDoc) {
-    console.log('❌ No employee document found');
     return [];
   }
   
-  console.log('📄 Found employee doc:', employeeDoc.name);
-  console.log('📊 Chunks:', employeeDoc.chunks?.length);
   
   if (!employeeDoc.chunks) {
-    console.log('❌ No chunks in employee document');
     return [];
   }
   
@@ -125,9 +105,7 @@ export function forceEmployeeDocumentSearch(allDocuments: any[], query: string) 
   }).filter(result => result.score > 0.1)
     .sort((a, b) => b.score - a.score);
   
-  console.log('🎯 Manual search found:', relevantChunks.length, 'relevant chunks');
   relevantChunks.forEach((result, i) => {
-    console.log(`  ${i + 1}. Score: ${result.score.toFixed(2)}, Content: ${result.content?.substring(0, 100)}...`);
   });
   
   return relevantChunks;

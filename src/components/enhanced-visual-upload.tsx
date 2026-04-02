@@ -356,7 +356,6 @@ export function EnhancedVisualUpload({
                     <button
                       onClick={() => {
                         // Open preview modal or expand view
-                        console.log('Preview:', processedFile.visualContent)
                       }}
                       className="flex-1 px-2 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors flex items-center justify-center"
                     >

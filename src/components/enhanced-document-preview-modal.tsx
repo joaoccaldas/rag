@@ -119,7 +119,6 @@ const DocumentPreviewModalComponent = ({
           url: window.location.href
         })
       } catch (err) {
-        console.log('Error sharing:', err)
       }
     } else {
       // Fallback to clipboard

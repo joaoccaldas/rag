@@ -19,7 +19,6 @@ export function EmptyRAGMenu(props: EmptyMenuProps) {
   const { className = '', onActionSelect } = props
 
   // DEBUG: Log all props received by the component
-  console.log('🔍 EmptyRAGMenu received props:', {
     className,
     onActionSelect: typeof onActionSelect,
     onActionSelectExists: !!onActionSelect,
@@ -28,36 +27,24 @@ export function EmptyRAGMenu(props: EmptyMenuProps) {
   })
 
   const handleFinanceClick = () => {
-    console.log('🎯 Finance clicked - navigating to finance page')
-    console.log('📤 Calling onActionSelect with:', 'finance', 'main', 'finance')
-    console.log('📤 onActionSelect function:', typeof onActionSelect)
     if (onActionSelect) {
       onActionSelect('finance', 'main', 'finance')
-      console.log('✅ onActionSelect called successfully')
     } else {
       console.error('❌ onActionSelect is not defined!')
     }
   }
 
   const handleMarketingClick = () => {
-    console.log('🎯 Marketing clicked - navigating to marketing page')
-    console.log('📤 Calling onActionSelect with:', 'marketing', 'main', 'marketing')
-    console.log('📤 onActionSelect function:', typeof onActionSelect)
     if (onActionSelect) {
       onActionSelect('marketing', 'main', 'marketing')
-      console.log('✅ onActionSelect called successfully')
     } else {
       console.error('❌ onActionSelect is not defined!')
     }
   }
 
   const handleHRClick = () => {
-    console.log('🎯 HR clicked - navigating to HR page')
-    console.log('📤 Calling onActionSelect with:', 'hr', 'main', 'hr')
-    console.log('📤 onActionSelect function:', typeof onActionSelect)
     if (onActionSelect) {
       onActionSelect('hr', 'main', 'hr')
-      console.log('✅ onActionSelect called successfully')
     } else {
       console.error('❌ onActionSelect is not defined!')
     }

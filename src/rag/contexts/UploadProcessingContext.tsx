@@ -72,7 +72,6 @@ export function UploadProcessingProvider({ children }: { children: React.ReactNo
   const processDocumentUpload = useCallback(async (file: File, onDocumentReady: (document: Document) => void) => {
     const documentId = `doc_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
     
-    console.log(`Starting upload process for ${file.name} (${file.type}, ${file.size} bytes)`)
     
     try {
       dispatch({ type: 'SET_PROCESSING', payload: true })
@@ -94,9 +93,7 @@ export function UploadProcessingProvider({ children }: { children: React.ReactNo
       })
 
       // Store the original file
-      console.log(`💾 Storing original file: ${file.name}`)
       const storedFile = await fileStorage.storeFile(file, documentId)
-      console.log(`✅ Original file stored with ID: ${storedFile.id}`)
 
       // Simulate upload progress
       for (let i = 0; i <= 100; i += 10) {
@@ -114,7 +111,6 @@ export function UploadProcessingProvider({ children }: { children: React.ReactNo
       }
 
       // Stage 2: Enhanced Processing with AI
-      console.log(`🤖 Processing document with AI analysis: ${file.name}`)
       dispatch({
         type: 'UPDATE_UPLOAD_PROGRESS',
         payload: {
@@ -137,13 +133,6 @@ export function UploadProcessingProvider({ children }: { children: React.ReactNo
 
       const { content, chunks, wordCount, visualContent, aiSummary, extractedKeywords, processingMetadata } = enhancedResult
 
-      console.log(`📊 Enhanced processing complete:`)
-      console.log(`   - ${chunks.length} chunks, ${wordCount} words`)
-      console.log(`   - ${visualContent?.length || 0} visual elements`)
-      console.log(`   - AI Summary: ${aiSummary ? '✅' : '❌'}`)
-      console.log(`   - Keywords: ${extractedKeywords ? '✅' : '❌'}`)
-      console.log(`   - Processing time: ${processingMetadata.duration}ms`)
-      console.log(`   - Status: ${processingMetadata.status}`)
 
       // Update progress based on processing status
       const progressValue = processingMetadata.status === 'complete' ? 50 : 
@@ -239,7 +228,6 @@ export function UploadProcessingProvider({ children }: { children: React.ReactNo
 
       // Store visual content separately for the visual content system (with enhanced processing)
       if (visualContent && visualContent.length > 0) {
-        console.log(`📸 Processing ${visualContent.length} visual elements from ${file.name}`)
         try {
           // Use enhanced visual content processing for real thumbnails
           const { processDocumentWithRealThumbnails } = await import('../utils/enhanced-visual-processing')
@@ -248,7 +236,6 @@ export function UploadProcessingProvider({ children }: { children: React.ReactNo
           // Store the enhanced visual content directly
           if (enhancedVisualContent.length > 0) {
             await storeVisualContent(enhancedVisualContent)
-            console.log(`✅ Stored ${enhancedVisualContent.length} enhanced visual items`)
           }
           
           // Also store original visual content if available
@@ -265,17 +252,14 @@ export function UploadProcessingProvider({ children }: { children: React.ReactNo
             }))
             await storeVisualContent(compatibleVisualContent as any)
           }
-          console.log(`✅ Stored enhanced visual elements for ${file.name}`)
           
           // File already stored by FileStorageManager above
-          console.log(`💾 File ${file.name} stored for UI access`)
           
           // Log details about the visual content
           const contentTypes = enhancedVisualContent.reduce((acc: Record<string, number>, vc) => {
             acc[vc.type] = (acc[vc.type] || 0) + 1
             return acc
           }, {})
-          console.log(`📊 Enhanced visual content breakdown:`, contentTypes)
           
         } catch (error) {
           console.error('❌ Failed to process enhanced visual content:', error)
@@ -303,18 +287,15 @@ export function UploadProcessingProvider({ children }: { children: React.ReactNo
               }
             }))
             await storeVisualContent(storageVisualContent)
-            console.log(`✅ Stored ${visualContent.length} visual elements for ${file.name} (fallback)`)
           } catch (fallbackError) {
             console.error('❌ Failed to store visual content with fallback:', fallbackError)
           }
         }
       } else {
-        console.log('ℹ️ No visual content extracted from document, trying enhanced extraction...')
         try {
           // Try enhanced visual extraction even if none was found initially
           const enhancedVisualContent = await processVisualContent(file, documentId)
           if (enhancedVisualContent.length > 0) {
-            console.log(`🎯 Enhanced extraction found ${enhancedVisualContent.length} additional visual elements`)
             
             const storageVisualContent = enhancedVisualContent.map((vc: { id: string; type: string; content?: string; title?: string; metadata?: Record<string, unknown> }) => ({
               id: vc.id,
@@ -335,7 +316,6 @@ export function UploadProcessingProvider({ children }: { children: React.ReactNo
             await storeVisualContent(storageVisualContent)
             
             // File already stored by FileStorageManager above
-            console.log(`✅ Stored ${enhancedVisualContent.length} enhanced visual elements`)
           }
         } catch (error) {
           console.error('❌ Enhanced visual content extraction failed:', error)
@@ -347,7 +327,6 @@ export function UploadProcessingProvider({ children }: { children: React.ReactNo
         const existingDocuments = await ragStorage.loadDocuments()
         const updatedDocuments = [...existingDocuments, finalDocument]
         await ragStorage.saveDocuments(updatedDocuments)
-        console.log(`Document ${file.name} saved to storage successfully`)
       } catch (error) {
         console.error('Failed to save document to storage:', error)
       }
